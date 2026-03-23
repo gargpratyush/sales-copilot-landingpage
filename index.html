@@ -319,8 +319,8 @@
         <!-- MID-PAGE CTA -->
         <section class="py-16 text-center px-6 border-b border-white/[0.05] bg-[#121218]/30">
             <h2 class="font-syne text-2xl font-semibold text-white tracking-tight mb-6">Stop losing deals to admin work.</h2>
-            <a href="#waitlist" class="inline-flex justify-center items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-200">
-                Join the Waitlist
+            <a href="#" onclick="openContactModal(); return false;" class="inline-flex justify-center items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 text-white px-6 py-3 rounded-lg text-sm font-semibold transition-all duration-200">
+                Book a demo
                 <iconify-icon icon="solar:arrow-right-linear" width="16" height="16" stroke-width="1.5"></iconify-icon>
             </a>
         </section>
@@ -440,61 +440,16 @@
                     We're onboarding 20 design partners from India's B2B SaaS ecosystem. Early teams get hands-on setup and <span class="text-white font-medium">up to 60% off launch pricing, forever.</span>
                 </p>
 
-                <form class="relative z-10 flex flex-col gap-4 max-w-xl mx-auto mb-6" onsubmit="event.preventDefault(); text-left">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
-                        <input type="email" placeholder="Work email" required="" class="col-span-1 sm:col-span-2 bg-[#0A0A0F] border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder:text-[#A0A0B0]/50 focus:outline-none focus:border-[#00D4FF]/50 focus:ring-1 focus:ring-[#00D4FF]/50 transition-all">
-                        
-                        <div class="relative">
-                            <select required="" class="w-full bg-[#0A0A0F] border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00D4FF]/50 focus:ring-1 focus:ring-[#00D4FF]/50 transition-all appearance-none pr-10">
-                                <option value="" disabled="" selected="" class="text-[#A0A0B0]/50">Your Role</option>
-                                <option value="founder">Founder / C-Level</option>
-                                <option value="sales_leader">VP / Head of Sales</option>
-                                <option value="ae">Account Executive</option>
-                                <option value="other">Other</option>
-                            </select>
-                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-[#A0A0B0]">
-                                <iconify-icon icon="solar:alt-arrow-down-linear" width="16"></iconify-icon>
-                            </div>
-                        </div>
-
-                        <div class="relative">
-                            <select required="" class="w-full bg-[#0A0A0F] border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00D4FF]/50 focus:ring-1 focus:ring-[#00D4FF]/50 transition-all appearance-none pr-10">
-                                <option value="" disabled="" selected="">Primary CRM</option>
-                                <option value="zoho">Zoho</option>
-                                <option value="freshsales">Freshsales</option>
-                                <option value="hubspot">HubSpot</option>
-                                <option value="leadsquared">LeadSquared</option>
-                                <option value="salesforce">Salesforce</option>
-                                <option value="other">Other / None</option>
-                            </select>
-                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-[#A0A0B0]">
-                                <iconify-icon icon="solar:alt-arrow-down-linear" width="16"></iconify-icon>
-                            </div>
-                        </div>
-
-                        <div class="relative col-span-1 sm:col-span-2">
-                            <select required="" class="w-full bg-[#0A0A0F] border border-white/10 rounded-lg px-4 py-3 text-sm text-white focus:outline-none focus:border-[#00D4FF]/50 focus:ring-1 focus:ring-[#00D4FF]/50 transition-all appearance-none pr-10">
-                                <option value="" disabled="" selected="">Sales Team Size</option>
-                                <option value="1-5">1 - 5 reps</option>
-                                <option value="6-20">6 - 20 reps</option>
-                                <option value="21-50">21 - 50 reps</option>
-                                <option value="51+">51+ reps</option>
-                            </select>
-                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-[#A0A0B0]">
-                                <iconify-icon icon="solar:alt-arrow-down-linear" width="16"></iconify-icon>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button type="submit" class="w-full inline-flex justify-center items-center gap-2 bg-[#00D4FF] hover:bg-[#33ddff] shadow-[0_0_20px_rgba(0,212,255,0.3)] hover:shadow-[0_0_30px_rgba(0,212,255,0.5)] text-[#0A0A0F] px-6 py-3.5 rounded-lg text-sm font-semibold transition-all mt-2">
-                        Join the Waitlist
+                <div class="relative z-10 max-w-xl mx-auto mb-6">
+                    <a href="#" onclick="openContactModal(); return false;" class="w-full inline-flex justify-center items-center gap-2 bg-[#00D4FF] hover:bg-[#33ddff] shadow-[0_0_20px_rgba(0,212,255,0.3)] hover:shadow-[0_0_30px_rgba(0,212,255,0.5)] text-[#0A0A0F] px-6 py-3.5 rounded-lg text-sm font-semibold transition-all">
+                        Book a demo
                         <iconify-icon icon="solar:arrow-right-linear" width="16" height="16" stroke-width="2"></iconify-icon>
-                    </button>
-                </form>
+                    </a>
+                </div>
 
                 <p class="text-xs text-[#A0A0B0]/60 relative z-10 flex items-center justify-center gap-2">
                     <iconify-icon icon="solar:clock-circle-linear" width="14" height="14"></iconify-icon>
-                    Takes 30 seconds · No spam · We'll reach out within 48 hours
+                    No spam · We'll reach out within 48 hours
                 </p>
             </div>
         </section>
@@ -549,8 +504,8 @@
 
     <!-- Mobile Sticky CTA Bottom Bar -->
     <div class="md:hidden fixed bottom-0 left-0 right-0 p-4 bg-[#0A0A0F]/90 backdrop-blur-md border-t border-white/10 z-50">
-        <a href="#waitlist" class="w-full inline-flex justify-center items-center gap-2 bg-[#00D4FF] text-[#0A0A0F] px-6 py-3.5 rounded-lg text-sm font-semibold shadow-[0_0_20px_rgba(0,212,255,0.2)]">
-            Join the Waitlist
+        <a href="#" onclick="openContactModal(); return false;" class="w-full inline-flex justify-center items-center gap-2 bg-[#00D4FF] text-[#0A0A0F] px-6 py-3.5 rounded-lg text-sm font-semibold shadow-[0_0_20px_rgba(0,212,255,0.2)]">
+            Book a demo
         </a>
     </div>
 
