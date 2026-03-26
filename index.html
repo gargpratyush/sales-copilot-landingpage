@@ -81,15 +81,15 @@ animation: wv 0.9s ease-in-out infinite;
 
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 mix-blend-difference">
-        <div class="max-w-[100rem] mx-auto px-8 h-24 flex items-center justify-between">
-            <a href="#" class="text-white text-base font-medium tracking-tight uppercase flex items-center gap-3">
+        <div class="max-w-[100rem] mx-auto px-4 md:px-8 h-24 flex items-center justify-between">
+            <a href="#" class="text-white text-sm md:text-base font-medium tracking-tight uppercase flex items-center gap-3 shrink-0">
                 CLARIVA <span class="w-2 h-2 bg-[#DFFF00]"></span>
             </a>
             <div class="flex items-center gap-8 md:gap-12 text-white/60">
                 <a href="#problems" class="hidden md:block text-xs font-medium uppercase tracking-[0.2em] hover:text-[#DFFF00] transition-colors">Problems</a>
                 <a href="#solution" class="hidden md:block text-xs font-medium uppercase tracking-[0.2em] hover:text-[#DFFF00] transition-colors">Solution</a>
                 <a href="#pricing" class="hidden md:block text-xs font-medium uppercase tracking-[0.2em] hover:text-[#DFFF00] transition-colors">Pricing</a>
-                <a href="#" onclick="openContactModal(); return false;" class="px-6 py-2.5 bg-white text-black text-xs font-semibold uppercase tracking-[0.1em] rounded-full hover:bg-[#DFFF00] transition-all">
+                <a href="#" onclick="openContactModal(); return false;" class="px-4 md:px-6 py-2 md:py-2.5 bg-white text-black text-[0.65rem] md:text-xs font-semibold uppercase tracking-[0.1em] rounded-full hover:bg-[#DFFF00] transition-all whitespace-nowrap shrink-0">
                     Request Early Access
                 </a>
             </div>
@@ -145,7 +145,7 @@ animation: wv 0.9s ease-in-out infinite;
                             <div class="text-4xl font-black tracking-tight text-zinc-950 group-hover:text-black leading-none">20%</div>
                             <div class="text-[0.6rem] font-semibold uppercase tracking-widest text-zinc-400 group-hover:text-black/60 mt-1.5">of rep time</div>
                         </div>
-                        <span class="text-3xl font-semibold tracking-widest text-zinc-300 group-hover:text-black transition-colors">01</span>
+                        <span class="hidden md:inline text-3xl font-semibold tracking-widest text-zinc-300 group-hover:text-black transition-colors">01</span>
                     </div>
                     <h3 class="text-2xl font-medium tracking-tight mb-4 group-hover:text-black transition-colors">Too much time is spent on process, not selling.</h3>
                     <p class="text-sm leading-relaxed text-zinc-500 group-hover:text-black/80 transition-colors">20% of your reps' day goes to CRM admin - logging calls, updating deals, filling fields. Combined - that's a full day every week, not spent selling.</p>
@@ -157,7 +157,7 @@ animation: wv 0.9s ease-in-out infinite;
                             <div class="text-3xl font-black tracking-tight text-zinc-950 group-hover:text-black leading-tight">Revenue<br>Forecast</div>
                             <div class="text-[0.6rem] font-semibold uppercase tracking-widest text-zinc-400 group-hover:text-black/60 mt-1.5">pipeline accuracy</div>
                         </div>
-                        <span class="text-3xl font-semibold tracking-widest text-zinc-300 group-hover:text-black transition-colors">02</span>
+                        <span class="hidden md:inline text-3xl font-semibold tracking-widest text-zinc-300 group-hover:text-black transition-colors">02</span>
                     </div>
                     <h3 class="text-2xl font-medium tracking-tight mb-4 group-hover:text-black transition-colors">Your forecast is only as good as your CRM hygiene.</h3>
                     <p class="text-sm leading-relaxed text-zinc-500 group-hover:text-black/80 transition-colors">When reps manually update deals - late, inconsistently, from memory - your pipeline data drifts from reality. Every review and decision sits on that drift.</p>
@@ -166,10 +166,10 @@ animation: wv 0.9s ease-in-out infinite;
                 <div class="reveal delay-200 bg-white p-10 lg:p-16 group hover:bg-[#DFFF00] transition-colors duration-500">
                     <div class="flex justify-between items-start mb-14">
                         <div class="bg-zinc-100 group-hover:bg-white/25 rounded-xl px-5 py-4 transition-colors">
-                            <div class="text-3xl font-black tracking-tight text-zinc-950 group-hover:text-black leading-tight">Close<br>Date</div>
-                            <div class="text-[0.6rem] font-semibold uppercase tracking-widest text-zinc-400 group-hover:text-black/60 mt-1.5">never logged</div>
+                            <div class="text-3xl font-black tracking-tight text-zinc-950 group-hover:text-black leading-tight">Crucial<br>Detail</div>
+                            <div class="text-[0.6rem] font-semibold uppercase tracking-widest text-zinc-400 group-hover:text-black/60 mt-1.5">Forgotten</div>
                         </div>
-                        <span class="text-3xl font-semibold tracking-widest text-zinc-300 group-hover:text-black transition-colors">03</span>
+                        <span class="hidden md:inline text-3xl font-semibold tracking-widest text-zinc-300 group-hover:text-black transition-colors">03</span>
                     </div>
                     <h3 class="text-2xl font-medium tracking-tight mb-4 group-hover:text-black transition-colors">The details that close deals never make it in.</h3>
                     <p class="text-sm leading-relaxed text-zinc-500 group-hover:text-black/80 transition-colors">Reps fill the CRM hours after the call. By then, critical details are gone. The risk flagged. The competitor mentioned. Replaced by a vague one-liner.</p>
@@ -224,7 +224,7 @@ animation: wv 0.9s ease-in-out infinite;
                 
                 <!-- Screen 1: GMeet -->
                 <div class="w-full xl:w-1/2 mt-6 xl:mt-0 xl:-translate-y-6 flex flex-col">
-                    <span class="inline-flex mb-3 bg-[#DFFF00] text-black text-[0.65rem] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg self-start">Step 1 - Live call</span>
+                    <span class="inline-flex mb-3 bg-[#DFFF00] text-black text-[0.65rem] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg self-start">Step 1 - Auto Joins Live call</span>
                     <div class="bg-[#1C1C1E] rounded-3xl p-1.5 flex flex-col shadow-2xl overflow-hidden border border-white/10">
 
                     <!-- Browser Chrome -->
@@ -384,13 +384,13 @@ animation: wv 0.9s ease-in-out infinite;
 
     <!-- Supported Tools Section -->
     <section class="py-20 bg-white relative">
-        <div class="max-w-7xl mx-auto px-2 md:px-4">
+        <div class="max-w-7xl mx-auto px-4">
             <h2 class="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-10 text-center">Supported CRMs and Video Call Tools</h2>
             <div class="flex flex-col md:flex-row gap-6 md:gap-4">
                 <!-- CRMs -->
                 <div class="flex-[6]">
                     <p class="text-[0.6rem] font-bold uppercase tracking-widest text-zinc-400 mb-6">CRMs</p>
-                    <div class="flex flex-wrap gap-x-10 gap-y-8 items-center">
+                    <div class="flex flex-wrap gap-x-10 gap-y-8 items-center justify-center md:justify-start">
                         <!-- Salesforce -->
                         <div class="flex flex-col items-center gap-2">
                             <iconify-icon icon="simple-icons:salesforce" class="text-zinc-400" width="52" height="52"></iconify-icon>
@@ -400,16 +400,6 @@ animation: wv 0.9s ease-in-out infinite;
                         <div class="flex flex-col items-center gap-2">
                             <iconify-icon icon="simple-icons:zoho" class="text-zinc-400" width="52" height="52"></iconify-icon>
                             <span class="text-[0.55rem] font-semibold uppercase tracking-wider text-zinc-400">Zoho</span>
-                        </div>
-                        <!-- Pipedrive -->
-                        <div class="flex flex-col items-center gap-2">
-                            <iconify-icon icon="simple-icons:pipedrive" class="text-zinc-400" width="52" height="52"></iconify-icon>
-                            <span class="text-[0.55rem] font-semibold uppercase tracking-wider text-zinc-400">Pipedrive</span>
-                        </div>
-                        <!-- Freshsales -->
-                        <div class="flex flex-col items-center gap-2">
-                            <iconify-icon icon="simple-icons:freshworks" class="text-zinc-400" width="52" height="52"></iconify-icon>
-                            <span class="text-[0.55rem] font-semibold uppercase tracking-wider text-zinc-400">Freshsales</span>
                         </div>
                         <!-- LeadSquared — custom SVG: stylised "L" stem + upward growth arc (mimicking the LS brand mark) -->
                         <div class="flex flex-col items-center gap-2">
@@ -432,6 +422,16 @@ animation: wv 0.9s ease-in-out infinite;
                             </svg>
                             <span class="text-[0.55rem] font-semibold uppercase tracking-wider text-zinc-400">Kylas</span>
                         </div>
+                        <!-- Pipedrive -->
+                        <div class="flex flex-col items-center gap-2">
+                            <iconify-icon icon="simple-icons:pipedrive" class="text-zinc-400" width="52" height="52"></iconify-icon>
+                            <span class="text-[0.55rem] font-semibold uppercase tracking-wider text-zinc-400">Pipedrive</span>
+                        </div>
+                        <!-- Freshsales -->
+                        <div class="flex flex-col items-center gap-2">
+                            <iconify-icon icon="simple-icons:freshworks" class="text-zinc-400" width="52" height="52"></iconify-icon>
+                            <span class="text-[0.55rem] font-semibold uppercase tracking-wider text-zinc-400">Freshsales</span>
+                        </div>
                     </div>
                 </div>
 
@@ -441,7 +441,7 @@ animation: wv 0.9s ease-in-out infinite;
                 <!-- Calls -->
                 <div class="flex-[4]">
                     <p class="text-[0.6rem] font-bold uppercase tracking-widest text-zinc-400 mb-6">Video Calls</p>
-                    <div class="flex flex-wrap gap-x-9 gap-y-8 items-center">
+                    <div class="flex flex-wrap gap-x-9 gap-y-8 items-center justify-center md:justify-start">
                         <!-- Zoom — background tile so the icon is visible -->
                         <div class="flex flex-col items-center gap-2">
                             <div class="w-[52px] h-[52px] flex items-center justify-center rounded-xl bg-zinc-100 border border-zinc-200">
