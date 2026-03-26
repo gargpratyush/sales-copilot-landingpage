@@ -60,7 +60,7 @@ display: none;
 50% { transform: scaleY(0.28); }
 }
 .wbar {
-width: 3px; border-radius: 2px; background: #DFFF00; opacity: 0.8;
+width: 3px; border-radius: 2px; background: #1e3a8a; opacity: 0.9;
 animation: wv 0.9s ease-in-out infinite;
 }
 .wbar:nth-child(1){height:6px;  animation-delay:0s}
@@ -98,37 +98,34 @@ animation: wv 0.9s ease-in-out infinite;
 
     <!-- Hero -->
     <section class="relative min-h-[90vh] flex flex-col justify-center pt-32 pb-20">
-        <div class="max-w-[100rem] mx-auto px-8 w-full">
-            <div class="reveal max-w-5xl">
-                <div class="flex items-center gap-4 mb-10">
-                    <span class="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-400">AI-POWERED CRM AUTOMATION</span>
-                    <div class="h-px flex-1 bg-zinc-200"></div>
-                </div>
-                
-                <h1 class="text-[clamp(3rem,8vw,6.5rem)] font-medium tracking-tight leading-[0.9] mb-12">
-                    Stop losing 20% of your <br>
-                    reps' time to CRM admin - <br>
-                    <span class="text-[clamp(1.5rem,4vw,3.25rem)] leading-[1] block mt-4">and START FILLING IT <br>
-                    WITH <span class="highlighter-text">DEALS.</span></span>
-                </h1>
+        <div class="max-w-[100rem] mx-auto pl-8 pr-8 md:pr-24 w-full">
+            <div class="reveal flex flex-col md:flex-row md:justify-between md:items-end gap-10">
+                <div class="max-w-5xl">
+                    <div class="flex items-center gap-4 mb-10">
+                        <span class="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-400">AI-POWERED CRM AUTOMATION</span>
+                        <div class="h-px flex-1 bg-zinc-200"></div>
+                    </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
-                    <div class="md:col-span-7">
-                        <p class="text-lg md:text-xl text-zinc-500 leading-relaxed font-normal max-w-2xl">
-                            Every call your reps make, captured and logged automatically - so your pipeline stays accurate and your team stays selling.
-                        </p>
-                    </div>
-                    <div class="md:col-span-5 flex md:justify-end gap-4">
-                        <div class="flex flex-col items-start md:items-end gap-3">
-                            <a href="#" onclick="openContactModal(); return false;" class="group relative inline-flex items-center justify-center px-8 py-4 bg-zinc-950 text-white text-sm font-semibold uppercase tracking-widest rounded-full overflow-hidden transition-colors hover:bg-zinc-800 shadow-xl shadow-zinc-900/20">
-                                <span class="relative z-10 flex items-center gap-3">
-                                    Request Early Access
-                                    <iconify-icon icon="solar:alt-arrow-right-linear" style="stroke-width: 1.5"></iconify-icon>
-                                </span>
-                            </a>
-                            <span class="text-xs font-medium text-zinc-400 tracking-wide text-center md:text-right px-4">Early design partners get 50% off - forever.</span>
-                        </div>
-                    </div>
+                    <h1 class="text-[clamp(3rem,8vw,6.5rem)] font-medium tracking-tight leading-[0.9] mb-12">
+                        Stop losing 20% of your <br>
+                        reps' time to CRM admin - <br>
+                        <span class="text-[clamp(1.5rem,4vw,3.25rem)] leading-[1] block mt-4">and START FILLING IT <br>
+                        WITH <span class="highlighter-text">DEALS.</span></span>
+                    </h1>
+
+                    <p class="text-lg md:text-xl text-zinc-500 leading-relaxed font-normal max-w-2xl">
+                        Every call your reps make, captured and logged automatically - so your pipeline stays accurate and your team stays selling.
+                    </p>
+                </div>
+
+                <div class="flex flex-col items-start md:items-end gap-3 shrink-0">
+                    <a href="#" onclick="openContactModal(); return false;" class="group relative inline-flex items-center justify-center px-8 py-4 bg-zinc-950 text-white text-sm font-semibold uppercase tracking-widest rounded-full overflow-hidden transition-colors hover:bg-zinc-800 shadow-xl shadow-zinc-900/20">
+                        <span class="relative z-10 flex items-center gap-3">
+                            Request Early Access
+                            <iconify-icon icon="solar:alt-arrow-right-linear" style="stroke-width: 1.5"></iconify-icon>
+                        </span>
+                    </a>
+                    <span class="text-xs font-medium text-zinc-400 tracking-wide text-right">Early design partners get <span class="text-red-600 font-semibold">50% off</span> - forever.</span>
                 </div>
             </div>
         </div>
@@ -143,27 +140,36 @@ animation: wv 0.9s ease-in-out infinite;
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-px bg-zinc-200 border border-zinc-200 rounded-[2rem] overflow-hidden shadow-2xl shadow-zinc-200/50">
                 
                 <div class="reveal bg-white p-10 lg:p-16 group hover:bg-[#DFFF00] transition-colors duration-500">
-                    <div class="flex justify-between items-start mb-20">
-                        <iconify-icon icon="solar:clock-circle-linear" style="stroke-width: 1.5" class="text-[2.5rem] text-zinc-300 group-hover:text-black transition-colors"></iconify-icon>
-                        <span class="text-xs font-semibold tracking-widest group-hover:text-black transition-colors">01</span>
+                    <div class="flex justify-between items-start mb-14">
+                        <div class="bg-zinc-100 group-hover:bg-white/25 rounded-xl px-5 py-4 transition-colors">
+                            <div class="text-4xl font-black tracking-tight text-zinc-950 group-hover:text-black leading-none">20%</div>
+                            <div class="text-[0.6rem] font-semibold uppercase tracking-widest text-zinc-400 group-hover:text-black/60 mt-1.5">of rep time</div>
+                        </div>
+                        <span class="text-3xl font-semibold tracking-widest text-zinc-300 group-hover:text-black transition-colors">01</span>
                     </div>
                     <h3 class="text-2xl font-medium tracking-tight mb-4 group-hover:text-black transition-colors">Too much time is spent on process, not selling.</h3>
                     <p class="text-sm leading-relaxed text-zinc-500 group-hover:text-black/80 transition-colors">20% of your reps' day goes to CRM admin - logging calls, updating deals, filling fields. Combined - that's a full day every week, not spent selling.</p>
                 </div>
 
                 <div class="reveal delay-100 bg-white p-10 lg:p-16 group hover:bg-[#DFFF00] transition-colors duration-500">
-                    <div class="flex justify-between items-start mb-20">
-                        <iconify-icon icon="solar:chart-square-linear" style="stroke-width: 1.5" class="text-[2.5rem] text-zinc-300 group-hover:text-black transition-colors"></iconify-icon>
-                        <span class="text-xs font-semibold tracking-widest group-hover:text-black transition-colors">02</span>
+                    <div class="flex justify-between items-start mb-14">
+                        <div class="bg-zinc-100 group-hover:bg-white/25 rounded-xl px-5 py-4 transition-colors">
+                            <div class="text-3xl font-black tracking-tight text-zinc-950 group-hover:text-black leading-tight">Revenue<br>Forecast</div>
+                            <div class="text-[0.6rem] font-semibold uppercase tracking-widest text-zinc-400 group-hover:text-black/60 mt-1.5">pipeline accuracy</div>
+                        </div>
+                        <span class="text-3xl font-semibold tracking-widest text-zinc-300 group-hover:text-black transition-colors">02</span>
                     </div>
                     <h3 class="text-2xl font-medium tracking-tight mb-4 group-hover:text-black transition-colors">Your forecast is only as good as your CRM hygiene.</h3>
                     <p class="text-sm leading-relaxed text-zinc-500 group-hover:text-black/80 transition-colors">When reps manually update deals - late, inconsistently, from memory - your pipeline data drifts from reality. Every review and decision sits on that drift.</p>
                 </div>
 
                 <div class="reveal delay-200 bg-white p-10 lg:p-16 group hover:bg-[#DFFF00] transition-colors duration-500">
-                    <div class="flex justify-between items-start mb-20">
-                        <iconify-icon icon="solar:file-corrupted-linear" style="stroke-width: 1.5" class="text-[2.5rem] text-zinc-300 group-hover:text-black transition-colors"></iconify-icon>
-                        <span class="text-xs font-semibold tracking-widest group-hover:text-black transition-colors">03</span>
+                    <div class="flex justify-between items-start mb-14">
+                        <div class="bg-zinc-100 group-hover:bg-white/25 rounded-xl px-5 py-4 transition-colors">
+                            <div class="text-3xl font-black tracking-tight text-zinc-950 group-hover:text-black leading-tight">Close<br>Date</div>
+                            <div class="text-[0.6rem] font-semibold uppercase tracking-widest text-zinc-400 group-hover:text-black/60 mt-1.5">never logged</div>
+                        </div>
+                        <span class="text-3xl font-semibold tracking-widest text-zinc-300 group-hover:text-black transition-colors">03</span>
                     </div>
                     <h3 class="text-2xl font-medium tracking-tight mb-4 group-hover:text-black transition-colors">The details that close deals never make it in.</h3>
                     <p class="text-sm leading-relaxed text-zinc-500 group-hover:text-black/80 transition-colors">Reps fill the CRM hours after the call. By then, critical details are gone. The risk flagged. The competitor mentioned. Replaced by a vague one-liner.</p>
@@ -184,7 +190,7 @@ animation: wv 0.9s ease-in-out infinite;
                 <h3 class="text-4xl md:text-5xl text-white font-medium tracking-tight leading-[1.1]">How Clariva solves it.</h3>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 mb-24 reveal delay-100">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16 mb-24 reveal delay-100 xl:px-20">
                 <div class="flex flex-col gap-4 border-t border-white/10 pt-8">
                     <div class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center mb-2 text-[#DFFF00] text-xl">
                         <iconify-icon icon="solar:videocamera-linear" style="stroke-width: 1.5"></iconify-icon>
@@ -214,18 +220,16 @@ animation: wv 0.9s ease-in-out infinite;
             </div>
 
             <!-- Two Screen Visual from Attached Concept -->
-            <div class="reveal delay-200 mt-16 max-w-6xl mx-auto flex flex-col xl:flex-row gap-8 items-stretch justify-center relative">
+            <div class="reveal delay-200 mt-16 max-w-6xl mx-auto flex flex-col xl:flex-row gap-8 items-start justify-center relative">
                 
                 <!-- Screen 1: GMeet -->
-                <div class="w-full xl:w-1/2 bg-[#1C1C1E] rounded-3xl p-1.5 flex flex-col shadow-2xl relative overflow-hidden border border-white/10 mt-6 xl:mt-0 xl:-translate-y-6">
-                    <!-- Floating Badge -->
-                    <div class="absolute top-5 left-5 bg-[#DFFF00] text-black text-[0.65rem] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full z-20 shadow-lg">
-                        Step 1 - Live call
-                    </div>
-                    
+                <div class="w-full xl:w-1/2 mt-6 xl:mt-0 xl:-translate-y-6 flex flex-col">
+                    <span class="inline-flex mb-3 bg-[#DFFF00] text-black text-[0.65rem] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg self-start">Step 1 - Live call</span>
+                    <div class="bg-[#1C1C1E] rounded-3xl p-1.5 flex flex-col shadow-2xl overflow-hidden border border-white/10">
+
                     <!-- Browser Chrome -->
                     <div class="flex items-center gap-4 px-5 py-3.5 bg-[#2C2C2E] rounded-t-[1.35rem]">
-                        <div class="flex gap-1.5 ml-24 md:ml-32">
+                        <div class="flex gap-1.5">
                             <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
                             <div class="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
                             <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
@@ -234,7 +238,7 @@ animation: wv 0.9s ease-in-out infinite;
                     </div>
 
                     <!-- GMeet Body -->
-                    <div class="relative flex-1 bg-[#151516] rounded-b-[1.35rem] p-4 flex flex-col justify-between overflow-hidden">
+                    <div class="relative bg-[#151516] rounded-b-[1.35rem] p-4 flex flex-col justify-between overflow-hidden">
                         
                         <!-- Clariva Bar -->
                         <div class="absolute top-6 left-1/2 -translate-x-1/2 bg-white rounded-full px-4 py-2 flex items-center gap-4 z-10 shadow-[0_4px_24px_rgba(0,0,0,0.4)] border border-white/10">
@@ -250,7 +254,7 @@ animation: wv 0.9s ease-in-out infinite;
                         </div>
 
                         <!-- Videos -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-20 mb-4 h-full min-h-[14rem]">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mt-20 mb-4 min-h-[14rem]">
                             <div class="bg-blue-900/20 rounded-xl relative flex flex-col items-center justify-center border border-blue-500/20 h-full">
                                 <div class="w-16 h-16 rounded-full bg-blue-500/30 flex items-center justify-center">
                                     <iconify-icon icon="solar:user-linear" style="stroke-width: 1.5" class="text-blue-300 text-3xl"></iconify-icon>
@@ -273,18 +277,17 @@ animation: wv 0.9s ease-in-out infinite;
                             <div class="w-10 h-10 rounded-full bg-zinc-800 flex items-center justify-center text-white/80 border border-white/10 hover:bg-zinc-700 transition"><iconify-icon icon="solar:chat-line-linear" style="stroke-width: 1.5"></iconify-icon></div>
                         </div>
                     </div>
-                </div>
+                    </div><!-- /inner screen 1 -->
+                </div><!-- /screen 1 wrapper -->
 
                 <!-- Screen 2: Review Draft -->
-                <div class="w-full xl:w-[55%] bg-zinc-50 rounded-3xl p-1.5 flex flex-col shadow-2xl relative border border-zinc-200 xl:-ml-12 z-10 mt-6 xl:mt-8">
-                    <!-- Floating Badge -->
-                    <div class="absolute top-5 left-5 bg-[#00c896] text-zinc-950 text-[0.65rem] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full z-20 shadow-lg">
-                        Step 2 - Review &amp; confirm
-                    </div>
-                    
+                <div class="w-full xl:w-[55%] xl:-ml-12 z-10 mt-6 xl:mt-8 flex flex-col">
+                    <span class="inline-flex mb-3 bg-[#00c896] text-zinc-950 text-[0.65rem] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full shadow-lg self-start">Step 2 - Review &amp; confirm</span>
+                    <div class="bg-zinc-50 rounded-3xl p-1.5 flex flex-col shadow-2xl border border-zinc-200">
+
                     <!-- Browser Chrome -->
                     <div class="flex items-center gap-4 px-5 py-3.5 bg-zinc-200/50 rounded-t-[1.35rem] border-b border-zinc-200">
-                        <div class="flex gap-1.5 ml-32 md:ml-40">
+                        <div class="flex gap-1.5">
                             <div class="w-2.5 h-2.5 rounded-full bg-red-400"></div>
                             <div class="w-2.5 h-2.5 rounded-full bg-yellow-400"></div>
                             <div class="w-2.5 h-2.5 rounded-full bg-green-400"></div>
@@ -293,7 +296,7 @@ animation: wv 0.9s ease-in-out infinite;
                     </div>
 
                     <!-- Draft Body -->
-                    <div class="bg-white/50 flex-1 rounded-b-[1.35rem] p-5 md:p-6 flex flex-col h-full">
+                    <div class="bg-white/50 rounded-b-[1.35rem] p-5 md:p-6 flex flex-col">
                         
                         <!-- Header -->
                         <div class="mb-6">
@@ -366,14 +369,98 @@ animation: wv 0.9s ease-in-out infinite;
                                         </div>
                                     </div>
                                 </div>
-                                <button class="w-full mt-3 py-2.5 bg-transparent border-2 border-zinc-300 text-zinc-500 text-[0.75rem] font-medium rounded-lg hover:border-[#1a6b42] hover:text-[#1a6b42] transition-colors">
+                                <button class="w-full mt-3 py-3 bg-[#1a6b42] text-white text-[0.75rem] font-semibold rounded-lg shadow-sm">
                                     Confirm &amp; log to CRM
                                 </button>
                             </div>
                         </div>
                     </div>
+                    </div><!-- /inner screen 2 -->
+                </div><!-- /screen 2 wrapper -->
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Supported Tools Section -->
+    <section class="py-20 bg-white relative">
+        <div class="max-w-7xl mx-auto px-2 md:px-4">
+            <h2 class="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-10 text-center">Supported CRMs and Video Call Tools</h2>
+            <div class="flex flex-col md:flex-row gap-6 md:gap-4">
+                <!-- CRMs -->
+                <div class="flex-[6]">
+                    <p class="text-[0.6rem] font-bold uppercase tracking-widest text-zinc-400 mb-6">CRMs</p>
+                    <div class="flex flex-wrap gap-x-10 gap-y-8 items-center">
+                        <!-- Salesforce -->
+                        <div class="flex flex-col items-center gap-2">
+                            <iconify-icon icon="simple-icons:salesforce" class="text-zinc-400" width="52" height="52"></iconify-icon>
+                            <span class="text-[0.55rem] font-semibold uppercase tracking-wider text-zinc-400">Salesforce</span>
+                        </div>
+                        <!-- Zoho -->
+                        <div class="flex flex-col items-center gap-2">
+                            <iconify-icon icon="simple-icons:zoho" class="text-zinc-400" width="52" height="52"></iconify-icon>
+                            <span class="text-[0.55rem] font-semibold uppercase tracking-wider text-zinc-400">Zoho</span>
+                        </div>
+                        <!-- Pipedrive -->
+                        <div class="flex flex-col items-center gap-2">
+                            <iconify-icon icon="simple-icons:pipedrive" class="text-zinc-400" width="52" height="52"></iconify-icon>
+                            <span class="text-[0.55rem] font-semibold uppercase tracking-wider text-zinc-400">Pipedrive</span>
+                        </div>
+                        <!-- Freshsales -->
+                        <div class="flex flex-col items-center gap-2">
+                            <iconify-icon icon="simple-icons:freshworks" class="text-zinc-400" width="52" height="52"></iconify-icon>
+                            <span class="text-[0.55rem] font-semibold uppercase tracking-wider text-zinc-400">Freshsales</span>
+                        </div>
+                        <!-- LeadSquared — custom SVG: stylised "L" stem + upward growth arc (mimicking the LS brand mark) -->
+                        <div class="flex flex-col items-center gap-2">
+                            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-zinc-400">
+                                <rect x="6" y="6" width="40" height="40" rx="10" fill="#F8FAFC" stroke="#E2E8F0"/>
+                                <path d="M18 15V33H28" stroke="currentColor" stroke-width="3.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M24 31C27 26.5 31.5 25.5 35 21" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>
+                                <path d="M35 21L32 20M35 21L36 24" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="text-[0.55rem] font-semibold uppercase tracking-wider text-zinc-400">LeadSquared</span>
+                        </div>
+                        <!-- Kylas — custom SVG: bold geometric K with accent dot -->
+                        <div class="flex flex-col items-center gap-2">
+                            <svg width="52" height="52" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg" class="text-zinc-400">
+                                <rect x="6" y="6" width="40" height="40" rx="10" fill="#F8FAFC" stroke="#E2E8F0"/>
+                                <path d="M17 15V37" stroke="currentColor" stroke-width="4.2" stroke-linecap="round"/>
+                                <path d="M17 26L31.5 15.5" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                                <path d="M17 26L33 36.5" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                                <circle cx="35" cy="15" r="3.1" fill="currentColor"/>
+                            </svg>
+                            <span class="text-[0.55rem] font-semibold uppercase tracking-wider text-zinc-400">Kylas</span>
+                        </div>
+                    </div>
                 </div>
 
+                <!-- Divider -->
+                <div class="hidden md:block w-px bg-zinc-100 self-stretch"></div>
+
+                <!-- Calls -->
+                <div class="flex-[4]">
+                    <p class="text-[0.6rem] font-bold uppercase tracking-widest text-zinc-400 mb-6">Video Calls</p>
+                    <div class="flex flex-wrap gap-x-9 gap-y-8 items-center">
+                        <!-- Zoom — background tile so the icon is visible -->
+                        <div class="flex flex-col items-center gap-2">
+                            <div class="w-[52px] h-[52px] flex items-center justify-center rounded-xl bg-zinc-100 border border-zinc-200">
+                                <iconify-icon icon="simple-icons:zoom" class="text-zinc-500" width="34" height="34"></iconify-icon>
+                            </div>
+                            <span class="text-[0.55rem] font-semibold uppercase tracking-wider text-zinc-400">Zoom</span>
+                        </div>
+                        <!-- Google Meet -->
+                        <div class="flex flex-col items-center gap-2">
+                            <iconify-icon icon="simple-icons:googlemeet" class="text-zinc-400" width="52" height="52"></iconify-icon>
+                            <span class="text-[0.55rem] font-semibold uppercase tracking-wider text-zinc-400">Google Meet</span>
+                        </div>
+                        <!-- Teams -->
+                        <div class="flex flex-col items-center gap-2">
+                            <iconify-icon icon="simple-icons:microsoftteams" class="text-zinc-400" width="52" height="52"></iconify-icon>
+                            <span class="text-[0.55rem] font-semibold uppercase tracking-wider text-zinc-400">Teams</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -382,8 +469,8 @@ animation: wv 0.9s ease-in-out infinite;
     <section id="pricing" class="py-32 bg-white relative">
         <div class="max-w-4xl mx-auto px-8">
             <div class="reveal text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-medium tracking-tight mb-6">Simple, scalable pricing.</h2>
-                <p class="text-lg text-zinc-500">Get 20% more selling time for a single, transparent price.</p>
+                <h2 class="text-3xl md:text-5xl font-medium tracking-tight mb-6">Get 20% more selling time</h2>
+                
             </div>
 
             <div class="reveal delay-100 bg-zinc-50 border border-zinc-200 rounded-[2.5rem] p-8 md:p-12 shadow-2xl shadow-zinc-200/50 flex flex-col md:flex-row gap-12 items-center">
@@ -416,7 +503,7 @@ animation: wv 0.9s ease-in-out infinite;
                         <a href="#" onclick="openContactModal(); return false;" class="block w-full text-center px-8 py-4 bg-[#DFFF00] text-black text-sm font-semibold uppercase tracking-widest rounded-xl hover:bg-[#cbe600] transition-colors shadow-lg shadow-[#DFFF00]/20">
                             Request Early Access
                         </a>
-                        <p class="text-xs font-medium text-zinc-500 text-center">Early design partners get 50% off - <span class="text-zinc-950">locked in forever.</span></p>
+                        <p class="text-xs font-medium text-zinc-500 text-center">Early design partners get <span class="text-red-600 font-semibold">50% off</span> - <span class="text-zinc-950">locked in forever.</span></p>
                     </div>
                 </div>
 
@@ -539,16 +626,14 @@ animation: wv 0.9s ease-in-out infinite;
                     </span>
                     <p class="text-xs text-zinc-500 uppercase tracking-[0.2em] font-medium leading-relaxed">
                         AI-Powered CRM Automation <br>
-                        Stop logging, start selling.<br>
+                        Stop logging, focus only on selling.<br>
                         © 2026 Clariva Inc.
                     </p>
                 </div>
                 <div class="flex gap-16">
                     <div class="flex flex-col gap-4">
                         <span class="text-xs font-semibold text-white uppercase tracking-widest">Connect</span>
-                        <a href="#" class="text-sm text-zinc-500 hover:text-[#DFFF00] transition-colors">Twitter / X</a>
-                        <a href="#" class="text-sm text-zinc-500 hover:text-[#DFFF00] transition-colors">LinkedIn</a>
-                        <a href="mailto:hello@clariva.com" class="text-sm text-zinc-500 hover:text-[#DFFF00] transition-colors">Contact</a>
+                        <a href="https://www.linkedin.com/in/pratyushgarg2002/" target="_blank" rel="noopener noreferrer" class="text-sm text-zinc-500 hover:text-[#DFFF00] transition-colors">LinkedIn</a>
                     </div>
                 </div>
             </div>
@@ -556,42 +641,42 @@ animation: wv 0.9s ease-in-out infinite;
     </footer>
 
     <div id="contact-modal" class="fixed inset-0 z-[200] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modal-heading">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeContactModal()"></div>
-        <div class="relative w-full max-w-md rounded-2xl border border-white/10 bg-[#121218] p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <button class="absolute right-4 top-3 text-[#A0A0B0] hover:text-white" onclick="closeContactModal()" aria-label="Close">✕</button>
-            <div class="text-xs font-semibold uppercase tracking-[0.2em] text-[#00D4FF] mb-2">Book a Demo</div>
-            <h2 id="modal-heading" class="font-syne text-2xl text-white leading-tight mb-2">Let's show you what Clariva can do.</h2>
-            <p class="text-xs uppercase tracking-[0.12em] text-[#A0A0B0] mb-6">Fill in at least one field below</p>
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="closeContactModal()"></div>
+        <div class="relative w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <button class="absolute right-4 top-3 text-zinc-400 hover:text-zinc-700 text-lg leading-none" onclick="closeContactModal()" aria-label="Close">✕</button>
+            <div class="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-400 mb-2">Book a Demo</div>
+            <h2 id="modal-heading" class="text-2xl font-medium tracking-tight text-zinc-950 leading-tight mb-2">Let's show you what Clariva can do.</h2>
+            <p class="text-xs uppercase tracking-[0.12em] text-zinc-400 mb-6">Fill in at least one field below</p>
 
             <form id="contact-form" onsubmit="submitContactForm(event)" novalidate>
                 <div class="flex flex-col gap-4">
                     <div>
-                        <label for="field-linkedin" class="block text-xs font-semibold uppercase tracking-[0.12em] text-[#A0A0B0] mb-1.5">LinkedIn URL</label>
-                        <input id="field-linkedin" type="url" name="linkedin" placeholder="https://linkedin.com/in/yourname" class="w-full bg-[#0A0A0F] border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder:text-[#A0A0B0]/50 focus:outline-none focus:border-[#00D4FF]/50 focus:ring-1 focus:ring-[#00D4FF]/50 transition-all" />
+                        <label for="field-linkedin" class="block text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500 mb-1.5">LinkedIn URL</label>
+                        <input id="field-linkedin" type="url" name="linkedin" placeholder="https://linkedin.com/in/yourname" class="w-full bg-white border border-zinc-200 rounded-lg px-4 py-3 text-sm text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 transition-all" />
                     </div>
                     <div>
-                        <label for="field-email" class="block text-xs font-semibold uppercase tracking-[0.12em] text-[#A0A0B0] mb-1.5">Email</label>
-                        <input id="field-email" type="email" name="email" placeholder="you@company.com" class="w-full bg-[#0A0A0F] border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder:text-[#A0A0B0]/50 focus:outline-none focus:border-[#00D4FF]/50 focus:ring-1 focus:ring-[#00D4FF]/50 transition-all" />
+                        <label for="field-email" class="block text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500 mb-1.5">Email</label>
+                        <input id="field-email" type="email" name="email" placeholder="you@company.com" class="w-full bg-white border border-zinc-200 rounded-lg px-4 py-3 text-sm text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 transition-all" />
                     </div>
                     <div>
-                        <label for="field-phone" class="block text-xs font-semibold uppercase tracking-[0.12em] text-[#A0A0B0] mb-1.5">Phone Number</label>
-                        <input id="field-phone" type="tel" name="phone" placeholder="+1 (555) 000-0000" class="w-full bg-[#0A0A0F] border border-white/10 rounded-lg px-4 py-3 text-sm text-white placeholder:text-[#A0A0B0]/50 focus:outline-none focus:border-[#00D4FF]/50 focus:ring-1 focus:ring-[#00D4FF]/50 transition-all" />
+                        <label for="field-phone" class="block text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500 mb-1.5">Phone Number</label>
+                        <input id="field-phone" type="tel" name="phone" placeholder="+1 (555) 000-0000" class="w-full bg-white border border-zinc-200 rounded-lg px-4 py-3 text-sm text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 transition-all" />
                     </div>
                 </div>
 
-                <p id="modal-error" class="hidden text-sm text-red-400 mt-3"></p>
+                <p id="modal-error" class="hidden text-sm text-red-600 mt-3"></p>
 
-                <button type="submit" id="modal-submit" class="w-full inline-flex justify-center items-center gap-2 bg-[#00D4FF] hover:bg-[#33ddff] disabled:opacity-60 disabled:cursor-not-allowed text-[#0A0A0F] px-6 py-3.5 rounded-lg text-sm font-semibold transition-all mt-6">
-                    <span id="modal-submit-text">Book Demo</span>
+                <button type="submit" id="modal-submit" class="w-full inline-flex justify-center items-center gap-2 bg-zinc-950 hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-3.5 rounded-full text-sm font-semibold uppercase tracking-widest transition-all mt-6">
+                    <span id="modal-submit-text">Let's Talk</span>
                     <iconify-icon icon="solar:arrow-right-linear" width="16" height="16" stroke-width="2"></iconify-icon>
                 </button>
             </form>
 
             <div id="modal-success" class="hidden text-center py-5">
-                <div class="w-12 h-12 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 text-xl flex items-center justify-center mx-auto mb-4">✓</div>
-                <div class="text-xs font-semibold uppercase tracking-[0.12em] text-emerald-400 mb-2">Request Received</div>
-                <p class="font-syne text-xl text-white mb-1">We'll reach out within 48 hours.</p>
-                <p class="text-sm text-[#A0A0B0]">Thank you for your interest.</p>
+                <div class="w-12 h-12 rounded-full bg-[#DFFF00]/40 border border-zinc-200 text-zinc-950 text-xl flex items-center justify-center mx-auto mb-4">✓</div>
+                <div class="text-xs font-semibold uppercase tracking-[0.12em] text-zinc-400 mb-2">Request Received</div>
+                <p class="text-xl font-medium tracking-tight text-zinc-950 mb-1">We'll reach out within 48 hours.</p>
+                <p class="text-sm text-zinc-500">Thank you for your interest.</p>
             </div>
         </div>
     </div>
@@ -626,7 +711,7 @@ animation: wv 0.9s ease-in-out infinite;
 
         currencyToggle.addEventListener('change', (e) => {
             if(e.target.checked) {
-                priceValue.textContent = '$10';
+                priceValue.textContent = '$9.99';
             } else {
                 priceValue.textContent = 'Rs 999';
             }
@@ -643,7 +728,7 @@ animation: wv 0.9s ease-in-out infinite;
             errorEl.style.display = 'none';
             errorEl.textContent = '';
             document.getElementById('modal-submit').disabled = false;
-            document.getElementById('modal-submit-text').textContent = 'Book Demo';
+            document.getElementById('modal-submit-text').textContent = `Let's Talk`;
             document.getElementById('contact-form').reset();
         }
 
@@ -692,7 +777,7 @@ animation: wv 0.9s ease-in-out infinite;
                 errorEl.textContent = 'Something went wrong. Please try again.';
                 errorEl.style.display = 'block';
                 submitBtn.disabled = false;
-                submitText.textContent = 'Book Demo';
+                submitText.textContent = `Let's talk`;
             }
         }
     </script>
