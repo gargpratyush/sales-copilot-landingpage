@@ -1438,6 +1438,8 @@ animation: wv 0.9s ease-in-out infinite;
         .demo-fi.full { grid-column: 1 / -1; }
         .demo-fi-label { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #9ca3af; }
         .demo-fi-value { font-size: 0.82rem; font-weight: 500; color: #18181b; background: #f4f4f5; padding: 9px 12px; border-radius: 8px; min-height: 36px; }
+        .demo-fi-value.demo-fi-agent-editable { background: #fff; border: 1px solid #e4e4e7; cursor: text; }
+        .demo-fi-value.demo-fi-agent-editable:focus { outline: none; border-color: #a1a1aa; box-shadow: 0 0 0 3px rgba(161,161,170,0.1); }
         .demo-fi-badge { font-size: 0.8rem; font-weight: 600; padding: 6px 12px; border-radius: 8px; display: inline-block; }
         .demo-fi-select { font-size: 0.82rem; font-weight: 600; color: #18181b; background: #fffbeb; border: 1.5px dashed #f59e0b; padding: 9px 32px 9px 12px; border-radius: 8px; font-family: inherit; cursor: pointer; appearance: none; width: 100%; min-height: 36px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23f59e0b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; }
         .demo-fi-select:focus { outline: none; border-color: #d97706; box-shadow: 0 0 0 3px rgba(245,158,11,0.1); }
@@ -1469,6 +1471,27 @@ animation: wv 0.9s ease-in-out infinite;
         .demo-loading-step-text { font-size:0.82rem;font-weight:500;color:#e2e8f0; }
         .demo-loading-tick { font-size:1rem;width:24px;text-align:center; }
         .demo-loading-spinner { width:18px;height:18px;border:2px solid rgba(255,255,255,0.12);border-top-color:#DFFF00;border-radius:50%;animation:demo-spin 0.75s linear infinite;flex-shrink:0; }
+
+        /* ── CRM split-view category grid ── */
+        .crm-cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .crm-cat-card { background: #fff; border: 1.5px solid #e4e4e7; border-radius: 10px; padding: 12px; cursor: pointer; transition: all 0.15s; display: flex; flex-direction: column; gap: 4px; }
+        .crm-cat-card:hover { border-color: #71717a; }
+        .crm-cat-card.active { border-color: #18181b; background: #18181b; }
+        .crm-cat-card svg { stroke: #71717a; transition: stroke 0.15s; }
+        .crm-cat-card.active svg { stroke: rgba(255,255,255,0.85); }
+        .crm-cat-card-icon { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; background: #f4f4f5; border-radius: 7px; margin-bottom: 2px; }
+        .crm-cat-card.active .crm-cat-card-icon { background: rgba(255,255,255,0.12); }
+        .crm-cat-card-title { font-size: 0.75rem; font-weight: 700; color: #18181b; line-height: 1.3; }
+        .crm-cat-card.active .crm-cat-card-title { color: #fff; }
+        .crm-cat-card-meta { font-size: 0.62rem; color: #a1a1aa; }
+        .crm-cat-card.active .crm-cat-card-meta { color: rgba(255,255,255,0.45); }
+        .crm-cat-badge { font-size: 0.58rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; display: inline-block; width: fit-content; margin-top: 2px; }
+        .crm-cat-badge.filled { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+        .crm-cat-badge.review { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+        .crm-cat-card.active .crm-cat-badge { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.75); border-color: rgba(255,255,255,0.15); }
+        @keyframes crm-detail-in { from { opacity:0; transform:translateX(10px); } to { opacity:1; transform:translateX(0); } }
+        .crm-detail-body { animation: crm-detail-in 0.2s ease forwards; }
+        .crm-detail-empty { display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; gap:12px; padding:40px; text-align:center; }
     </style>
 
     <div id="demo-modal" class="fixed inset-0 z-[300] hidden">
@@ -1488,7 +1511,7 @@ animation: wv 0.9s ease-in-out infinite;
                 <div id="demo-sidebar" class="w-full md:w-72 border-r border-zinc-200 bg-zinc-50 overflow-y-auto shrink-0 flex flex-col">
                     <div class="px-4 py-3 border-b border-zinc-200">
                         <h3 class="text-xs font-bold uppercase tracking-widest text-zinc-400">Today's Calls</h3>
-                        <p class="text-[0.65rem] text-zinc-400 mt-1">Mon, Mar 30 · 5 calls completed</p>
+                        <p class="text-[0.65rem] text-zinc-400 mt-1">Mon, Mar 30 · 6 calls today</p>
                     </div>
                     <div id="demo-call-list" class="flex-1 overflow-y-auto p-2 space-y-1"></div>
                 </div>
@@ -2143,11 +2166,48 @@ animation: wv 0.9s ease-in-out infinite;
         }
     ];
 
+    // Extra pending example call for the demo flow.
+    const extraPendingCall = JSON.parse(JSON.stringify(demoCalls[0]));
+    extraPendingCall.id = demoCalls.length;
+    extraPendingCall.contact = "Rahul Verma";
+    extraPendingCall.company = "Urban Company";
+    extraPendingCall.role = "Director of Platform";
+    extraPendingCall.type = "Discovery Call";
+    extraPendingCall.time = "4:10 PM";
+    extraPendingCall.duration = "29 min";
+    extraPendingCall.initials = "RV";
+    extraPendingCall.avatarBg = "#dcfce7";
+    extraPendingCall.avatarColor = "#166534";
+    extraPendingCall.status = "pending";
+    extraPendingCall.contactInfo.contactName = "Rahul Verma";
+    extraPendingCall.contactInfo.company = "Urban Company";
+    extraPendingCall.contactInfo.title = "Director of Platform Engineering";
+    extraPendingCall.contactInfo.email = "rahul.verma@urbancompany.com";
+    extraPendingCall.contactInfo.phone = "+91 98110 55274";
+    extraPendingCall.contactInfo.linkedin = "linkedin.com/in/rahulverma-uc";
+    extraPendingCall.contactInfo.companySize = "12,000+ employees";
+    extraPendingCall.contactInfo.annualRevenue = "₹3,900 Cr ($470M)";
+    extraPendingCall.contactInfo.industry = "Consumer Services / Marketplace";
+    extraPendingCall.contactInfo.region = "Gurugram, Haryana";
+    extraPendingCall.draftEmail.to = "rahul.verma@urbancompany.com";
+    extraPendingCall.draftEmail.subject = "CloudPulse x Urban Company — Next Steps";
+    demoCalls.unshift(extraPendingCall);
+
     let demoActiveCall = 0;
     let demoActiveTab = 'crm';
-    let demoFilledSalesforce = false;
-    let demoEmailSent = false;
-    let demoInsightsFetched = false; // NEW: tracks if AI fetch has been triggered
+    let demoResolvedPendingCallIds = new Set();
+    let demoEmailSentByCall = {};
+    let demoInsightsFetchedByCall = {};
+    let demoHasUnsyncedChangesByCall = {};
+    let demoActiveCRMSection = null;
+
+    function isCallPending(call) {
+        return call.status === 'pending' && !demoResolvedPendingCallIds.has(call.id);
+    }
+
+    function hasFetchedInsights(call) {
+        return !!demoInsightsFetchedByCall[call.id];
+    }
 
     // ── Open / Close ──
     function openDemoModal() {
@@ -2155,11 +2215,18 @@ animation: wv 0.9s ease-in-out infinite;
         modal.classList.remove('hidden');
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
-        demoFilledSalesforce = false;
-        demoEmailSent = false;
-        demoInsightsFetched = false;
+        demoResolvedPendingCallIds = new Set();
+        demoEmailSentByCall = {};
+        demoInsightsFetchedByCall = {};
+        demoHasUnsyncedChangesByCall = {};
+        demoCalls.forEach(c => {
+            demoEmailSentByCall[c.id] = false;
+            demoInsightsFetchedByCall[c.id] = c.status !== 'pending';
+            demoHasUnsyncedChangesByCall[c.id] = false;
+        });
         demoActiveCall = 0;
         demoActiveTab = 'crm';
+        demoActiveCRMSection = null;
         renderDemoSidebar();
         renderDemoContent();
     }
@@ -2172,6 +2239,7 @@ animation: wv 0.9s ease-in-out infinite;
     function selectDemoCall(idx) {
         demoActiveCall = idx;
         demoActiveTab = 'crm';
+        demoActiveCRMSection = null;
         renderDemoSidebar();
         renderDemoContent();
     }
@@ -2202,6 +2270,165 @@ animation: wv 0.9s ease-in-out infinite;
         chev.style.transform = '';
     }
 
+    // ── CRM split-view: category icons, selection, detail rendering ──
+    function crmSectionIcon(id) {
+        const a = `width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#71717a" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"`;
+        const icons = {
+            contact:  `<svg ${a}><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+            lead:     `<svg ${a}><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>`,
+            qual:     `<svg ${a}><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+            opp:      `<svg ${a}><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
+            insights: `<svg ${a}><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>`,
+            product:  `<svg ${a}><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>`,
+            internal: `<svg ${a}><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>`,
+            email:    `<svg ${a}><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>`,
+        };
+        return icons[id] || icons.contact;
+    }
+
+    function selectCRMSection(id) {
+        demoActiveCRMSection = id;
+        document.querySelectorAll('.crm-cat-card').forEach(el => {
+            el.classList.toggle('active', el.dataset.sectionId === id);
+        });
+        const call = demoCalls[demoActiveCall];
+        const canEdit = isCallPending(call);
+        const panel = document.getElementById('crm-detail-panel');
+        if (panel) panel.innerHTML = `<div class="crm-detail-body" style="padding:0">${renderCRMSectionDetail(id, call, canEdit)}</div>`;
+    }
+
+    function renderCRMSectionDetail(id, call, canEdit) {
+        const ci=call.contactInfo, lc=call.leadCategorization, q=call.qualification,
+              od=call.opportunityDetails, ins=call.callInsights, pf=call.productFit,
+              int_=call.internal, em=call.draftEmail;
+          const emailSent = !!demoEmailSentByCall[call.id] || !canEdit;
+
+        const reviewMap = {
+            contact: false,
+            lead:    canEdit&&(lc.leadType.editable||lc.leadScore.editable||lc.leadStatus.editable||lc.icpFit.editable),
+            qual:    canEdit&&(q.budgetConfirmed.editable||q.championIdentified.editable||q.painLevel.editable||q.urgencyLevel.editable),
+            opp:     canEdit&&(od.stage.editable||od.winProbability.editable||od.pipelineCategory.editable||od.forecastCategory.editable||od.riskLevel.editable),
+            insights:false,
+            product: canEdit&&(pf.technicalComplexity.editable||pf.pocRequired.editable),
+            internal:canEdit&&(int_.repNotes.editable||int_.managerFlag.editable||int_.nextStepPriority.editable),
+            email:   canEdit&&!emailSent
+        };
+        const isReview = reviewMap[id];
+        const badge = isReview
+            ? `<span style="font-size:0.6rem;font-weight:700;background:#fffbeb;color:#92400e;border:1px solid #fde68a;padding:3px 9px;border-radius:6px">Review needed</span>`
+            : `<span style="font-size:0.6rem;font-weight:700;background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;padding:3px 9px;border-radius:6px">Auto-filled</span>`;
+        const sectionNames = {
+            contact:'Contact & Company Info', lead:'Lead Categorization', qual:'BANT / MEDDIC',
+            opp:'Opportunity Details', insights:'Call Insights', product:'Product & Technical Fit',
+            internal:'Internal Notes', email:'Draft Follow-up Email'
+        };
+
+        let body = '';
+        switch(id) {
+            case 'contact':
+                body = `<div class="demo-fi-grid">${[
+                    fi('Company',ci.company), fi('Contact Name',ci.contactName),
+                    fi('Title / Role',ci.title), fi('Email',ci.email),
+                    fi('Phone',ci.phone), fi('LinkedIn',ci.linkedin),
+                    fi('Company Size',ci.companySize), fi('Annual Revenue',ci.annualRevenue),
+                    fi('Industry',ci.industry), fi('Region / HQ',ci.region)
+                ].join('')}</div>`; break;
+            case 'lead':
+                body = `<div class="demo-fi-grid">${[
+                    fi('Lead Source',lc.leadSource),
+                    fiSel('Lead Type',lc.leadType,canEdit),
+                    fiInput('Lead Score',lc.leadScore,canEdit),
+                    fiSel('Lead Status',lc.leadStatus,canEdit),
+                    fiSel('ICP Fit',lc.icpFit,canEdit)
+                ].join('')}</div>`; break;
+            case 'qual':
+                body = `<div class="demo-fi-grid">${[
+                    fiSel('Budget Confirmed',q.budgetConfirmed,canEdit),
+                    fi('Budget Range',q.budgetRange),
+                    fi('Decision Maker',q.authorityDecisionMaker),
+                    fi('Economic Buyer',q.economicBuyer),
+                    fiInput('Champion Identified',q.championIdentified,canEdit),
+                    fiSel('Pain Level',q.painLevel,canEdit),
+                    fi('Current Solution',q.currentSolution),
+                    fi('Decision Timeline',q.decisionTimeline),
+                    fiSel('Urgency Level',q.urgencyLevel,canEdit),
+                    fi('Decision Process',q.decisionProcess,true),
+                    fi('Decision Criteria',q.decisionCriteria,true),
+                    fi('Metrics / KPIs Impacted',q.metricsKPIs,true),
+                    fiBullets('Pain Points Identified',q.painPoints)
+                ].join('')}</div>`; break;
+            case 'opp':
+                body = `<div class="demo-fi-grid">${[
+                    fiSel('Stage',od.stage,canEdit),
+                    fi('Deal Size',od.dealSize),
+                    fi('Close Date',od.closeDate),
+                    fiInput('Win Probability',od.winProbability,canEdit),
+                    fiSel('Pipeline Category',od.pipelineCategory,canEdit),
+                    fiSel('Forecast Category',od.forecastCategory,canEdit),
+                    fiSel('Risk Level',od.riskLevel,canEdit),
+                    fi('Deal Velocity',od.dealVelocity),
+                    fi('Competitors in Deal',od.competitorsInDeal,true)
+                ].join('')}</div>`; break;
+            case 'insights':
+                body = `<div class="demo-fi-grid">${[
+                    fiBullets('Key Takeaways',ins.keyTakeaways),
+                    fiBullets('Objections Raised',ins.objectionsRaised),
+                    fiTags('Features Discussed',ins.featuresDiscussed),
+                    fiBullets('Buying Signals',ins.buyingSignals),
+                    fiBullets('Red Flags',ins.redFlags)
+                ].join('')}</div>`; break;
+            case 'product':
+                body = `<div class="demo-fi-grid">${[
+                    fi('Products of Interest',pf.productsOfInterest,true),
+                    fi('Primary Use Case',pf.primaryUseCase,true),
+                    fi('Integration Requirements',pf.integrationRequirements,true),
+                    fiSel('Technical Complexity',pf.technicalComplexity,canEdit),
+                    fi('Implementation Timeline',pf.implementationTimeline),
+                    fiSel('POC Required',pf.pocRequired,canEdit)
+                ].join('')}</div>`; break;
+            case 'internal':
+                body = `<div class="demo-fi-grid">${[
+                    fi('Follow-up Date',int_.followUpDate),
+                    fiSel('Next Step Priority',int_.nextStepPriority,canEdit),
+                    fiSel('Manager Flag',int_.managerFlag,canEdit),
+                    fiTA('Rep Notes',int_.repNotes,canEdit,4),
+                    fiBullets('Next Actions',int_.nextActions)
+                ].join('')}</div>`; break;
+            case 'email':
+                const emailEditable = canEdit && !emailSent;
+                body = `<div class="demo-email-card">
+                    <div class="demo-email-toolbar">
+                        <span class="demo-email-toolbar-title">New Message</span>
+                        ${emailSent ? '<span style="font-size:0.68rem;color:#166534;font-weight:600">Sent</span>' : '<span style="font-size:0.68rem;color:#a1a1aa">Draft</span>'}
+                    </div>
+                    <div class="demo-email-row">
+                        <span class="demo-email-label">To</span>
+                        ${emailEditable ? `<input class="demo-email-input-editable" value="${em.to}" />` : `<span class="demo-email-input" style="color:#2563eb">${em.to}</span>`}
+                    </div>
+                    <div class="demo-email-row">
+                        <span class="demo-email-label">Subject</span>
+                        ${emailEditable ? `<input class="demo-email-input-editable" style="flex:1" value="${em.subject}" />` : `<span class="demo-email-input" style="font-weight:600">${em.subject}</span>`}
+                    </div>
+                    <div class="demo-email-body">
+                        ${emailEditable ? `<textarea class="editable-body" rows="10">${em.body}</textarea>` : `<pre style="font-family:inherit;font-size:0.78rem;color:#3f3f46;line-height:1.7;white-space:pre-wrap">${em.body}</pre>`}
+                    </div>
+                    <div class="demo-email-actions">
+                        ${emailEditable
+                            ? `<button class="demo-btn-send" onclick="sendDemoEmail()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Send Email</button><span style="font-size:0.72rem;color:#a1a1aa">via Gmail</span>`
+                            : `<button class="demo-btn-sent" disabled><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Email Sent</button>`}
+                    </div>
+                </div>`; break;
+        }
+
+        return `<div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid #f4f4f5">
+                <h3 style="font-size:0.9rem;font-weight:700;color:#18181b">${sectionNames[id]}</h3>
+                ${badge}
+            </div>
+            ${body}
+        </div>`;
+    }
+
     // ── Pre-fetch: Zoom invite + Fetch Insights button ──
     function renderPrefetchView(call) {
         return `
@@ -2210,7 +2437,7 @@ animation: wv 0.9s ease-in-out infinite;
                 <div style="background:#fff;border:1px solid #e4e4e7;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.07);margin-bottom:28px">
                     <div style="background:linear-gradient(135deg,#2D8CFF 0%,#1a55c9 100%);padding:22px 24px 18px">
                         <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
-                            <div style="width:34px;height:34px;background:rgba(255,255,255,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem">🎥</div>
+                            <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg"><rect width="34" height="34" rx="8" fill="rgba(255,255,255,0.2)"/><path d="M22 13v8c0 .55-.45 1-1 1H9c-.55 0-1-.45-1-1v-8c0-.55.45-1 1-1h12c.55 0 1 .45 1 1z" fill="white"/><path d="M24 14.5l3.5-2v9l-3.5-2v-5z" fill="white"/></svg>
                             <span style="color:rgba(255,255,255,0.85);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em">Zoom Meeting · Ended</span>
                         </div>
                         <h3 style="color:#fff;font-size:1.05rem;font-weight:700;margin-bottom:5px">${call.type} — ${call.company}</h3>
@@ -2247,7 +2474,6 @@ animation: wv 0.9s ease-in-out infinite;
                 <div style="text-align:center">
                     <p style="font-size:0.78rem;color:#71717a;margin-bottom:18px;line-height:1.6">Clariva recorded this call. Click below to extract CRM fields and coaching insights automatically.</p>
                     <button onclick="fetchInsights()" style="display:inline-flex;align-items:center;gap:10px;background:#18181b;color:#DFFF00;font-size:0.85rem;font-weight:700;padding:15px 36px;border:none;border-radius:12px;cursor:pointer;font-family:inherit;letter-spacing:0.02em;box-shadow:0 4px 20px rgba(0,0,0,0.15);transition:all 0.2s" onmouseenter="this.style.background='#2d2d2d'" onmouseleave="this.style.background='#18181b'">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                         Fetch Insights
                     </button>
                 </div>
@@ -2257,52 +2483,52 @@ animation: wv 0.9s ease-in-out infinite;
 
     // ── Loading animation ──
     const loadingSteps = [
-        '🎤&nbsp; Transcribing call audio...',
-        '🔍&nbsp; Extracting CRM signals from conversation...',
-        '📊&nbsp; Mapping 42 fields to Salesforce schema...',
-        '🧠&nbsp; Scoring rep performance across 5 dimensions...',
-        '✨&nbsp; Generating personalised coaching insights...'
+        'Transcribing call audio...',
+        'Extracting CRM signals from conversation...',
+        'Mapping 42 fields to Salesforce schema...',
+        'Scoring rep performance across 5 dimensions...',
+        'Generating personalised coaching insights...'
     ];
     function fetchInsights() {
         const content = document.getElementById('demo-content');
         content.style.padding = '0';
         content.innerHTML = `
-            <div style="min-height:100%;display:flex;align-items:center;justify-content:center;background:#0f172a;padding:40px 20px">
-                <div style="max-width:420px;width:100%;text-align:center">
-                    <div style="position:relative;width:110px;height:110px;margin:0 auto 28px">
-                        <div class="demo-ai-orb"></div>
-                        <div class="demo-ai-ring"></div>
-                        <div class="demo-ai-ring r2"></div>
-                        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.2rem">🤖</div>
-                    </div>
-                    <h3 style="color:#f1f5f9;font-size:1.1rem;font-weight:700;margin-bottom:6px">Clariva AI is working...</h3>
-                    <p style="color:#64748b;font-size:0.8rem;margin-bottom:30px">Extracting insights from your ${demoCalls[0].duration} call with ${demoCalls[0].contact}</p>
-                    <div style="display:flex;flex-direction:column;gap:8px;text-align:left">
-                        ${loadingSteps.map((s, i) => `
-                            <div id="ls-${i}" class="demo-loading-step">
-                                <div id="ls-icon-${i}" class="demo-loading-spinner"></div>
-                                <span class="demo-loading-step-text">${s}</span>
-                            </div>`).join('')}
+        <div style="min-height:100%;display:flex;align-items:center;justify-content:center;background:#fff;padding:40px 20px">
+            <div style="max-width:400px;width:100%;text-align:center">
+                <div style="display:inline-flex;align-items:center;gap:7px;font-size:0.95rem;font-weight:800;color:#18181b;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:32px">
+                    CLARIVA<span style="display:inline-block;width:7px;height:7px;background:#DFFF00;border-radius:2px;flex-shrink:0"></span>
+                </div>
+                <div style="position:relative;width:64px;height:64px;margin:0 auto 24px">
+                    <div style="width:100%;height:100%;border:3px solid #f4f4f5;border-top-color:#18181b;border-radius:50%;animation:demo-spin 0.9s linear infinite"></div>
+                    <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center">
+                        <div style="width:9px;height:9px;background:#DFFF00;border-radius:2px"></div>
                     </div>
                 </div>
-            </div>`;
-        // Reveal steps sequentially
-        loadingSteps.forEach((_, i) => {
+                <h3 style="color:#18181b;font-size:1rem;font-weight:700;margin-bottom:6px;letter-spacing:-0.01em">Analysing your call...</h3>
+                <p style="color:#71717a;font-size:0.78rem;margin-bottom:28px;line-height:1.6">Extracting insights from your ${demoCalls[0].duration} call with ${demoCalls[0].contact}</p>
+                <div style="display:flex;flex-direction:column;gap:7px;text-align:left">
+                    ${loadingSteps.map((s,i) => `
+                        <div id="ls-${i}" style="display:flex;align-items:center;gap:12px;padding:10px 14px;background:#f8fafc;border:1px solid #e4e4e7;border-radius:9px;opacity:0.3;transition:opacity 0.5s ease,transform 0.4s ease;transform:translateX(-8px)">
+                            <div id="ls-icon-${i}" style="width:16px;height:16px;border:2px solid #e4e4e7;border-top-color:#18181b;border-radius:50%;animation:demo-spin 0.75s linear infinite;flex-shrink:0"></div>
+                            <span style="font-size:0.8rem;font-weight:500;color:#52525b">${s}</span>
+                        </div>`).join('')}
+                </div>
+            </div>
+        </div>`;
+        loadingSteps.forEach((_,i) => {
             setTimeout(() => {
-                const el = document.getElementById('ls-' + i);
-                if (el) el.classList.add('active');
-                // Mark previous as done
+                const el = document.getElementById('ls-'+i);
+                if (el) { el.style.opacity='1'; el.style.transform='translateX(0)'; }
                 if (i > 0) {
-                    const prev = document.getElementById('ls-' + (i - 1));
-                    const prevIcon = document.getElementById('ls-icon-' + (i - 1));
-                    if (prev) prev.classList.add('done');
-                    if (prevIcon) prevIcon.outerHTML = '<span style="font-size:1rem;color:#22c55e;flex-shrink:0">✓</span>';
+                    const prev = document.getElementById('ls-'+(i-1));
+                    const prevIcon = document.getElementById('ls-icon-'+(i-1));
+                    if (prev) prev.style.opacity='0.6';
+                    if (prevIcon) prevIcon.outerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><polyline points="20 6 9 17 4 12"/></svg>';
                 }
             }, i * 850);
         });
-        // Complete after all steps
         setTimeout(() => {
-            demoInsightsFetched = true;
+            demoInsightsFetchedByCall[demoCalls[demoActiveCall].id] = true;
             renderDemoContent();
         }, loadingSteps.length * 850 + 500);
     }
@@ -2312,7 +2538,7 @@ animation: wv 0.9s ease-in-out infinite;
         const list = document.getElementById('demo-call-list');
         list.innerHTML = demoCalls.map((c, i) => {
             const isActive = i === demoActiveCall;
-            const isPending = i === 0 && !demoFilledSalesforce;
+            const isPending = isCallPending(c);
             const statusClass = isPending ? 'pending' : 'updated';
             const statusText = isPending ? 'Pending' : 'Synced';
             return `
@@ -2334,13 +2560,13 @@ animation: wv 0.9s ease-in-out infinite;
         const content = document.getElementById('demo-content');
         const bottomBar = document.getElementById('demo-bottom-bar');
         const call = demoCalls[demoActiveCall];
-        const isFirstCall = demoActiveCall === 0;
-        const isPending   = isFirstCall && !demoFilledSalesforce;
+        const isPending   = isCallPending(call);
         const canEdit     = isPending;
         const isUpdated   = !isPending;
+        const hasUnsyncedChanges = !!demoHasUnsyncedChangesByCall[call.id];
 
         // PRE-FETCH: pending call, not yet fetched
-        if (isPending && !demoInsightsFetched) {
+        if (isPending && !hasFetchedInsights(call)) {
             tabBar.style.display = 'none';
             content.style.padding = '0';
             content.innerHTML = renderPrefetchView(call);
@@ -2350,7 +2576,7 @@ animation: wv 0.9s ease-in-out infinite;
 
         // NORMAL: tabs shown
         tabBar.style.display = 'flex';
-        content.style.padding = '28px 24px';
+        content.style.padding = demoActiveTab === 'crm' ? '0' : '28px 24px';
         const tabCrm = document.getElementById('tab-crm');
         const tabCoaching = document.getElementById('tab-coaching');
         tabCrm.className = 'px-5 py-3 text-sm font-semibold border-b-2 transition-colors ' + (demoActiveTab === 'crm' ? 'demo-tab-active' : 'demo-tab-inactive');
@@ -2361,8 +2587,12 @@ animation: wv 0.9s ease-in-out infinite;
             : renderCoachingTab(call);
 
         if (isUpdated) {
-            bottomBar.innerHTML = `
-                <div class="text-xs text-zinc-400">Salesforce · Last synced ${isFirstCall ? 'just now' : call.time}</div>
+            bottomBar.innerHTML = hasUnsyncedChanges
+                ? `
+                <div class="text-xs text-zinc-400">You made new edits after sync</div>
+                <button class="demo-btn-fill" onclick="fillSalesforce()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Update Salesforce again</button>`
+                : `
+                <div class="text-xs text-zinc-400">Salesforce · Last synced ${call.time}</div>
                 <div class="demo-btn-filled"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Updated Salesforce</div>`;
         } else {
             bottomBar.innerHTML = `
@@ -2377,7 +2607,7 @@ animation: wv 0.9s ease-in-out infinite;
         const style = getFieldStyle(label, value);
         return `<div class="demo-fi${isFull ? ' full' : ''}">
             <span class="demo-fi-label">${label}</span>
-            <div class="demo-fi-value"${style ? ` style="${style}"` : ''}>${value || '—'}</div>
+            <div class="demo-fi-value demo-fi-agent-editable" contenteditable="true"${style ? ` style="${style}"` : ''}>${value || '—'}</div>
         </div>`;
     }
     function fiSel(label, obj, canEdit) {
@@ -2408,22 +2638,18 @@ animation: wv 0.9s ease-in-out infinite;
             </div>`;
         }
         const val = obj ? obj.value : (typeof label !== 'object' ? '' : '');
-        return `<div class="demo-fi full"><span class="demo-fi-label">${label}</span><textarea class="demo-fi-textarea" rows="${rows}" readonly>${val||''}</textarea></div>`;
+        return `<div class="demo-fi full"><span class="demo-fi-label">${label}</span><textarea class="demo-fi-textarea" rows="${rows}">${val||''}</textarea></div>`;
     }
     function fiBullets(label, items) {
         return `<div class="demo-fi full">
             <span class="demo-fi-label">${label}</span>
-            <div style="background:#f9f9f9;border:1px solid #e4e4e7;border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:7px">
-                ${items.map(t=>`<div style="font-size:0.8rem;color:#3f3f46;padding-left:14px;position:relative;line-height:1.5"><span style="position:absolute;left:0;color:#a1a1aa">•</span>${t}</div>`).join('')}
-            </div>
+            <div class="demo-fi-value demo-fi-agent-editable" contenteditable="true" style="white-space:pre-wrap;line-height:1.6;min-height:84px">${(items||[]).join('\n')}</div>
         </div>`;
     }
     function fiTags(label, items) {
         return `<div class="demo-fi full">
             <span class="demo-fi-label">${label}</span>
-            <div style="display:flex;flex-wrap:wrap;gap:6px;padding-top:2px">
-                ${items.map(t=>`<span style="font-size:0.72rem;font-weight:600;padding:4px 12px;border-radius:20px;background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe">${t}</span>`).join('')}
-            </div>
+            <div class="demo-fi-value demo-fi-agent-editable" contenteditable="true" style="white-space:pre-wrap;line-height:1.6">${(items||[]).join(', ')}</div>
         </div>`;
     }
     function getFieldStyle(label, value) {
@@ -2497,160 +2723,66 @@ animation: wv 0.9s ease-in-out infinite;
         </div>`;
     }
 
-    // ── New renderCRMTab ──
+    // ── New renderCRMTab (split-view: category grid left + detail panel right) ──
     function renderCRMTab(call, canEdit) {
-        const ci  = call.contactInfo;
-        const lc  = call.leadCategorization;
-        const q   = call.qualification;
-        const od  = call.opportunityDetails;
-        const ins = call.callInsights;
-        const pf  = call.productFit;
-        const int_= call.internal;
-        const em  = call.draftEmail;
-        const isFC = call.id === 0;
-        const emailSent = isFC ? demoEmailSent : true;
+        const lc=call.leadCategorization, q=call.qualification, od=call.opportunityDetails,
+              pf=call.productFit, int_=call.internal;
+        const emailSent = !!demoEmailSentByCall[call.id] || !canEdit;
 
-        const leadReview    = canEdit && (lc.leadType.editable||lc.leadScore.editable||lc.leadStatus.editable||lc.icpFit.editable);
-        const qualReview    = canEdit && (q.budgetConfirmed.editable||q.championIdentified.editable||q.painLevel.editable||q.urgencyLevel.editable);
-        const oppReview     = canEdit && (od.stage.editable||od.winProbability.editable||od.pipelineCategory.editable||od.forecastCategory.editable||od.riskLevel.editable);
-        const productReview = canEdit && (pf.technicalComplexity.editable||pf.pocRequired.editable);
-        const internalReview= canEdit && (int_.repNotes.editable||int_.managerFlag.editable||int_.nextStepPriority.editable);
+        const reviewMap = {
+            contact: false,
+            lead:    canEdit&&(lc.leadType.editable||lc.leadScore.editable||lc.leadStatus.editable||lc.icpFit.editable),
+            qual:    canEdit&&(q.budgetConfirmed.editable||q.championIdentified.editable||q.painLevel.editable||q.urgencyLevel.editable),
+            opp:     canEdit&&(od.stage.editable||od.winProbability.editable||od.pipelineCategory.editable||od.forecastCategory.editable||od.riskLevel.editable),
+            insights:false,
+            product: canEdit&&(pf.technicalComplexity.editable||pf.pocRequired.editable),
+            internal:canEdit&&(int_.repNotes.editable||int_.managerFlag.editable||int_.nextStepPriority.editable),
+            email:   canEdit&&!emailSent
+        };
+        const reviewCount = Object.values(reviewMap).filter(Boolean).length;
 
-        // Section contents
-        const contactContent = [
-            fi('Company', ci.company), fi('Contact Name', ci.contactName),
-            fi('Title / Role', ci.title), fi('Email', ci.email),
-            fi('Phone', ci.phone), fi('LinkedIn', ci.linkedin),
-            fi('Company Size', ci.companySize), fi('Annual Revenue', ci.annualRevenue),
-            fi('Industry', ci.industry), fi('Region / HQ', ci.region)
-        ].join('');
+        const sectionDefs = [
+            {id:'contact', title:'Contact & Company', count:10},
+            {id:'lead',    title:'Lead Categorization', count:5},
+            {id:'qual',    title:'BANT / MEDDIC', count:13},
+            {id:'opp',     title:'Opportunity Details', count:9},
+            {id:'insights',title:'Call Insights', count:5},
+            {id:'product', title:'Product & Tech Fit', count:6},
+            {id:'internal',title:'Internal Notes', count:5},
+            {id:'email',   title:'Follow-up Email', count:3},
+        ];
 
-        const leadContent = [
-            fi('Lead Source', lc.leadSource),
-            fiSel('Lead Type', lc.leadType, canEdit),
-            fiInput('Lead Score', lc.leadScore, canEdit),
-            fiSel('Lead Status', lc.leadStatus, canEdit),
-            fiSel('ICP Fit', lc.icpFit, canEdit)
-        ].join('');
+        const cards = sectionDefs.map(s => {
+            const isActive = demoActiveCRMSection === s.id;
+            const badgeCls = reviewMap[s.id] ? 'review' : 'filled';
+            const badgeTxt = reviewMap[s.id] ? 'Review needed' : 'Auto-filled';
+            return `<div class="crm-cat-card${isActive?' active':''}" data-section-id="${s.id}" onclick="selectCRMSection('${s.id}')">
+                <div class="crm-cat-card-icon">${crmSectionIcon(s.id)}</div>
+                <div class="crm-cat-card-title">${s.title}</div>
+                <div class="crm-cat-card-meta">${s.count} fields</div>
+                <div class="crm-cat-badge ${badgeCls}">${badgeTxt}</div>
+            </div>`;
+        }).join('');
 
-        const qualContent = [
-            fiSel('Budget Confirmed', q.budgetConfirmed, canEdit),
-            fi('Budget Range', q.budgetRange),
-            fi('Decision Maker', q.authorityDecisionMaker),
-            fi('Economic Buyer', q.economicBuyer),
-            fiInput('Champion Identified', q.championIdentified, canEdit),
-            fiSel('Pain Level', q.painLevel, canEdit),
-            fi('Current Solution', q.currentSolution),
-            fi('Decision Timeline', q.decisionTimeline),
-            fiSel('Urgency Level', q.urgencyLevel, canEdit),
-            fi('Decision Process', q.decisionProcess, true),
-            fi('Decision Criteria', q.decisionCriteria, true),
-            fi('Metrics / KPIs Impacted', q.metricsKPIs, true),
-            fiBullets('Pain Points Identified', q.painPoints)
-        ].join('');
+        const detailContent = demoActiveCRMSection
+            ? `<div class="crm-detail-body">${renderCRMSectionDetail(demoActiveCRMSection, call, canEdit)}</div>`
+            : `<div class="crm-detail-empty">
+                <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#d4d4d8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                <p style="font-size:0.78rem;color:#a1a1aa;line-height:1.6;margin:0">Select a category on the left<br>to view and edit its fields</p>
+            </div>`;
 
-        const oppContent = [
-            fiSel('Stage', od.stage, canEdit),
-            fi('Deal Size', od.dealSize),
-            fi('Close Date', od.closeDate),
-            fiInput('Win Probability', od.winProbability, canEdit),
-            fiSel('Pipeline Category', od.pipelineCategory, canEdit),
-            fiSel('Forecast Category', od.forecastCategory, canEdit),
-            fiSel('Risk Level', od.riskLevel, canEdit),
-            fi('Deal Velocity', od.dealVelocity),
-            fi('Competitors in Deal', od.competitorsInDeal, true)
-        ].join('');
-
-        const insightsContent = [
-            fiBullets('Key Takeaways', ins.keyTakeaways),
-            fiBullets('Objections Raised', ins.objectionsRaised),
-            fiTags('Features Discussed', ins.featuresDiscussed),
-            fiBullets('Buying Signals', ins.buyingSignals),
-            fiBullets('Red Flags', ins.redFlags)
-        ].join('');
-
-        const productContent = [
-            fi('Products of Interest', pf.productsOfInterest, true),
-            fi('Primary Use Case', pf.primaryUseCase, true),
-            fi('Integration Requirements', pf.integrationRequirements, true),
-            fiSel('Technical Complexity', pf.technicalComplexity, canEdit),
-            fi('Implementation Timeline', pf.implementationTimeline),
-            fiSel('POC Required', pf.pocRequired, canEdit)
-        ].join('');
-
-        const internalContent = [
-            fi('Follow-up Date', int_.followUpDate),
-            fiSel('Next Step Priority', int_.nextStepPriority, canEdit),
-            fiSel('Manager Flag', int_.managerFlag, canEdit),
-            fiTA('Rep Notes', int_.repNotes, canEdit, 4),
-            fiBullets('Next Actions', int_.nextActions)
-        ].join('');
-
-        // Draft email section (always expanded, editable for call 1)
-        const emailSection = `
-        <div class="demo-crm-sec" style="margin-bottom:10px">
-            <div class="demo-crm-sec-hdr" onclick="toggleCRMSection('email')">
-                <span style="font-size:1rem;width:22px;text-align:center;flex-shrink:0">✉️</span>
-                <span style="font-size:0.85rem;font-weight:700;color:#18181b;flex:1">Draft Follow-up Email</span>
-                ${emailSent
-                    ? `<span style="font-size:0.62rem;font-weight:700;background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;padding:3px 9px;border-radius:6px;white-space:nowrap;margin-left:auto">✓ Email Sent</span>`
-                    : `<span style="font-size:0.62rem;font-weight:700;background:#fffbeb;color:#92400e;border:1px solid #fde68a;padding:3px 9px;border-radius:6px;white-space:nowrap;margin-left:auto">Pending send ✎</span>`}
-                <svg id="crm-chev-email" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a1a1aa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;transition:transform 0.2s"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </div>
-            <div id="crm-sec-email" class="demo-crm-sec-body" style="max-height:2000px;">
-                <div style="padding:16px">
-                    <div class="demo-email-card">
-                        <div class="demo-email-toolbar">
-                            <span class="demo-email-toolbar-title">📧 New Message</span>
-                            ${emailSent ? '<span style="font-size:0.68rem;color:#166534;font-weight:600">✓ Sent</span>' : '<span style="font-size:0.68rem;color:#a1a1aa">Draft</span>'}
-                        </div>
-                        <div class="demo-email-row">
-                            <span class="demo-email-label">To</span>
-                            ${canEdit && !emailSent
-                                ? `<input class="demo-email-input-editable" value="${em.to}" />`
-                                : `<span class="demo-email-input" style="color:#2563eb">${em.to}</span>`}
-                        </div>
-                        <div class="demo-email-row">
-                            <span class="demo-email-label">Subject</span>
-                            ${canEdit && !emailSent
-                                ? `<input class="demo-email-input-editable" style="flex:1" value="${em.subject}" />`
-                                : `<span class="demo-email-input" style="font-weight:600">${em.subject}</span>`}
-                        </div>
-                        <div class="demo-email-body">
-                            ${canEdit && !emailSent
-                                ? `<textarea class="editable-body" rows="12">${em.body}</textarea>`
-                                : `<pre style="font-family:inherit;font-size:0.78rem;color:#3f3f46;line-height:1.7;white-space:pre-wrap">${em.body}</pre>`}
-                        </div>
-                        <div class="demo-email-actions">
-                            ${canEdit && !emailSent
-                                ? `<button class="demo-btn-send" onclick="sendDemoEmail()">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-                                    Send Email
-                                  </button>
-                                  <span style="font-size:0.72rem;color:#a1a1aa">via Gmail</span>`
-                                : `<button class="demo-btn-sent" disabled>
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                    Email Sent ✓
-                                  </button>`}
-                        </div>
-                    </div>
+        return `<div style="display:flex;height:100%;overflow:hidden">
+            <div style="width:42%;border-right:1px solid #e4e4e7;overflow-y:auto;background:#f8fafc;padding:18px 14px;flex-shrink:0">
+                <div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #e4e4e7">
+                    <h3 style="font-size:0.88rem;font-weight:700;color:#18181b;margin-bottom:2px">${call.contact} · ${call.company}</h3>
+                    <p style="font-size:0.7rem;color:#a1a1aa;margin-bottom:8px">${call.date} · ${call.duration}</p>
+                    ${reviewCount>0?`<div style="display:inline-flex;align-items:center;gap:6px;font-size:0.65rem;font-weight:600;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:4px 9px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>${reviewCount} need review</div>`:''}
                 </div>
+                <div class="crm-cat-grid">${cards}</div>
             </div>
-        </div>`;
-
-        return `<div style="max-width:820px;margin:0 auto">
-            <div style="margin-bottom:20px">
-                <h3 style="font-size:1.1rem;font-weight:700;color:#18181b;margin-bottom:4px">${call.contact} · ${call.company} — ${call.type}</h3>
-                <p style="font-size:0.8rem;color:#a1a1aa">${call.date} · ${call.time} · ${call.duration}</p>
+            <div id="crm-detail-panel" style="flex:1;overflow-y:auto;padding:22px">
+                ${detailContent}
             </div>
-            ${crmSection('contact', '🏢', 'Contact & Company Info',     false,          contactContent,  true)}
-            ${crmSection('lead',    '🏷️', 'Lead Categorization',         leadReview,     leadContent,     !leadReview)}
-            ${crmSection('qual',   '🎯', 'Qualification — BANT / MEDDIC', qualReview,    qualContent,     !qualReview)}
-            ${crmSection('opp',    '💰', 'Opportunity Details',           oppReview,     oppContent,      !oppReview)}
-            ${crmSection('insights','🔍','Call Insights',                 false,          insightsContent, true)}
-            ${crmSection('product','⚙️', 'Product & Technical Fit',       productReview, productContent,  !productReview)}
-            ${crmSection('internal','📋','Internal Notes',               internalReview, internalContent, !internalReview)}
-            ${emailSection}
         </div>`;
     }
 
@@ -2741,14 +2873,16 @@ animation: wv 0.9s ease-in-out infinite;
     }
 
     function fillSalesforce() {
-        demoFilledSalesforce = true;
-        demoEmailSent = false;
+        const call = demoCalls[demoActiveCall];
+        demoResolvedPendingCallIds.add(call.id);
+        demoEmailSentByCall[call.id] = false;
+        demoHasUnsyncedChangesByCall[call.id] = false;
 
         const bottomBar = document.getElementById('demo-bottom-bar');
         bottomBar.innerHTML = `
             <div class="demo-confirmation">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                Updated Salesforce with the call "Priya Sharma · Razorpay — Discovery Call" details
+                Updated Salesforce with the call "${call.contact} · ${call.company} — ${call.type}" details
             </div>
             <div class="demo-btn-filled">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -2761,9 +2895,31 @@ animation: wv 0.9s ease-in-out infinite;
     }
 
     function sendDemoEmail() {
-        demoEmailSent = true;
+        const call = demoCalls[demoActiveCall];
+        demoEmailSentByCall[call.id] = true;
         renderDemoContent();
     }
+
+    function markActiveCallDirty() {
+        const call = demoCalls[demoActiveCall];
+        if (!call || isCallPending(call)) return;
+        if (demoHasUnsyncedChangesByCall[call.id]) return;
+        demoHasUnsyncedChangesByCall[call.id] = true;
+        renderDemoContent();
+    }
+
+    document.addEventListener('change', function(e) {
+        const content = document.getElementById('demo-content');
+        if (!content || !content.contains(e.target)) return;
+        markActiveCallDirty();
+    });
+
+    document.addEventListener('focusout', function(e) {
+        const target = e.target;
+        const content = document.getElementById('demo-content');
+        if (!target || !content || !content.contains(target)) return;
+        if (target.isContentEditable) markActiveCallDirty();
+    });
 
     // Close on Escape
     document.addEventListener('keydown', function(e) {
