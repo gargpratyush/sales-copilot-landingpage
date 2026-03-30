@@ -2,6 +2,7 @@
 <html lang="en" class="scroll-smooth"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Clariva | AI-Powered CRM Automation & Sales Coaching</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='6' y='6' width='52' height='52' rx='8' fill='%23111727'/%3E%3Crect x='18' y='18' width='28' height='28' rx='4' fill='%23DFFF00'/%3E%3C/svg%3E">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://code.iconify.design/iconify-icon/2.0.0/iconify-icon.min.js"></script>
 <style>
@@ -118,12 +119,20 @@ animation: wv 0.9s ease-in-out infinite;
                 </div>
 
                 <div class="flex flex-col items-start md:items-end gap-3 shrink-0">
-                    <a href="#" onclick="openContactModal(); return false;" class="group relative inline-flex items-center justify-center px-8 py-4 bg-zinc-950 text-white text-sm font-semibold uppercase tracking-widest rounded-full overflow-hidden transition-colors hover:bg-zinc-800 shadow-xl shadow-zinc-900/20">
-                        <span class="relative z-10 flex items-center gap-3">
-                            Request Early Access
-                            <iconify-icon icon="solar:alt-arrow-right-linear" style="stroke-width: 1.5"></iconify-icon>
-                        </span>
-                    </a>
+                    <div class="flex items-center gap-3">
+                        <a href="#" onclick="openContactModal(); return false;" class="group relative inline-flex items-center justify-center px-8 py-4 bg-zinc-950 text-white text-sm font-semibold uppercase tracking-widest rounded-full overflow-hidden transition-colors hover:bg-zinc-800 shadow-xl shadow-zinc-900/20">
+                            <span class="relative z-10 flex items-center gap-3">
+                                Request Early Access
+                                <iconify-icon icon="solar:alt-arrow-right-linear" style="stroke-width: 1.5"></iconify-icon>
+                            </span>
+                        </a>
+                        <button onclick="openDemoModal()" class="group relative inline-flex items-center justify-center px-8 py-4 bg-white text-zinc-950 text-sm font-semibold uppercase tracking-widest rounded-full overflow-hidden transition-all hover:bg-zinc-100 shadow-xl shadow-zinc-200/30 border border-zinc-200">
+                            <span class="relative z-10 flex items-center gap-3">
+                                See Demo
+                                <iconify-icon icon="solar:play-linear" style="stroke-width: 1.5"></iconify-icon>
+                            </span>
+                        </button>
+                    </div>
                     <span class="text-xs font-medium text-zinc-400 tracking-wide text-right">Early design partners get <span class="text-red-600 font-semibold">50% off</span> - forever.</span>
                 </div>
             </div>
@@ -1094,6 +1103,1677 @@ animation: wv 0.9s ease-in-out infinite;
                 submitText.textContent = `Let's talk`;
             }
         }
+    </script>
+
+    <!-- ======================== DEMO MODAL ======================== -->
+    <style>
+        #demo-modal { font-family: 'Inter', sans-serif; }
+        .demo-call-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 12px; cursor: pointer; transition: all 0.15s; }
+        .demo-call-item:hover { background: #f0f0ee; }
+        .demo-call-item.active { background: #e6f5ee; }
+        .demo-call-item .call-avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; flex-shrink: 0; }
+        .demo-call-item .call-info { flex: 1; min-width: 0; }
+        .demo-call-item .call-name { font-size: 0.8rem; font-weight: 600; color: #18181b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .demo-call-item .call-meta { font-size: 0.65rem; color: #a1a1aa; margin-top: 1px; }
+        .demo-call-item .call-status { font-size: 0.55rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; padding: 3px 8px; border-radius: 6px; white-space: nowrap; }
+        .demo-call-item .call-status.pending { background: #fef3c7; color: #92400e; }
+        .demo-call-item .call-status.updated { background: #e6f5ee; color: #166534; }
+        .demo-tab-active { color: #18181b; border-color: #18181b; }
+        .demo-tab-inactive { color: #a1a1aa; border-color: transparent; }
+        .demo-tab-active:hover, .demo-tab-inactive:hover { color: #18181b; }
+        .demo-field-row { display: flex; flex-direction: column; gap: 4px; padding: 12px 0; }
+        .demo-field-row + .demo-field-row { border-top: 1px solid #f4f4f5; }
+        .demo-field-label { font-size: 0.72rem; font-weight: 700; color: #52525b; text-transform: uppercase; letter-spacing: 0.04em; }
+        .demo-field-value { font-size: 0.8rem; font-weight: 600; color: #18181b; background: #f4f4f5; padding: 8px 12px; border-radius: 6px; }
+        .demo-field-editable { background: #fffbeb; border: 1.5px dashed #f59e0b; padding: 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; color: #18181b; cursor: pointer; position: relative; }
+        .demo-field-editable::after { content: '✎'; margin-left: 6px; font-size: 0.65rem; color: #f59e0b; }
+        .demo-field-select { appearance: none; background: #fffbeb; border: 1.5px dashed #f59e0b; padding: 4px 24px 4px 10px; border-radius: 6px; font-size: 0.78rem; font-weight: 600; color: #18181b; cursor: pointer; font-family: inherit; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23f59e0b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 6px center; }
+        .demo-field-select:focus { outline: none; border-color: #d97706; }
+        /* Unified input field styles */
+        .demo-input-field {
+            width: 100%;
+            background: #fff;
+            border: 1px solid #e4e4e7;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: #18181b;
+            font-family: inherit;
+            line-height: 1.5;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        .demo-input-field:focus {
+            outline: none;
+            border-color: #a1a1aa;
+            box-shadow: 0 0 0 3px rgba(161,161,170,0.1);
+        }
+        .demo-input-field[readonly] {
+            background: #fafafa;
+            cursor: default;
+        }
+        textarea.demo-input-field {
+            resize: none;
+            min-height: 60px;
+        }
+        .demo-input-field.demo-input-link {
+            color: #2563eb;
+            cursor: pointer;
+        }
+        .demo-input-field.demo-input-editable {
+            background: #fffbeb;
+            border: 1.5px dashed #f59e0b;
+        }
+        .demo-input-field.demo-input-editable:focus {
+            border-color: #d97706;
+            box-shadow: 0 0 0 3px rgba(245,158,11,0.1);
+        }
+        select.demo-input-field.demo-input-select {
+            appearance: none;
+            background: #fffbeb;
+            border: 1.5px dashed #f59e0b;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23f59e0b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 32px;
+        }
+        select.demo-input-field.demo-input-select:focus {
+            border-color: #d97706;
+            box-shadow: 0 0 0 3px rgba(245,158,11,0.1);
+        }
+        /* Edited field style - after user makes a change */
+        .demo-input-field.demo-input-edited {
+            background: #f0fdf4;
+            border: 1.5px solid #86efac;
+        }
+        select.demo-input-field.demo-input-edited {
+            appearance: none;
+            background: #f0fdf4;
+            border: 1.5px solid #86efac;
+            cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2322c55e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 32px;
+        }
+        /* Input wrapper with confirm button */
+        .demo-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: stretch;
+            width: 100%;
+        }
+        .demo-input-wrapper .demo-input-field {
+            flex: 1;
+            padding-right: 40px;
+        }
+        .demo-confirm-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+            transition: all 0.15s;
+            color: #f59e0b;
+        }
+        .demo-confirm-btn:hover {
+            background: rgba(245,158,11,0.15);
+            color: #d97706;
+        }
+        .demo-confirm-btn.confirmed {
+            color: #22c55e;
+            pointer-events: none;
+        }
+        .demo-section-card { background: #fafafa; border: 1px solid #e4e4e7; border-radius: 12px; padding: 16px; margin-bottom: 16px; }
+        .demo-section-title { font-size: 0.8rem; font-weight: 700; color: #18181b; margin-bottom: 10px; }
+        .demo-bullet { font-size: 0.78rem; color: #52525b; line-height: 1.7; padding-left: 14px; position: relative; }
+        .demo-bullet::before { content: '•'; position: absolute; left: 0; color: #a1a1aa; }
+        .demo-next-step { display: flex; align-items: center; gap: 8px; font-size: 0.78rem; color: #52525b; padding: 4px 0; }
+        .demo-next-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid #1a6b42; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .demo-next-dot::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #1a6b42; }
+        .demo-btn-fill { padding: 12px 32px; background: #1a6b42; color: #fff; font-size: 0.8rem; font-weight: 700; border: none; border-radius: 10px; cursor: pointer; font-family: inherit; transition: all 0.2s; display: flex; align-items: center; gap: 8px; }
+        .demo-btn-fill:hover { background: #15573a; }
+        .demo-btn-filled { padding: 12px 32px; background: #e6f5ee; color: #166534; font-size: 0.8rem; font-weight: 700; border: 1px solid #bbf7d0; border-radius: 10px; cursor: default; font-family: inherit; display: flex; align-items: center; gap: 8px; }
+        .demo-confirmation { font-size: 0.75rem; color: #166534; background: #f0fdf4; border: 1px solid #bbf7d0; padding: 8px 16px; border-radius: 8px; display: flex; align-items: center; gap: 8px; animation: demo-fade-in 0.3s ease; }
+        @keyframes demo-fade-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+        /* Coaching tab styles */
+        .demo-debrief-card { background: #fff; border: 1px solid #e4e4e7; border-radius: 12px; padding: 16px; border-top: 3px solid; }
+        .demo-debrief-card.positive { border-top-color: #22c55e; }
+        .demo-debrief-card.improve { border-top-color: #f59e0b; }
+        .demo-debrief-card.trend { border-top-color: #3b82f6; }
+        .demo-debrief-tag { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+        .demo-score-bar-bg { height: 6px; background: #e4e4e7; border-radius: 3px; overflow: hidden; flex: 1; }
+        .demo-score-bar { height: 100%; border-radius: 3px; }
+        .demo-score-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .demo-score-label { font-size: 0.7rem; color: #71717a; width: 80px; }
+        .demo-score-val { font-size: 0.7rem; font-weight: 700; color: #3f3f46; width: 24px; text-align: right; }
+        .demo-timestamp-pill { display: inline-flex; align-items: center; gap: 4px; margin-top: 8px; padding: 4px 10px; background: #e6f5ee; color: #1a6b42; font-size: 0.65rem; font-weight: 600; border-radius: 5px; }
+        .demo-trend-bar { flex: 1; border-radius: 2px; }
+        /* Collapsible section styles */
+        .demo-section-header { display: flex; align-items: center; gap: 8px; cursor: pointer; padding: 10px 0; user-select: none; }
+        .demo-section-header:hover { opacity: 0.8; }
+        .demo-section-icon { font-size: 0.9rem; width: 20px; text-align: center; flex-shrink: 0; }
+        .demo-section-label { font-size: 0.82rem; font-weight: 700; color: #18181b; flex: 1; }
+        .demo-section-chevron { font-size: 0.7rem; color: #a1a1aa; transition: transform 0.2s; }
+        .demo-section-chevron.collapsed { transform: rotate(-90deg); }
+        .demo-section-checkmark { font-size: 0.75rem; color: #166534; margin-left: auto; }
+        .demo-section-body { overflow: hidden; transition: max-height 0.25s ease; position: relative; }
+        .demo-section-body.collapsed { max-height: 180px !important; padding-bottom: 28px; }
+        .demo-section-body.collapsed::after { content: 'See more ↓'; position: absolute; bottom: 8px; left: 0; right: 0; text-align: center; font-size: 0.72rem; font-weight: 600; color: #2563eb; pointer-events: none; background: linear-gradient(to bottom, rgba(250,250,250,0) 0%, rgba(250,250,250,0.95) 60%, rgba(250,250,250,1) 100%); padding-top: 16px; }
+        /* Tag pills */
+        .demo-tag-pill { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; background: #eff6ff; color: #1e40af; margin: 2px 4px 2px 0; }
+        /* Editable textarea */
+        .demo-textarea-editable { width: 100%; min-height: 60px; background: #fffbeb; border: 1.5px dashed #f59e0b; padding: 8px 10px; border-radius: 8px; font-size: 0.78rem; font-weight: 500; color: #18181b; font-family: inherit; resize: vertical; line-height: 1.5; }
+        .demo-textarea-editable:focus { outline: none; border-color: #d97706; }
+        .demo-textarea-readonly { width: 100%; min-height: 60px; background: #f4f4f5; border: 1px solid #e4e4e7; padding: 8px 10px; border-radius: 8px; font-size: 0.78rem; font-weight: 500; color: #18181b; font-family: inherit; resize: none; line-height: 1.5; }
+        /* Email compose card */
+        .demo-email-card { background: #fff; border: 1px solid #d4d4d8; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+        .demo-email-toolbar { background: #f8f8f8; border-bottom: 1px solid #e4e4e7; padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
+        .demo-email-toolbar-title { font-size: 0.78rem; font-weight: 700; color: #18181b; display: flex; align-items: center; gap: 6px; }
+        .demo-email-row { display: flex; align-items: center; padding: 8px 16px; border-bottom: 1px solid #f4f4f5; }
+        .demo-email-label { font-size: 0.72rem; font-weight: 600; color: #71717a; width: 60px; flex-shrink: 0; }
+        .demo-email-input { flex: 1; border: none; background: transparent; font-size: 0.78rem; font-weight: 500; color: #18181b; font-family: inherit; padding: 4px 0; }
+        .demo-email-input:focus { outline: none; }
+        .demo-email-input-editable { flex: 1; border: none; background: #fffbeb; font-size: 0.78rem; font-weight: 500; color: #18181b; font-family: inherit; padding: 4px 8px; border-radius: 4px; border: 1px dashed #f59e0b; }
+        .demo-email-input-editable:focus { outline: none; border-color: #d97706; }
+        .demo-email-body { padding: 16px; }
+        .demo-email-body textarea { width: 100%; border: none; font-size: 0.78rem; color: #3f3f46; font-family: inherit; resize: none; line-height: 1.65; min-height: 160px; background: transparent; }
+        .demo-email-body textarea:focus { outline: none; }
+        .demo-email-body textarea.editable-body { background: #fffbeb; border: 1px dashed #f59e0b; border-radius: 6px; padding: 10px; }
+        .demo-email-body textarea.editable-body:focus { border-color: #d97706; }
+        .demo-email-actions { padding: 12px 16px; border-top: 1px solid #f4f4f5; display: flex; align-items: center; gap: 10px; }
+        .demo-btn-send { padding: 10px 28px; background: #16a34a; color: #fff; font-size: 0.78rem; font-weight: 700; border: none; border-radius: 8px; cursor: pointer; font-family: inherit; transition: all 0.2s; display: flex; align-items: center; gap: 6px; }
+        .demo-btn-send:hover { background: #15803d; }
+        .demo-btn-sent { padding: 10px 28px; background: #f0fdf4; color: #166534; font-size: 0.78rem; font-weight: 700; border: 1px solid #bbf7d0; border-radius: 8px; cursor: default; font-family: inherit; display: flex; align-items: center; gap: 6px; }
+        .demo-field-link { font-size: 0.78rem; font-weight: 500; color: #2563eb; text-decoration: none; }
+        .demo-field-link:hover { text-decoration: underline; }
+        /* Category box styles */
+        .demo-category-box { 
+            display: flex; 
+            align-items: center; 
+            gap: 10px; 
+            padding: 14px 16px; 
+            background: #fff; 
+            border: 1px solid #e4e4e7; 
+            border-radius: 12px; 
+            cursor: pointer; 
+            transition: all 0.2s; 
+            margin-bottom: 8px;
+        }
+        .demo-category-box:hover { 
+            background: #f8fafc; 
+            border-color: #d4d4d8;
+            transform: translateX(2px);
+        }
+        .demo-category-box.active { 
+            background: #e6f5ee; 
+            border-color: #1a6b42;
+            box-shadow: 0 0 0 2px rgba(26,107,66,0.1);
+        }
+        .demo-category-box.completed {
+            opacity: 0.55;
+            background: #fafafa;
+        }
+        .demo-category-box.completed:hover {
+            opacity: 0.75;
+        }
+        .demo-category-box.completed.active {
+            opacity: 1;
+            background: #e6f5ee;
+        }
+        .demo-category-icon { 
+            font-size: 1.1rem; 
+            width: 32px; 
+            height: 32px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: #f4f4f5; 
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+        .demo-category-box.active .demo-category-icon {
+            background: #dcfce7;
+        }
+        .demo-category-info { flex: 1; min-width: 0; }
+        .demo-category-label { 
+            font-size: 0.78rem; 
+            font-weight: 600; 
+            color: #18181b; 
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis; 
+        }
+        .demo-category-count { 
+            font-size: 0.65rem; 
+            color: #a1a1aa; 
+            margin-top: 2px; 
+        }
+        .demo-category-status {
+            font-size: 0.55rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+        .demo-category-status.filled {
+            background: #e6f5ee;
+            color: #166534;
+        }
+        .demo-category-status.pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+        /* Detail panel styles */
+        .demo-detail-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #e4e4e7;
+        }
+        .demo-detail-icon {
+            font-size: 1.4rem;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f4f4f5;
+            border-radius: 12px;
+        }
+        .demo-detail-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #18181b;
+        }
+        .demo-detail-subtitle {
+            font-size: 0.75rem;
+            color: #71717a;
+            margin-top: 2px;
+        }
+        .demo-detail-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #a1a1aa;
+            text-align: center;
+            padding: 40px;
+        }
+        .demo-detail-empty-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+        .demo-detail-empty-text {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .demo-detail-empty-hint {
+            font-size: 0.75rem;
+            margin-top: 8px;
+        }
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            #demo-sidebar { width: 100%; max-height: 200px; border-right: none; border-bottom: 1px solid #e4e4e7; }
+            #demo-modal .flex-1.flex.flex-col.overflow-hidden { min-height: 0; }
+        }
+
+        /* ── New field grid layout ── */
+        .demo-fi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        @media (max-width: 600px) { .demo-fi-grid { grid-template-columns: 1fr; } }
+        .demo-fi { display: flex; flex-direction: column; gap: 5px; }
+        .demo-fi.full { grid-column: 1 / -1; }
+        .demo-fi-label { font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #9ca3af; }
+        .demo-fi-value { font-size: 0.82rem; font-weight: 500; color: #18181b; background: #f4f4f5; padding: 9px 12px; border-radius: 8px; min-height: 36px; }
+        .demo-fi-badge { font-size: 0.8rem; font-weight: 600; padding: 6px 12px; border-radius: 8px; display: inline-block; }
+        .demo-fi-select { font-size: 0.82rem; font-weight: 600; color: #18181b; background: #fffbeb; border: 1.5px dashed #f59e0b; padding: 9px 32px 9px 12px; border-radius: 8px; font-family: inherit; cursor: pointer; appearance: none; width: 100%; min-height: 36px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23f59e0b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; }
+        .demo-fi-select:focus { outline: none; border-color: #d97706; box-shadow: 0 0 0 3px rgba(245,158,11,0.1); }
+        .demo-fi-input { font-size: 0.82rem; font-weight: 600; color: #18181b; background: #fffbeb; border: 1.5px dashed #f59e0b; padding: 9px 12px; border-radius: 8px; font-family: inherit; width: 100%; min-height: 36px; }
+        .demo-fi-input:focus { outline: none; border-color: #d97706; box-shadow: 0 0 0 3px rgba(245,158,11,0.1); }
+        .demo-fi-textarea { font-size: 0.8rem; color: #3f3f46; background: #f4f4f5; border: 1px solid #e4e4e7; padding: 10px 12px; border-radius: 8px; font-family: inherit; width: 100%; resize: none; line-height: 1.65; }
+        .demo-fi-textarea:focus { outline: none; }
+        .demo-fi-textarea.editable { background: #fffbeb; border: 1.5px dashed #f59e0b; }
+        .demo-fi-textarea.editable:focus { border-color: #d97706; }
+        .demo-fi-link { font-size: 0.82rem; color: #2563eb; font-weight: 500; }
+
+        /* ── Collapsible CRM section cards ── */
+        .demo-crm-sec { background: #fff; border: 1px solid #e4e4e7; border-radius: 12px; margin-bottom: 10px; overflow: hidden; }
+        .demo-crm-sec-hdr { display: flex; align-items: center; gap: 10px; padding: 13px 16px; cursor: pointer; user-select: none; transition: background 0.15s; }
+        .demo-crm-sec-hdr:hover { background: #fafafa; }
+        .demo-crm-sec-body { border-top: 1px solid #f4f4f5; overflow: hidden; transition: max-height 0.28s ease; }
+
+        /* ── AI Loading view ── */
+        @keyframes demo-orb-pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.7;transform:scale(1.06)} }
+        @keyframes demo-ring-out { 0%{transform:scale(0.85);opacity:0.9} 100%{transform:scale(1.7);opacity:0} }
+        @keyframes demo-spin { to { transform: rotate(360deg); } }
+        @keyframes demo-step-in { from{opacity:0.25;transform:translateX(-6px)} to{opacity:1;transform:translateX(0)} }
+        .demo-ai-orb { position:absolute;inset:22%;border-radius:50%;background:radial-gradient(circle,#DFFF00 0%,#22c55e 100%);animation:demo-orb-pulse 2s ease infinite; }
+        .demo-ai-ring { position:absolute;inset:0;border:2px solid #DFFF00;border-radius:50%;animation:demo-ring-out 2.4s ease infinite; }
+        .demo-ai-ring.r2 { animation-delay:1.2s; }
+        .demo-loading-step { display:flex;align-items:center;gap:14px;padding:11px 16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;opacity:0.25;transition:opacity 0.5s ease,transform 0.4s ease;transform:translateX(-6px); }
+        .demo-loading-step.active { opacity:1;transform:translateX(0);animation:demo-step-in 0.4s ease forwards; }
+        .demo-loading-step.done { opacity:0.55; }
+        .demo-loading-step-text { font-size:0.82rem;font-weight:500;color:#e2e8f0; }
+        .demo-loading-tick { font-size:1rem;width:24px;text-align:center; }
+        .demo-loading-spinner { width:18px;height:18px;border:2px solid rgba(255,255,255,0.12);border-top-color:#DFFF00;border-radius:50%;animation:demo-spin 0.75s linear infinite;flex-shrink:0; }
+    </style>
+
+    <div id="demo-modal" class="fixed inset-0 z-[300] hidden">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeDemoModal()"></div>
+        <div class="relative z-10 w-full h-full flex flex-col bg-white">
+            <!-- Top bar -->
+            <div class="flex items-center justify-between px-6 py-3 border-b border-zinc-200 bg-zinc-50 shrink-0">
+                <div class="flex items-center gap-3">
+                    <span class="text-sm font-semibold text-zinc-950 uppercase tracking-wider flex items-center gap-2">CLARIVA <span class="w-1.5 h-1.5 bg-[#DFFF00] inline-block"></span></span>
+                    <span class="text-xs text-zinc-400 border-l border-zinc-300 pl-3">Post-Call Dashboard</span>
+                </div>
+                <button onclick="closeDemoModal()" class="w-8 h-8 rounded-full bg-zinc-200 hover:bg-zinc-300 flex items-center justify-center text-zinc-600 transition-colors text-sm">✕</button>
+            </div>
+            <!-- Body -->
+            <div class="flex flex-1 overflow-hidden flex-col md:flex-row">
+                <!-- Sidebar -->
+                <div id="demo-sidebar" class="w-full md:w-72 border-r border-zinc-200 bg-zinc-50 overflow-y-auto shrink-0 flex flex-col">
+                    <div class="px-4 py-3 border-b border-zinc-200">
+                        <h3 class="text-xs font-bold uppercase tracking-widest text-zinc-400">Today's Calls</h3>
+                        <p class="text-[0.65rem] text-zinc-400 mt-1">Mon, Mar 30 · 5 calls completed</p>
+                    </div>
+                    <div id="demo-call-list" class="flex-1 overflow-y-auto p-2 space-y-1"></div>
+                </div>
+                <!-- Right panel -->
+                <div class="flex-1 flex flex-col overflow-hidden min-w-0">
+                    <!-- Tab bar (hidden in pre-fetch state) -->
+                    <div id="demo-tab-bar" class="flex items-center gap-0 border-b border-zinc-200 px-6 bg-white shrink-0">
+                        <button id="tab-crm" onclick="switchDemoTab('crm')" class="px-5 py-3 text-sm font-semibold border-b-2 transition-colors demo-tab-active">CRM Insights</button>
+                        <button id="tab-coaching" onclick="switchDemoTab('coaching')" class="px-5 py-3 text-sm font-semibold border-b-2 transition-colors demo-tab-inactive">Coaching</button>
+                    </div>
+                    <!-- Single scrollable content panel -->
+                    <div id="demo-content" class="flex-1 overflow-y-auto"></div>
+                    <!-- Bottom bar -->
+                    <div id="demo-bottom-bar" class="px-6 py-4 border-t border-zinc-200 bg-zinc-50 shrink-0 flex justify-between items-center gap-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    // ===== DEMO DATA =====
+    const demoCalls = [
+        {
+            id: 0,
+            contact: "Priya Sharma",
+            company: "Razorpay",
+            role: "VP Engineering",
+            type: "Discovery Call",
+            date: "Mon, Mar 30",
+            time: "10:15 AM",
+            duration: "34 min",
+            initials: "PS",
+            avatarBg: "#dbeafe",
+            avatarColor: "#1e40af",
+            status: "pending",
+            contactInfo: {
+                company: "Razorpay",
+                contactName: "Priya Sharma",
+                title: "VP Engineering",
+                email: "priya.sharma@razorpay.com",
+                phone: "+91 98201 44738",
+                linkedin: "linkedin.com/in/priyasharma-rzp",
+                companySize: "3,500+ employees",
+                annualRevenue: "₹2,800 Cr ($340M)",
+                industry: "FinTech / Payments",
+                region: "Bengaluru, Karnataka"
+            },
+            leadCategorization: {
+                leadSource: "Outbound — SDR Sequence",
+                leadType: { value: "New", editable: true, options: ["New","Existing","Referral","Inbound","Partner"] },
+                leadScore: { value: "82", editable: true },
+                leadStatus: { value: "Working", editable: true, options: ["New","Working","Nurturing","Qualified","Unqualified"] },
+                icpFit: { value: "Strong", editable: true, options: ["Strong","Moderate","Weak"] }
+            },
+            qualification: {
+                budgetConfirmed: { value: "Yes", editable: true, options: ["Yes","No","Partially"] },
+                budgetRange: "₹15L — ₹25L/year",
+                authorityDecisionMaker: "Priya Sharma (VP Engg) + CTO Harshil Mathur",
+                economicBuyer: "Harshil Mathur, CTO",
+                championIdentified: { value: "Yes — Priya Sharma", editable: true },
+                painLevel: { value: "High", editable: true, options: ["Critical","High","Medium","Low"] },
+                currentSolution: "Datadog (Enterprise Plan)",
+                painPoints: [
+                    "Spending ₹45L/year on Datadog but missing ~30% critical incidents",
+                    "Alert fatigue — 200+ false positives per week across 200 microservices",
+                    "No AI-driven root cause analysis; manual triage takes 45+ min per incident",
+                    "Lack of cost visibility per service — cannot attribute infra spend to teams"
+                ],
+                decisionTimeline: "6 weeks (mid-May 2026)",
+                urgencyLevel: { value: "High", editable: true, options: ["Critical","High","Medium","Low"] },
+                decisionProcess: "Technical eval → POC → CTO sign-off → Procurement",
+                decisionCriteria: "Incident detection speed, cost reduction vs Datadog, AI root-cause accuracy",
+                metricsKPIs: "MTTR (<5 min target), false positive rate (<5%), infra cost attribution"
+            },
+            opportunityDetails: {
+                stage: { value: "Qualification", editable: true, options: ["Prospecting","Qualification","Proposal","Negotiation","Closed Won","Closed Lost"] },
+                dealSize: "₹18,00,000",
+                closeDate: "15 May 2026",
+                winProbability: { value: "45%", editable: true },
+                pipelineCategory: { value: "Upside", editable: true, options: ["Commit","Best Case","Upside","Pipeline","Omitted"] },
+                forecastCategory: { value: "Pipeline", editable: true, options: ["Closed","Commit","Best Case","Pipeline","Omitted"] },
+                riskLevel: { value: "Medium", editable: true, options: ["Low","Medium","High"] },
+                dealVelocity: "18 days in current stage",
+                competitorsInDeal: "Grafana Cloud, Datadog (incumbent)"
+            },
+            callInsights: {
+                keyTakeaways: [
+                    "Exploring automated cloud monitoring for 200+ microservices on AWS and GCP",
+                    "Currently on Datadog — spending ₹45L/year but missing ~30% critical incidents",
+                    "Decision in 6 weeks; evaluating Grafana Cloud as alternative"
+                ],
+                objectionsRaised: [
+                    "Concerned about migration complexity from Datadog — 200 dashboards to recreate",
+                    "Questioned whether CloudPulse can match Datadog's APM depth"
+                ],
+                featuresDiscussed: ["AI Root Cause Analysis","Real-time Alerting","Cost Attribution","Multi-cloud Support","Custom Dashboards","Kubernetes Monitoring"],
+                buyingSignals: [
+                    "Asked about implementation timeline and onboarding support",
+                    "Requested pricing comparison document vs Datadog",
+                    "Mentioned CTO is 'very interested in seeing an alternative'"
+                ],
+                redFlags: [
+                    "Priya mentioned Grafana Cloud is offering a 3-month free pilot",
+                    "DevOps lead Arjun Bhatia was not on the call — may have competing preference"
+                ]
+            },
+            productFit: {
+                productsOfInterest: "CloudPulse Pro + AI Root Cause Add-on",
+                primaryUseCase: "Full-stack observability across 200+ microservices (AWS + GCP)",
+                integrationRequirements: "AWS CloudWatch, GCP Stackdriver, PagerDuty, Slack, Jira",
+                technicalComplexity: { value: "High", editable: true, options: ["Low","Medium","High"] },
+                implementationTimeline: "4–6 weeks (phased rollout by team)",
+                pocRequired: { value: "Yes", editable: true, options: ["Yes","No","TBD"] }
+            },
+            internal: {
+                repNotes: { value: "Priya is a strong champion — she personally experienced alert fatigue during the March 15 outage. Need to get Arjun Bhatia (DevOps lead) on next call. He may prefer Grafana due to open-source familiarity. Strategy: lead with cost savings angle + AI differentiation vs both Datadog and Grafana.", editable: true },
+                managerFlag: { value: "No", editable: true, options: ["No","Yes — Review Deal","Yes — Escalate"] },
+                followUpDate: "1 Apr 2026",
+                nextStepPriority: { value: "High", editable: true, options: ["Low","Medium","High","Urgent"] },
+                nextActions: [
+                    "Send pricing comparison vs Datadog by Wednesday",
+                    "Schedule technical deep-dive with DevOps lead Arjun Bhatia",
+                    "Share customer case study — similar scale (FinTech, 150+ services)",
+                    "Prepare ROI model showing ₹45L Datadog spend vs CloudPulse TCO"
+                ]
+            },
+            draftEmail: {
+                to: "priya.sharma@razorpay.com",
+                subject: "CloudPulse x Razorpay — Pricing Comparison & Next Steps",
+                body: "Hi Priya,\n\nThank you for taking the time to walk me through Razorpay's monitoring setup today. It was really helpful to understand the scale of your infrastructure — 200+ microservices across AWS and GCP is no small feat.\n\nA few things I'm putting together based on our conversation:\n\n1. Pricing comparison — CloudPulse vs Datadog for your current usage (200 services, 2 cloud providers). I'll have this ready by Wednesday.\n\n2. Customer case study — a FinTech company running 150+ services that reduced their MTTR from 42 min to under 4 min after switching to CloudPulse.\n\n3. Technical deep-dive — I'd love to set up a session with Arjun Bhatia and our Solutions Engineering team to walk through the migration path from Datadog, including dashboard portability.\n\nWould Thursday 2:00 PM IST work for the technical session? Happy to adjust based on Arjun's availability.\n\nLooking forward to it.\n\nBest regards,\nAditya Rajan\nAccount Executive, CloudPulse\naditya.rajan@cloudpulse.io | +91 98765 43210"
+            },
+            coaching: {
+                score: 78,
+                skills: [
+                    { name: "Discovery", value: 88, color: "#22c55e" },
+                    { name: "Objections", value: 62, color: "#f59e0b" },
+                    { name: "Value Articulation", value: 75, color: "#22c55e" },
+                    { name: "Next Steps", value: 85, color: "#22c55e" },
+                    { name: "Talk Ratio", value: 58, color: "#f59e0b" }
+                ],
+                nailed: 'Strong pain discovery — got prospect to quantify: <strong>"We\'re spending ₹45L/year on Datadog and still missing 30% of incidents."</strong> This gives you a concrete anchor for ROI.',
+                nailedTs: "12:18 — pain quantification",
+                improve: 'When Priya mentioned evaluating <strong>Grafana Cloud</strong>, you moved on too quickly. Next time ask: <span style="color:#16a34a;font-weight:500">"What criteria matter most when you compare tools?"</span>',
+                improveTs: "19:45 — missed competitive dig",
+                trend: 'Discovery depth <strong>up 22%</strong> over last 8 calls. <strong style="color:#d97706">Competitive handling</strong> flagged in 4 of last 6.',
+                trendBars: [40,48,44,56,52,62,66,76]
+            }
+        },
+        {
+            id: 1,
+            contact: "Vikram Desai",
+            company: "Lenskart",
+            role: "Head of Platform",
+            type: "Follow-up Call",
+            date: "Mon, Mar 30",
+            time: "11:30 AM",
+            duration: "28 min",
+            initials: "VD",
+            avatarBg: "#fce7f3",
+            avatarColor: "#9d174d",
+            status: "updated",
+            contactInfo: {
+                company: "Lenskart",
+                contactName: "Vikram Desai",
+                title: "Head of Platform Engineering",
+                email: "vikram.desai@lenskart.com",
+                phone: "+91 99100 28374",
+                linkedin: "linkedin.com/in/vikramdesai-lk",
+                companySize: "10,000+ employees",
+                annualRevenue: "₹5,400 Cr ($650M)",
+                industry: "E-commerce / D2C Retail",
+                region: "Gurugram, Haryana"
+            },
+            leadCategorization: {
+                leadSource: "Inbound — Website Demo Request",
+                leadType: { value: "New", editable: false },
+                leadScore: { value: "91", editable: false },
+                leadStatus: { value: "Qualified", editable: false },
+                icpFit: { value: "Strong", editable: false }
+            },
+            qualification: {
+                budgetConfirmed: { value: "Yes", editable: false },
+                budgetRange: "₹20L — ₹30L/year",
+                authorityDecisionMaker: "Vikram Desai (Head of Platform) + VP Engineering Ramesh Iyer",
+                economicBuyer: "Ramesh Iyer, VP Engineering",
+                championIdentified: { value: "Yes — Vikram Desai", editable: false },
+                painLevel: { value: "Critical", editable: false },
+                currentSolution: "PagerDuty + custom Grafana dashboards",
+                painPoints: [
+                    "PagerDuty alerting has 4-min avg notification delay — too slow for production",
+                    "Grafana dashboards are manual and fragmented — no unified observability",
+                    "Recent Black Friday outage lasted 22 min due to slow alert routing",
+                    "Cannot correlate metrics across 120 services and 2 AWS regions"
+                ],
+                decisionTimeline: "4 weeks (end of April 2026)",
+                urgencyLevel: { value: "Critical", editable: false },
+                decisionProcess: "Vendor security review → Final pricing → VP sign-off → Procurement",
+                decisionCriteria: "Alert latency (<30s), multi-region support, SOC 2 compliance",
+                metricsKPIs: "Alert latency, MTTR, service uptime (99.95% target), cost per service"
+            },
+            opportunityDetails: {
+                stage: { value: "Negotiation", editable: false },
+                dealSize: "₹24,00,000",
+                closeDate: "28 Apr 2026",
+                winProbability: { value: "72%", editable: false },
+                pipelineCategory: { value: "Best Case", editable: false },
+                forecastCategory: { value: "Best Case", editable: false },
+                riskLevel: { value: "Low", editable: false },
+                dealVelocity: "12 days in current stage",
+                competitorsInDeal: "PagerDuty (incumbent), Datadog"
+            },
+            callInsights: {
+                keyTakeaways: [
+                    "Interested in real-time alerting module — current PagerDuty has 4-min delay",
+                    "Infrastructure team of 8 engineers managing 120 services across 2 AWS regions",
+                    "Budget approved for Q2; procurement needs vendor security questionnaire"
+                ],
+                objectionsRaised: [
+                    "Pricing per service seems higher than PagerDuty's per-user model",
+                    "Wants guarantee of <30s alert latency in contract SLA"
+                ],
+                featuresDiscussed: ["Real-time Alerting","Multi-region Monitoring","SOC 2 Compliance","Slack Integration","Custom Metrics","On-call Scheduling"],
+                buyingSignals: [
+                    "Budget already approved for Q2 — no additional approval needed",
+                    "Sent vendor security questionnaire proactively",
+                    "Asked about annual contract discount structure"
+                ],
+                redFlags: [
+                    "Procurement team may benchmark against PagerDuty renewal discount"
+                ]
+            },
+            productFit: {
+                productsOfInterest: "CloudPulse Pro + Real-time Alerting Module",
+                primaryUseCase: "Sub-30s alerting across 120 services in 2 AWS regions",
+                integrationRequirements: "AWS CloudWatch, PagerDuty (migration), Slack, Jira, OpsGenie",
+                technicalComplexity: { value: "Medium", editable: false },
+                implementationTimeline: "3–4 weeks (single-phase rollout)",
+                pocRequired: { value: "No", editable: false }
+            },
+            internal: {
+                repNotes: { value: "Vikram is very engaged — he initiated the inbound request after the Black Friday incident. Security questionnaire is the main blocker. Need to fast-track SOC 2 documentation. Pricing negotiation will center on per-service vs per-user model comparison.", editable: false },
+                managerFlag: { value: "No", editable: false },
+                followUpDate: "31 Mar 2026",
+                nextStepPriority: { value: "Urgent", editable: false },
+                nextActions: [
+                    "Fill vendor security questionnaire by Thursday EOD",
+                    "Send revised pricing for 120-service tier with annual discount",
+                    "Loop in Lenskart's CISO for compliance walkthrough",
+                    "Prepare alert latency benchmarks from existing customers"
+                ]
+            },
+            draftEmail: {
+                to: "vikram.desai@lenskart.com",
+                subject: "Re: CloudPulse Security Questionnaire & Revised Pricing",
+                body: "Hi Vikram,\n\nGreat speaking with you again today. I'm glad the alerting demo resonated with your team's needs.\n\nHere's what I'm sending over:\n\n1. Security questionnaire — Our compliance team is completing it and will have it back to you by Thursday EOD. We're SOC 2 Type II certified, so most questions should be straightforward.\n\n2. Revised pricing — I've worked with our team on a 120-service tier that brings the per-service cost down meaningfully compared to the standard plan. Attaching the updated proposal.\n\n3. CISO walkthrough — Would it help to schedule a 30-min session with your CISO and our Head of Security? We can walk through our data handling, encryption, and compliance posture live.\n\nLet me know if Thursday 11:00 AM IST works for the CISO session.\n\nBest,\nAditya Rajan\nAccount Executive, CloudPulse\naditya.rajan@cloudpulse.io | +91 98765 43210"
+            },
+            coaching: {
+                score: 82,
+                skills: [
+                    { name: "Discovery", value: 80, color: "#22c55e" },
+                    { name: "Objections", value: 78, color: "#22c55e" },
+                    { name: "Value Articulation", value: 84, color: "#22c55e" },
+                    { name: "Next Steps", value: 90, color: "#22c55e" },
+                    { name: "Talk Ratio", value: 72, color: "#22c55e" }
+                ],
+                nailed: 'Excellent objection reframe — when Vikram pushed back on pricing, you anchored to <strong>₹2.3L/month cost of downtime</strong> from their own incident report. Very effective.',
+                nailedTs: "08:52 — ROI anchoring",
+                improve: 'You spent 6 minutes on feature walkthrough when Vikram had already seen the demo. Next time ask: <span style="color:#16a34a;font-weight:500">"Which specific area would be most useful to revisit?"</span>',
+                improveTs: "15:10 — unnecessary feature recap",
+                trend: 'Objection handling <strong>up 31%</strong> since last coaching session. <strong style="color:#22c55e">Value articulation</strong> consistently above 80.',
+                trendBars: [45,50,55,60,68,72,78,82]
+            }
+        },
+        {
+            id: 2,
+            contact: "Ananya Iyer",
+            company: "Delhivery",
+            role: "Director of Engineering",
+            type: "Demo Call",
+            date: "Mon, Mar 30",
+            time: "1:00 PM",
+            duration: "42 min",
+            initials: "AI",
+            avatarBg: "#fef3c7",
+            avatarColor: "#92400e",
+            status: "updated",
+            contactInfo: {
+                company: "Delhivery",
+                contactName: "Ananya Iyer",
+                title: "Director of Engineering — Infrastructure",
+                email: "ananya.iyer@delhivery.com",
+                phone: "+91 88261 97450",
+                linkedin: "linkedin.com/in/ananyaiyer-dlv",
+                companySize: "25,000+ employees",
+                annualRevenue: "₹7,600 Cr ($920M)",
+                industry: "Logistics / Supply Chain",
+                region: "Gurugram, Haryana"
+            },
+            leadCategorization: {
+                leadSource: "Event — YourStory TechSparks 2025",
+                leadType: { value: "New", editable: false },
+                leadScore: { value: "76", editable: false },
+                leadStatus: { value: "Qualified", editable: false },
+                icpFit: { value: "Strong", editable: false }
+            },
+            qualification: {
+                budgetConfirmed: { value: "Partially", editable: false },
+                budgetRange: "₹25L — ₹40L/year",
+                authorityDecisionMaker: "Ananya Iyer (Dir. Engg) + CTO Kapil Bharati",
+                economicBuyer: "Kapil Bharati, CTO",
+                championIdentified: { value: "Yes — Ananya Iyer", editable: false },
+                painLevel: { value: "High", editable: false },
+                currentSolution: "Zabbix (on-prem) + AWS CloudWatch (cloud)",
+                painPoints: [
+                    "No unified view across 500+ servers (on-prem) and cloud infrastructure",
+                    "Zabbix is aging — requires 2 FTE just for monitoring tool maintenance",
+                    "Data residency requirements limit which cloud tools they can use",
+                    "Manual incident correlation across on-prem and cloud takes 60+ min"
+                ],
+                decisionTimeline: "8–10 weeks (June 2026)",
+                urgencyLevel: { value: "Medium", editable: false },
+                decisionProcess: "Technical eval + POC → Architecture review board → CTO approval → Legal",
+                decisionCriteria: "Hybrid cloud support, data residency compliance, CloudWatch integration depth",
+                metricsKPIs: "Unified dashboard adoption, incident correlation time, Zabbix replacement savings"
+            },
+            opportunityDetails: {
+                stage: { value: "Proposal", editable: false },
+                dealSize: "₹32,00,000",
+                closeDate: "10 Jun 2026",
+                winProbability: { value: "38%", editable: false },
+                pipelineCategory: { value: "Pipeline", editable: false },
+                forecastCategory: { value: "Pipeline", editable: false },
+                riskLevel: { value: "Medium", editable: false },
+                dealVelocity: "22 days in current stage",
+                competitorsInDeal: "Dynatrace, Zabbix (incumbent)"
+            },
+            callInsights: {
+                keyTakeaways: [
+                    "Need integration with AWS CloudWatch and custom Kafka metrics pipeline",
+                    "500+ servers across Mumbai, Chennai, Hyderabad DCs — strict data residency",
+                    "Current monitoring gap: no unified view across on-prem and cloud infra"
+                ],
+                objectionsRaised: [
+                    "Data must stay in Indian data centers — concerned about cloud SaaS compliance",
+                    "Dynatrace offering on-prem deployment option; CloudPulse needs to match"
+                ],
+                featuresDiscussed: ["Hybrid Cloud Monitoring","CloudWatch Integration","Kafka Metrics Pipeline","Data Residency Controls","On-prem Agent","Custom Dashboards"],
+                buyingSignals: [
+                    "Asked for sandbox access to test CloudWatch integration immediately",
+                    "Ananya mentioned that eliminating Zabbix maintenance would free 2 engineers",
+                    "Requested data residency documentation for internal legal review"
+                ],
+                redFlags: [
+                    "Dynatrace is offering an on-prem deployment — we need a strong counter",
+                    "Architecture review board may slow down decision by 3–4 weeks"
+                ]
+            },
+            productFit: {
+                productsOfInterest: "CloudPulse Enterprise + Hybrid Cloud Module + On-prem Agent",
+                primaryUseCase: "Unified monitoring across 500+ on-prem servers and AWS cloud",
+                integrationRequirements: "AWS CloudWatch, Kafka, Zabbix (data migration), Prometheus, Grafana",
+                technicalComplexity: { value: "High", editable: false },
+                implementationTimeline: "8–10 weeks (phased: cloud → on-prem → unified)",
+                pocRequired: { value: "Yes", editable: false }
+            },
+            internal: {
+                repNotes: { value: "Complex deal — hybrid infrastructure is our sweet spot but data residency is a real concern. Need to get legal docs ready ASAP. Dynatrace is the main threat here with their on-prem option. Strategy: emphasize our CloudWatch-native integration depth + Zabbix migration toolkit. Ananya is a technical buyer — lead with architecture, not ROI.", editable: false },
+                managerFlag: { value: "Yes — Review Deal", editable: false },
+                followUpDate: "3 Apr 2026",
+                nextStepPriority: { value: "High", editable: false },
+                nextActions: [
+                    "Send data residency compliance documentation (Indian DC locations)",
+                    "Set up sandbox environment with CloudWatch integration",
+                    "Schedule follow-up with infra architect Meera Krishnan",
+                    "Prepare Zabbix-to-CloudPulse migration assessment document"
+                ]
+            },
+            draftEmail: {
+                to: "ananya.iyer@delhivery.com",
+                subject: "CloudPulse x Delhivery — Data Residency Docs & Sandbox Access",
+                body: "Hi Ananya,\n\nThank you for the detailed demo session today. Your hybrid infrastructure setup is exactly the kind of environment CloudPulse was built for, and I'm excited about the possibilities.\n\nFollowing up on our conversation:\n\n1. Data residency documentation — Attaching our data handling policy and Indian data center certifications (Mumbai and Chennai regions). This should cover what your legal team needs for the initial review.\n\n2. Sandbox environment — I'm setting up a pre-configured sandbox with CloudWatch integration enabled. You'll have access by tomorrow morning with sample dashboards mirroring your AWS setup.\n\n3. Meera Krishnan session — I'd love to schedule a technical deep-dive with Meera to walk through the on-prem agent deployment architecture and Zabbix migration path.\n\nWould Wednesday 3:00 PM IST work for the session with Meera?\n\nBest regards,\nAditya Rajan\nAccount Executive, CloudPulse\naditya.rajan@cloudpulse.io | +91 98765 43210"
+            },
+            coaching: {
+                score: 71,
+                skills: [
+                    { name: "Discovery", value: 74, color: "#22c55e" },
+                    { name: "Objections", value: 65, color: "#f59e0b" },
+                    { name: "Value Articulation", value: 68, color: "#f59e0b" },
+                    { name: "Next Steps", value: 80, color: "#22c55e" },
+                    { name: "Talk Ratio", value: 55, color: "#f59e0b" }
+                ],
+                nailed: 'Strong technical demo — showed CloudWatch integration live which directly addressed their pain. Ananya said: <strong>"This is exactly the unified view we\'ve been looking for."</strong>',
+                nailedTs: "22:30 — live integration demo",
+                improve: 'Talk ratio was 68% — you spent too long on the Kafka pipeline integration without checking if it was relevant to Ananya\'s team. Ask: <span style="color:#16a34a;font-weight:500">"Is this the workflow your team would actually use?"</span>',
+                improveTs: "28:14 — extended monologue",
+                trend: 'Talk ratio <strong>trending high</strong> — above 60% in 5 of last 7 demos. <strong style="color:#d97706">Value articulation</strong> needs sharper business impact framing.',
+                trendBars: [55,52,48,50,54,58,55,52]
+            }
+        },
+        {
+            id: 3,
+            contact: "Rohan Kapoor",
+            company: "Groww",
+            role: "Engineering Manager",
+            type: "Intro Call",
+            date: "Mon, Mar 30",
+            time: "3:15 PM",
+            duration: "22 min",
+            initials: "RK",
+            avatarBg: "#dcfce7",
+            avatarColor: "#166534",
+            status: "updated",
+            contactInfo: {
+                company: "Groww",
+                contactName: "Rohan Kapoor",
+                title: "Engineering Manager — Backend & Infrastructure",
+                email: "rohan.kapoor@groww.in",
+                phone: "+91 70219 83456",
+                linkedin: "linkedin.com/in/rohankapoor-groww",
+                companySize: "2,800+ employees",
+                annualRevenue: "₹1,500 Cr ($180M)",
+                industry: "FinTech / Investment Platform",
+                region: "Bengaluru, Karnataka"
+            },
+            leadCategorization: {
+                leadSource: "Inbound — G2 Review Comparison",
+                leadType: { value: "New", editable: false },
+                leadScore: { value: "68", editable: false },
+                leadStatus: { value: "Working", editable: false },
+                icpFit: { value: "Strong", editable: false }
+            },
+            qualification: {
+                budgetConfirmed: { value: "No", editable: false },
+                budgetRange: "₹8L — ₹15L/year (estimated)",
+                authorityDecisionMaker: "Rohan Kapoor (EM) → VP Engg Nishant Patel → CFO",
+                economicBuyer: "Nishant Patel, VP Engineering",
+                championIdentified: { value: "Potential — Rohan Kapoor", editable: false },
+                painLevel: { value: "Critical", editable: false },
+                currentSolution: "None — manual CloudWatch dashboards + Slack alerts",
+                painPoints: [
+                    "No monitoring tool — relying on CloudWatch dashboards and manual Slack alerts",
+                    "Recent 3-hr production outage cost ₹12L in revenue",
+                    "15 engineers spending ~20% time on manual monitoring tasks",
+                    "Kubernetes cluster visibility is near zero — blind spots across 80+ services"
+                ],
+                decisionTimeline: "10–12 weeks (end of June 2026)",
+                urgencyLevel: { value: "High", editable: false },
+                decisionProcess: "EM evaluation → VP Engg buy-in → Budget request to CFO → Procurement",
+                decisionCriteria: "Kubernetes-native monitoring, ease of setup, cost vs build-in-house",
+                metricsKPIs: "Outage frequency, MTTR, K8s pod visibility, engineer time saved"
+            },
+            opportunityDetails: {
+                stage: { value: "Qualification", editable: false },
+                dealSize: "₹12,00,000",
+                closeDate: "30 Jun 2026",
+                winProbability: { value: "30%", editable: false },
+                pipelineCategory: { value: "Pipeline", editable: false },
+                forecastCategory: { value: "Pipeline", editable: false },
+                riskLevel: { value: "Low", editable: false },
+                dealVelocity: "5 days in current stage",
+                competitorsInDeal: "None (greenfield); may consider building in-house"
+            },
+            callInsights: {
+                keyTakeaways: [
+                    "No monitoring tool currently — relying on manual CloudWatch and Slack alerts",
+                    "Backend team of 15 engineers handling 80+ microservices on Kubernetes",
+                    "Recent production outage (3 hrs, ₹12L impact) prompted the search"
+                ],
+                objectionsRaised: [
+                    "Team is considering building in-house monitoring — needs ROI justification",
+                    "Budget not yet approved — Rohan needs to make the internal case"
+                ],
+                featuresDiscussed: ["Kubernetes Monitoring","Auto-discovery","Slack Alerting","Quick Setup","Cost Analytics","Service Maps"],
+                buyingSignals: [
+                    "Recent outage created strong internal urgency to find a solution",
+                    "Rohan asked about time-to-value and quick setup options",
+                    "Expressed interest in case studies from similar FinTech companies"
+                ],
+                redFlags: [
+                    "Budget not approved — Rohan is not the economic buyer",
+                    "Build-vs-buy debate may delay decision by 4+ weeks"
+                ]
+            },
+            productFit: {
+                productsOfInterest: "CloudPulse Pro (Kubernetes Edition)",
+                primaryUseCase: "Full Kubernetes observability across 80+ microservices",
+                integrationRequirements: "AWS EKS, CloudWatch, Slack, GitHub Actions",
+                technicalComplexity: { value: "Low", editable: false },
+                implementationTimeline: "1–2 weeks (K8s agent deployment)",
+                pocRequired: { value: "Yes", editable: false }
+            },
+            internal: {
+                repNotes: { value: "Greenfield opportunity — no incumbent to displace, but budget is the risk. The ₹12L outage is our strongest lever. Need to help Rohan build the internal business case. Send him the ROI calculator and a one-pager he can forward to VP Engg. Build-vs-buy objection is common at this stage — counter with time-to-value (2 weeks vs 6 months to build).", editable: false },
+                managerFlag: { value: "No", editable: false },
+                followUpDate: "2 Apr 2026",
+                nextStepPriority: { value: "Medium", editable: false },
+                nextActions: [
+                    "Send intro deck + Kubernetes monitoring one-pager",
+                    "Schedule full demo with Rohan and his team lead",
+                    "Share FinTech case study (similar K8s setup, 80+ services)",
+                    "Send ROI calculator pre-filled with Groww's outage data"
+                ]
+            },
+            draftEmail: {
+                to: "rohan.kapoor@groww.in",
+                subject: "CloudPulse for Groww — K8s Monitoring One-Pager & Case Study",
+                body: "Hi Rohan,\n\nReally enjoyed our conversation today. The challenges your team is facing with Kubernetes visibility are exactly what we hear from fast-growing FinTech engineering teams.\n\nI'm sending over a few resources that should help:\n\n1. Kubernetes Monitoring One-Pager — A quick overview of how CloudPulse auto-discovers K8s services, pods, and nodes with zero-config setup. Great for sharing with your VP Engg.\n\n2. FinTech Case Study — A company running 85+ microservices on EKS that went from zero monitoring to full observability in 9 days. Their MTTR dropped from 38 min to 3.5 min.\n\n3. ROI Calculator — I've pre-filled it with the numbers you shared (80 services, ₹12L outage cost, 15 engineers). The model shows ~₹48L annual savings vs the current manual approach.\n\nWould you be open to a 45-min demo with your team lead next week? I think seeing the K8s auto-discovery live would be compelling.\n\nBest regards,\nAditya Rajan\nAccount Executive, CloudPulse\naditya.rajan@cloudpulse.io | +91 98765 43210"
+            },
+            coaching: {
+                score: 85,
+                skills: [
+                    { name: "Discovery", value: 92, color: "#22c55e" },
+                    { name: "Objections", value: 78, color: "#22c55e" },
+                    { name: "Value Articulation", value: 82, color: "#22c55e" },
+                    { name: "Next Steps", value: 88, color: "#22c55e" },
+                    { name: "Talk Ratio", value: 76, color: "#22c55e" }
+                ],
+                nailed: 'Masterful discovery — used the recent outage to quantify urgency: <strong>"So that 3-hour outage cost ₹12L — what if you could detect it in under 2 minutes?"</strong> Rohan leaned in immediately.',
+                nailedTs: "06:42 — outage cost reframe",
+                improve: 'Good call overall. One minor point — you could\'ve asked about budget authority earlier. <span style="color:#16a34a;font-weight:500">"Who else would be involved in the final decision?"</span> came too late at minute 20.',
+                improveTs: "20:05 — late stakeholder mapping",
+                trend: 'Discovery scores <strong>consistently above 85</strong> for 6 straight calls. Strongest skill area — keep sharpening competitive positioning.',
+                trendBars: [70,74,78,82,85,88,90,92]
+            }
+        },
+        {
+            id: 4,
+            contact: "Sneha Patel",
+            company: "UrbanCompany",
+            role: "VP Technology",
+            type: "Negotiation Call",
+            date: "Mon, Mar 30",
+            time: "4:30 PM",
+            duration: "38 min",
+            initials: "SP",
+            avatarBg: "#f3e8ff",
+            avatarColor: "#6b21a8",
+            status: "updated",
+            contactInfo: {
+                company: "UrbanCompany",
+                contactName: "Sneha Patel",
+                title: "VP Technology",
+                email: "sneha.patel@urbancompany.com",
+                phone: "+91 98182 56790",
+                linkedin: "linkedin.com/in/snehapatel-uc",
+                companySize: "8,000+ employees",
+                annualRevenue: "₹2,100 Cr ($255M)",
+                industry: "Consumer Services / Marketplace",
+                region: "Gurugram, Haryana"
+            },
+            leadCategorization: {
+                leadSource: "Referral — Razorpay (Priya Sharma)",
+                leadType: { value: "Referral", editable: false },
+                leadScore: { value: "88", editable: false },
+                leadStatus: { value: "Qualified", editable: false },
+                icpFit: { value: "Strong", editable: false }
+            },
+            qualification: {
+                budgetConfirmed: { value: "Yes", editable: false },
+                budgetRange: "₹22L — ₹30L/year",
+                authorityDecisionMaker: "Sneha Patel (VP Tech) + CTO Ankit Gupta",
+                economicBuyer: "Ankit Gupta, CTO",
+                championIdentified: { value: "Yes — Sneha Patel", editable: false },
+                painLevel: { value: "High", editable: false },
+                currentSolution: "New Relic (contract expiring April 2026)",
+                painPoints: [
+                    "New Relic contract expiring — evaluating alternatives for better pricing",
+                    "Current New Relic plan lacks Indian-hours support (only US timezone coverage)",
+                    "Need 99.9% uptime SLA for enterprise clients — New Relic doesn't contractually guarantee it",
+                    "Alert depth is insufficient for their microservices architecture (180+ services)"
+                ],
+                decisionTimeline: "1 week (by 5 Apr 2026)",
+                urgencyLevel: { value: "Critical", editable: false },
+                decisionProcess: "Final pricing negotiation → CTO sign-off → Legal contract review → Procurement",
+                decisionCriteria: "Pricing vs New Relic, Indian support hours, 99.9% SLA, alerting depth",
+                metricsKPIs: "Cost savings vs New Relic, support response time, SLA compliance, alert accuracy"
+            },
+            opportunityDetails: {
+                stage: { value: "Negotiation", editable: false },
+                dealSize: "₹28,00,000",
+                closeDate: "5 Apr 2026",
+                winProbability: { value: "65%", editable: false },
+                pipelineCategory: { value: "Commit", editable: false },
+                forecastCategory: { value: "Commit", editable: false },
+                riskLevel: { value: "High", editable: false },
+                dealVelocity: "8 days in current stage",
+                competitorsInDeal: "New Relic (incumbent renewal)"
+            },
+            callInsights: {
+                keyTakeaways: [
+                    "Final evaluation — comparing CloudPulse vs New Relic renewal on pricing and support",
+                    "Need 20% discount to close this quarter — procurement benchmarked New Relic's offer",
+                    "Sneha is champion internally; CTO Ankit Gupta gives final sign-off and wants 99.9% SLA"
+                ],
+                objectionsRaised: [
+                    "Procurement team benchmarked New Relic's renewal at 20% lower than CloudPulse quote",
+                    "CTO wants 99.9% uptime SLA with financial penalties written into contract",
+                    "Concerned about migration risk — 180 services to move in 4 weeks"
+                ],
+                featuresDiscussed: ["Enterprise SLA","Indian-hours Support","Migration Toolkit","Custom Alerting Rules","Cost Dashboards","Executive Reporting"],
+                buyingSignals: [
+                    "Sneha said 'Indian support hours alone is worth the switch'",
+                    "Asked for extended onboarding support — signals commitment to migrate",
+                    "CTO personally requested the 99.9% SLA conversation — executive attention"
+                ],
+                redFlags: [
+                    "New Relic may counter with aggressive renewal discount to retain",
+                    "4-week migration timeline is tight for 180 services — execution risk"
+                ]
+            },
+            productFit: {
+                productsOfInterest: "CloudPulse Enterprise + Premium Support (Indian Hours)",
+                primaryUseCase: "Full-stack monitoring with 99.9% SLA for 180+ microservices",
+                integrationRequirements: "New Relic (data migration), AWS, Slack, PagerDuty, Jira, ServiceNow",
+                technicalComplexity: { value: "Medium", editable: false },
+                implementationTimeline: "4 weeks (aggressive — parallel migration)",
+                pocRequired: { value: "No", editable: false }
+            },
+            internal: {
+                repNotes: { value: "High-value deal at risk. Sneha is a strong champion but CTO needs the SLA clause to commit. New Relic will likely counter — we need to close fast. Offered 15% discount + extended onboarding (₹3L value) instead of 20% — Sneha accepted the reframe. Need legal to draft 99.9% SLA clause by tomorrow. This is a potential lighthouse account for the consumer services vertical.", editable: false },
+                managerFlag: { value: "Yes — Review Deal", editable: false },
+                followUpDate: "31 Mar 2026",
+                nextStepPriority: { value: "Urgent", editable: false },
+                nextActions: [
+                    "Send revised proposal with 15% discount + extended onboarding support",
+                    "Draft 99.9% uptime SLA clause for legal review (by tomorrow EOD)",
+                    "Schedule 15-min call with CTO Ankit Gupta before Thursday",
+                    "Prepare New Relic migration timeline and risk mitigation plan"
+                ]
+            },
+            draftEmail: {
+                to: "sneha.patel@urbancompany.com",
+                subject: "CloudPulse x UrbanCompany — Revised Proposal & SLA Draft",
+                body: "Hi Sneha,\n\nThank you for the candid conversation today. I appreciate you sharing the procurement benchmarks — it helps me put together the best possible package for UrbanCompany.\n\nHere's what I'm sending over:\n\n1. Revised proposal — 15% discount on the Enterprise plan + 4 weeks of extended onboarding support (valued at ₹3L) at no additional cost. This brings the annual cost to ₹23,80,000.\n\n2. 99.9% SLA draft — Our legal team is drafting the uptime guarantee clause with financial penalty terms as discussed with Ankit. I'll have this ready by tomorrow EOD for your legal team's review.\n\n3. Migration plan — A detailed 4-week migration timeline covering all 180 services, with dedicated migration engineering support and rollback procedures at each phase.\n\nI'd also love to set up a brief 15-minute call with Ankit before Thursday to walk through the SLA terms directly. Would Wednesday 4:00 PM IST work for him?\n\nLooking forward to getting this across the line.\n\nBest regards,\nAditya Rajan\nAccount Executive, CloudPulse\naditya.rajan@cloudpulse.io | +91 98765 43210"
+            },
+            coaching: {
+                score: 74,
+                skills: [
+                    { name: "Discovery", value: 70, color: "#22c55e" },
+                    { name: "Objections", value: 82, color: "#22c55e" },
+                    { name: "Value Articulation", value: 76, color: "#22c55e" },
+                    { name: "Next Steps", value: 80, color: "#22c55e" },
+                    { name: "Talk Ratio", value: 52, color: "#f59e0b" }
+                ],
+                nailed: 'Handled discount pressure expertly — instead of conceding 20%, offered <strong>15% + extended onboarding (₹3L value)</strong>. Sneha accepted the reframe: <strong>"That actually works better for us."</strong>',
+                nailedTs: "16:55 — discount reframe",
+                improve: 'When Sneha mentioned New Relic\'s pricing, you got slightly defensive. Next time lead with: <span style="color:#16a34a;font-weight:500">"What matters more to your team — the price per seat or the total cost of downtime?"</span>',
+                improveTs: "11:22 — defensive pricing response",
+                trend: 'Negotiation skills <strong>improving steadily</strong> — 4 of last 5 deals closed with less than 18% discount. <strong style="color:#d97706">Pricing defense</strong> still needs work under pressure.',
+                trendBars: [50,55,58,62,66,70,72,74]
+            }
+        }
+    ];
+
+    let demoActiveCall = 0;
+    let demoActiveTab = 'crm';
+    let demoFilledSalesforce = false;
+    let demoEmailSent = false;
+    let demoInsightsFetched = false; // NEW: tracks if AI fetch has been triggered
+
+    // ── Open / Close ──
+    function openDemoModal() {
+        const modal = document.getElementById('demo-modal');
+        modal.classList.remove('hidden');
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        demoFilledSalesforce = false;
+        demoEmailSent = false;
+        demoInsightsFetched = false;
+        demoActiveCall = 0;
+        demoActiveTab = 'crm';
+        renderDemoSidebar();
+        renderDemoContent();
+    }
+    function closeDemoModal() {
+        const modal = document.getElementById('demo-modal');
+        modal.classList.add('hidden');
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+    function selectDemoCall(idx) {
+        demoActiveCall = idx;
+        demoActiveTab = 'crm';
+        renderDemoSidebar();
+        renderDemoContent();
+    }
+    function switchDemoTab(tab) {
+        demoActiveTab = tab;
+        renderDemoContent();
+    }
+
+    // ── Collapsible CRM section helpers ──
+    function toggleCRMSection(id) {
+        const body = document.getElementById('crm-sec-' + id);
+        const chev = document.getElementById('crm-chev-' + id);
+        if (!body) return;
+        const isOpen = body.style.maxHeight !== '0px' && body.style.maxHeight !== '0';
+        if (isOpen) {
+            body.style.maxHeight = '0';
+            chev.style.transform = 'rotate(-90deg)';
+        } else {
+            body.style.maxHeight = body.scrollHeight + 300 + 'px';
+            chev.style.transform = '';
+        }
+    }
+    function expandCRMSection(id) {
+        const body = document.getElementById('crm-sec-' + id);
+        const chev = document.getElementById('crm-chev-' + id);
+        if (!body) return;
+        body.style.maxHeight = body.scrollHeight + 300 + 'px';
+        chev.style.transform = '';
+    }
+
+    // ── Pre-fetch: Zoom invite + Fetch Insights button ──
+    function renderPrefetchView(call) {
+        return `
+        <div style="min-height:100%;display:flex;align-items:center;justify-content:center;background:#f8fafc;padding:40px 20px">
+            <div style="max-width:460px;width:100%">
+                <div style="background:#fff;border:1px solid #e4e4e7;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.07);margin-bottom:28px">
+                    <div style="background:linear-gradient(135deg,#2D8CFF 0%,#1a55c9 100%);padding:22px 24px 18px">
+                        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+                            <div style="width:34px;height:34px;background:rgba(255,255,255,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem">🎥</div>
+                            <span style="color:rgba(255,255,255,0.85);font-size:0.7rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em">Zoom Meeting · Ended</span>
+                        </div>
+                        <h3 style="color:#fff;font-size:1.05rem;font-weight:700;margin-bottom:5px">${call.type} — ${call.company}</h3>
+                        <p style="color:rgba(255,255,255,0.75);font-size:0.78rem">${call.date} &nbsp;·&nbsp; ${call.time} &nbsp;·&nbsp; ${call.duration}</p>
+                    </div>
+                    <div style="padding:20px 24px;display:flex;flex-direction:column;gap:16px">
+                        <div>
+                            <div style="font-size:0.66rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#9ca3af;margin-bottom:8px">Attendees</div>
+                            <div style="display:flex;flex-wrap:wrap;gap:8px">
+                                <div style="display:flex;align-items:center;gap:7px;background:#f4f4f5;border-radius:20px;padding:5px 13px">
+                                    <div style="width:20px;height:20px;border-radius:50%;background:#dbeafe;color:#1e40af;font-size:0.58rem;font-weight:800;display:flex;align-items:center;justify-content:center">AR</div>
+                                    <span style="font-size:0.75rem;font-weight:500;color:#18181b">Aditya Rajan</span>
+                                    <span style="font-size:0.62rem;color:#a1a1aa">(You)</span>
+                                </div>
+                                <div style="display:flex;align-items:center;gap:7px;background:#f4f4f5;border-radius:20px;padding:5px 13px">
+                                    <div style="width:20px;height:20px;border-radius:50%;background:${call.avatarBg};color:${call.avatarColor};font-size:0.58rem;font-weight:800;display:flex;align-items:center;justify-content:center">${call.initials}</div>
+                                    <span style="font-size:0.75rem;font-weight:500;color:#18181b">${call.contact}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div style="font-size:0.66rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#9ca3af;margin-bottom:6px">Meeting Link</div>
+                            <div style="display:flex;align-items:center;gap:8px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+                                <span style="font-size:0.75rem;color:#2563eb;font-weight:500;flex:1">zoom.us/j/94578${call.id + 1}23456?pwd=xRkPq...</span>
+                            </div>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:8px;background:#fef3c7;border:1px solid #fde68a;border-radius:8px;padding:10px 14px">
+                            <div style="width:8px;height:8px;border-radius:50%;background:#f59e0b;flex-shrink:0;animation:demo-orb-pulse 1.5s ease infinite"></div>
+                            <span style="font-size:0.75rem;color:#92400e;font-weight:500">Call ended · AI insights not yet fetched</span>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align:center">
+                    <p style="font-size:0.78rem;color:#71717a;margin-bottom:18px;line-height:1.6">Clariva recorded this call. Click below to extract CRM fields and coaching insights automatically.</p>
+                    <button onclick="fetchInsights()" style="display:inline-flex;align-items:center;gap:10px;background:#18181b;color:#DFFF00;font-size:0.85rem;font-weight:700;padding:15px 36px;border:none;border-radius:12px;cursor:pointer;font-family:inherit;letter-spacing:0.02em;box-shadow:0 4px 20px rgba(0,0,0,0.15);transition:all 0.2s" onmouseenter="this.style.background='#2d2d2d'" onmouseleave="this.style.background='#18181b'">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        Fetch Insights
+                    </button>
+                </div>
+            </div>
+        </div>`;
+    }
+
+    // ── Loading animation ──
+    const loadingSteps = [
+        '🎤&nbsp; Transcribing call audio...',
+        '🔍&nbsp; Extracting CRM signals from conversation...',
+        '📊&nbsp; Mapping 42 fields to Salesforce schema...',
+        '🧠&nbsp; Scoring rep performance across 5 dimensions...',
+        '✨&nbsp; Generating personalised coaching insights...'
+    ];
+    function fetchInsights() {
+        const content = document.getElementById('demo-content');
+        content.style.padding = '0';
+        content.innerHTML = `
+            <div style="min-height:100%;display:flex;align-items:center;justify-content:center;background:#0f172a;padding:40px 20px">
+                <div style="max-width:420px;width:100%;text-align:center">
+                    <div style="position:relative;width:110px;height:110px;margin:0 auto 28px">
+                        <div class="demo-ai-orb"></div>
+                        <div class="demo-ai-ring"></div>
+                        <div class="demo-ai-ring r2"></div>
+                        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:2.2rem">🤖</div>
+                    </div>
+                    <h3 style="color:#f1f5f9;font-size:1.1rem;font-weight:700;margin-bottom:6px">Clariva AI is working...</h3>
+                    <p style="color:#64748b;font-size:0.8rem;margin-bottom:30px">Extracting insights from your ${demoCalls[0].duration} call with ${demoCalls[0].contact}</p>
+                    <div style="display:flex;flex-direction:column;gap:8px;text-align:left">
+                        ${loadingSteps.map((s, i) => `
+                            <div id="ls-${i}" class="demo-loading-step">
+                                <div id="ls-icon-${i}" class="demo-loading-spinner"></div>
+                                <span class="demo-loading-step-text">${s}</span>
+                            </div>`).join('')}
+                    </div>
+                </div>
+            </div>`;
+        // Reveal steps sequentially
+        loadingSteps.forEach((_, i) => {
+            setTimeout(() => {
+                const el = document.getElementById('ls-' + i);
+                if (el) el.classList.add('active');
+                // Mark previous as done
+                if (i > 0) {
+                    const prev = document.getElementById('ls-' + (i - 1));
+                    const prevIcon = document.getElementById('ls-icon-' + (i - 1));
+                    if (prev) prev.classList.add('done');
+                    if (prevIcon) prevIcon.outerHTML = '<span style="font-size:1rem;color:#22c55e;flex-shrink:0">✓</span>';
+                }
+            }, i * 850);
+        });
+        // Complete after all steps
+        setTimeout(() => {
+            demoInsightsFetched = true;
+            renderDemoContent();
+        }, loadingSteps.length * 850 + 500);
+    }
+
+    // ── Sidebar ──
+    function renderDemoSidebar() {
+        const list = document.getElementById('demo-call-list');
+        list.innerHTML = demoCalls.map((c, i) => {
+            const isActive = i === demoActiveCall;
+            const isPending = i === 0 && !demoFilledSalesforce;
+            const statusClass = isPending ? 'pending' : 'updated';
+            const statusText = isPending ? 'Pending' : 'Synced';
+            return `
+                <div class="demo-call-item ${isActive ? 'active' : ''}" onclick="selectDemoCall(${i})">
+                    <div class="call-avatar" style="background:${c.avatarBg};color:${c.avatarColor}">${c.initials}</div>
+                    <div class="call-info">
+                        <div class="call-name">${c.contact} · ${c.company}</div>
+                        <div class="call-meta">${c.type} · ${c.duration}</div>
+                    </div>
+                    <div class="call-status ${statusClass}">${statusText}</div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // ── Main content renderer ──
+    function renderDemoContent() {
+        const tabBar  = document.getElementById('demo-tab-bar');
+        const content = document.getElementById('demo-content');
+        const bottomBar = document.getElementById('demo-bottom-bar');
+        const call = demoCalls[demoActiveCall];
+        const isFirstCall = demoActiveCall === 0;
+        const isPending   = isFirstCall && !demoFilledSalesforce;
+        const canEdit     = isPending;
+        const isUpdated   = !isPending;
+
+        // PRE-FETCH: pending call, not yet fetched
+        if (isPending && !demoInsightsFetched) {
+            tabBar.style.display = 'none';
+            content.style.padding = '0';
+            content.innerHTML = renderPrefetchView(call);
+            bottomBar.innerHTML = '';
+            return;
+        }
+
+        // NORMAL: tabs shown
+        tabBar.style.display = 'flex';
+        content.style.padding = '28px 24px';
+        const tabCrm = document.getElementById('tab-crm');
+        const tabCoaching = document.getElementById('tab-coaching');
+        tabCrm.className = 'px-5 py-3 text-sm font-semibold border-b-2 transition-colors ' + (demoActiveTab === 'crm' ? 'demo-tab-active' : 'demo-tab-inactive');
+        tabCoaching.className = 'px-5 py-3 text-sm font-semibold border-b-2 transition-colors ' + (demoActiveTab === 'coaching' ? 'demo-tab-active' : 'demo-tab-inactive');
+
+        content.innerHTML = demoActiveTab === 'crm'
+            ? renderCRMTab(call, canEdit)
+            : renderCoachingTab(call);
+
+        if (isUpdated) {
+            bottomBar.innerHTML = `
+                <div class="text-xs text-zinc-400">Salesforce · Last synced ${isFirstCall ? 'just now' : call.time}</div>
+                <div class="demo-btn-filled"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Updated Salesforce</div>`;
+        } else {
+            bottomBar.innerHTML = `
+                <div class="text-xs text-zinc-400">Review amber fields — they need your judgment</div>
+                <button class="demo-btn-fill" onclick="fillSalesforce()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"></path></svg>Fill Salesforce</button>`;
+        }
+
+    }
+
+    // ── CRM Tab: collapsible section helpers ──
+    function fi(label, value, isFull) {
+        const style = getFieldStyle(label, value);
+        return `<div class="demo-fi${isFull ? ' full' : ''}">
+            <span class="demo-fi-label">${label}</span>
+            <div class="demo-fi-value"${style ? ` style="${style}"` : ''}>${value || '—'}</div>
+        </div>`;
+    }
+    function fiSel(label, obj, canEdit) {
+        if (canEdit && obj.editable) {
+            const opts = (obj.options||[]).map(o => `<option${o===obj.value?' selected':''}>${o}</option>`).join('');
+            return `<div class="demo-fi full">
+                <span class="demo-fi-label">${label} <span style="color:#f59e0b;font-size:0.62rem">✎ your judgment</span></span>
+                <select class="demo-fi-select">${opts}</select>
+            </div>`;
+        }
+        return fi(label, obj.value);
+    }
+    function fiInput(label, obj, canEdit) {
+        if (canEdit && obj.editable) {
+            return `<div class="demo-fi full">
+                <span class="demo-fi-label">${label} <span style="color:#f59e0b;font-size:0.62rem">✎ your judgment</span></span>
+                <input type="text" class="demo-fi-input" value="${obj.value||''}"/>
+            </div>`;
+        }
+        return fi(label, obj.value);
+    }
+    function fiTA(label, obj, canEdit, rows) {
+        rows = rows || 4;
+        if (canEdit && obj && obj.editable) {
+            return `<div class="demo-fi full">
+                <span class="demo-fi-label">${label} <span style="color:#f59e0b;font-size:0.62rem">✎ your judgment</span></span>
+                <textarea class="demo-fi-textarea editable" rows="${rows}">${obj.value||''}</textarea>
+            </div>`;
+        }
+        const val = obj ? obj.value : (typeof label !== 'object' ? '' : '');
+        return `<div class="demo-fi full"><span class="demo-fi-label">${label}</span><textarea class="demo-fi-textarea" rows="${rows}" readonly>${val||''}</textarea></div>`;
+    }
+    function fiBullets(label, items) {
+        return `<div class="demo-fi full">
+            <span class="demo-fi-label">${label}</span>
+            <div style="background:#f9f9f9;border:1px solid #e4e4e7;border-radius:8px;padding:12px;display:flex;flex-direction:column;gap:7px">
+                ${items.map(t=>`<div style="font-size:0.8rem;color:#3f3f46;padding-left:14px;position:relative;line-height:1.5"><span style="position:absolute;left:0;color:#a1a1aa">•</span>${t}</div>`).join('')}
+            </div>
+        </div>`;
+    }
+    function fiTags(label, items) {
+        return `<div class="demo-fi full">
+            <span class="demo-fi-label">${label}</span>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;padding-top:2px">
+                ${items.map(t=>`<span style="font-size:0.72rem;font-weight:600;padding:4px 12px;border-radius:20px;background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe">${t}</span>`).join('')}
+            </div>
+        </div>`;
+    }
+    function getFieldStyle(label, value) {
+        const risk = ['Risk Level','Pain Level','Urgency Level','Technical Complexity'];
+        if (risk.includes(label)) {
+            if (value==='Critical'||value==='High') return 'background:#fef2f2;color:#991b1b';
+            if (value==='Medium') return 'background:#fffbeb;color:#92400e';
+            if (value==='Low') return 'background:#f0fdf4;color:#166534';
+        }
+        if (label==='ICP Fit') {
+            if (value==='Strong') return 'background:#f0fdf4;color:#166534';
+            if (value==='Moderate') return 'background:#fffbeb;color:#92400e';
+            return 'background:#fef2f2;color:#991b1b';
+        }
+        if (label==='Budget Confirmed') {
+            if (value==='Yes') return 'background:#f0fdf4;color:#166534';
+            if (value==='Partially') return 'background:#fffbeb;color:#92400e';
+            return 'background:#fef2f2;color:#991b1b';
+        }
+        if (label==='Lead Status') {
+            if (value==='Qualified') return 'background:#f0fdf4;color:#166534';
+            if (value==='Unqualified') return 'background:#fef2f2;color:#991b1b';
+            return 'background:#eff6ff;color:#1e40af';
+        }
+        if (label==='Next Step Priority') {
+            if (value==='Urgent') return 'background:#fef2f2;color:#991b1b';
+            if (value==='High') return 'background:#fffbeb;color:#92400e';
+            return 'background:#f0fdf4;color:#166534';
+        }
+        if (label==='Manager Flag') {
+            if (value==='No') return 'background:#f0fdf4;color:#166534';
+            return 'background:#fef2f2;color:#991b1b';
+        }
+        if (label==='POC Required') {
+            if (value==='Yes') return 'background:#fffbeb;color:#92400e';
+            if (value==='No') return 'background:#f0fdf4;color:#166534';
+        }
+        if (label==='Win Probability') {
+            const n = parseInt(value);
+            if (n >= 70) return 'background:#f0fdf4;color:#166534';
+            if (n >= 40) return 'background:#fffbeb;color:#92400e';
+            return 'background:#fef2f2;color:#991b1b';
+        }
+        if (label==='Forecast Category') {
+            if (value==='Commit') return 'background:#f0fdf4;color:#166534';
+            if (value==='Best Case') return 'background:#eff6ff;color:#1e40af';
+            if (value==='Omitted') return 'background:#fef2f2;color:#991b1b';
+        }
+        return '';
+    }
+
+    function crmSection(id, icon, title, needsReview, content, startCollapsed) {
+        const badge = needsReview
+            ? `<span style="font-size:0.62rem;font-weight:700;background:#fffbeb;color:#92400e;border:1px solid #fde68a;padding:3px 9px;border-radius:6px;white-space:nowrap;margin-left:auto">Review needed ✎</span>`
+            : `<span style="font-size:0.62rem;font-weight:700;background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;padding:3px 9px;border-radius:6px;white-space:nowrap;margin-left:auto">✓ Auto-filled</span>`;
+        const bodyStyle = startCollapsed ? 'max-height:0;' : 'max-height:2000px;';
+        const chevRot   = startCollapsed ? 'transform:rotate(-90deg);' : '';
+        const seeMore   = startCollapsed
+            ? `<div style="text-align:center;padding:10px 0 4px"><button onclick="expandCRMSection('${id}')" style="font-size:0.72rem;font-weight:600;color:#2563eb;background:none;border:none;cursor:pointer;padding:4px 12px;border-radius:6px;background:#eff6ff">See more ↓</button></div>`
+            : '';
+        return `<div class="demo-crm-sec">
+            <div class="demo-crm-sec-hdr" onclick="toggleCRMSection('${id}')">
+                <span style="font-size:1rem;width:22px;text-align:center;flex-shrink:0">${icon}</span>
+                <span style="font-size:0.85rem;font-weight:700;color:#18181b;flex:1">${title}</span>
+                ${badge}
+                <svg id="crm-chev-${id}" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a1a1aa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;transition:transform 0.2s;${chevRot}"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+            <div id="crm-sec-${id}" class="demo-crm-sec-body" style="${bodyStyle}">
+                <div style="padding:16px"><div class="demo-fi-grid">${content}</div>${seeMore}</div>
+            </div>
+        </div>`;
+    }
+
+    // ── New renderCRMTab ──
+    function renderCRMTab(call, canEdit) {
+        const ci  = call.contactInfo;
+        const lc  = call.leadCategorization;
+        const q   = call.qualification;
+        const od  = call.opportunityDetails;
+        const ins = call.callInsights;
+        const pf  = call.productFit;
+        const int_= call.internal;
+        const em  = call.draftEmail;
+        const isFC = call.id === 0;
+        const emailSent = isFC ? demoEmailSent : true;
+
+        const leadReview    = canEdit && (lc.leadType.editable||lc.leadScore.editable||lc.leadStatus.editable||lc.icpFit.editable);
+        const qualReview    = canEdit && (q.budgetConfirmed.editable||q.championIdentified.editable||q.painLevel.editable||q.urgencyLevel.editable);
+        const oppReview     = canEdit && (od.stage.editable||od.winProbability.editable||od.pipelineCategory.editable||od.forecastCategory.editable||od.riskLevel.editable);
+        const productReview = canEdit && (pf.technicalComplexity.editable||pf.pocRequired.editable);
+        const internalReview= canEdit && (int_.repNotes.editable||int_.managerFlag.editable||int_.nextStepPriority.editable);
+
+        // Section contents
+        const contactContent = [
+            fi('Company', ci.company), fi('Contact Name', ci.contactName),
+            fi('Title / Role', ci.title), fi('Email', ci.email),
+            fi('Phone', ci.phone), fi('LinkedIn', ci.linkedin),
+            fi('Company Size', ci.companySize), fi('Annual Revenue', ci.annualRevenue),
+            fi('Industry', ci.industry), fi('Region / HQ', ci.region)
+        ].join('');
+
+        const leadContent = [
+            fi('Lead Source', lc.leadSource),
+            fiSel('Lead Type', lc.leadType, canEdit),
+            fiInput('Lead Score', lc.leadScore, canEdit),
+            fiSel('Lead Status', lc.leadStatus, canEdit),
+            fiSel('ICP Fit', lc.icpFit, canEdit)
+        ].join('');
+
+        const qualContent = [
+            fiSel('Budget Confirmed', q.budgetConfirmed, canEdit),
+            fi('Budget Range', q.budgetRange),
+            fi('Decision Maker', q.authorityDecisionMaker),
+            fi('Economic Buyer', q.economicBuyer),
+            fiInput('Champion Identified', q.championIdentified, canEdit),
+            fiSel('Pain Level', q.painLevel, canEdit),
+            fi('Current Solution', q.currentSolution),
+            fi('Decision Timeline', q.decisionTimeline),
+            fiSel('Urgency Level', q.urgencyLevel, canEdit),
+            fi('Decision Process', q.decisionProcess, true),
+            fi('Decision Criteria', q.decisionCriteria, true),
+            fi('Metrics / KPIs Impacted', q.metricsKPIs, true),
+            fiBullets('Pain Points Identified', q.painPoints)
+        ].join('');
+
+        const oppContent = [
+            fiSel('Stage', od.stage, canEdit),
+            fi('Deal Size', od.dealSize),
+            fi('Close Date', od.closeDate),
+            fiInput('Win Probability', od.winProbability, canEdit),
+            fiSel('Pipeline Category', od.pipelineCategory, canEdit),
+            fiSel('Forecast Category', od.forecastCategory, canEdit),
+            fiSel('Risk Level', od.riskLevel, canEdit),
+            fi('Deal Velocity', od.dealVelocity),
+            fi('Competitors in Deal', od.competitorsInDeal, true)
+        ].join('');
+
+        const insightsContent = [
+            fiBullets('Key Takeaways', ins.keyTakeaways),
+            fiBullets('Objections Raised', ins.objectionsRaised),
+            fiTags('Features Discussed', ins.featuresDiscussed),
+            fiBullets('Buying Signals', ins.buyingSignals),
+            fiBullets('Red Flags', ins.redFlags)
+        ].join('');
+
+        const productContent = [
+            fi('Products of Interest', pf.productsOfInterest, true),
+            fi('Primary Use Case', pf.primaryUseCase, true),
+            fi('Integration Requirements', pf.integrationRequirements, true),
+            fiSel('Technical Complexity', pf.technicalComplexity, canEdit),
+            fi('Implementation Timeline', pf.implementationTimeline),
+            fiSel('POC Required', pf.pocRequired, canEdit)
+        ].join('');
+
+        const internalContent = [
+            fi('Follow-up Date', int_.followUpDate),
+            fiSel('Next Step Priority', int_.nextStepPriority, canEdit),
+            fiSel('Manager Flag', int_.managerFlag, canEdit),
+            fiTA('Rep Notes', int_.repNotes, canEdit, 4),
+            fiBullets('Next Actions', int_.nextActions)
+        ].join('');
+
+        // Draft email section (always expanded, editable for call 1)
+        const emailSection = `
+        <div class="demo-crm-sec" style="margin-bottom:10px">
+            <div class="demo-crm-sec-hdr" onclick="toggleCRMSection('email')">
+                <span style="font-size:1rem;width:22px;text-align:center;flex-shrink:0">✉️</span>
+                <span style="font-size:0.85rem;font-weight:700;color:#18181b;flex:1">Draft Follow-up Email</span>
+                ${emailSent
+                    ? `<span style="font-size:0.62rem;font-weight:700;background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;padding:3px 9px;border-radius:6px;white-space:nowrap;margin-left:auto">✓ Email Sent</span>`
+                    : `<span style="font-size:0.62rem;font-weight:700;background:#fffbeb;color:#92400e;border:1px solid #fde68a;padding:3px 9px;border-radius:6px;white-space:nowrap;margin-left:auto">Pending send ✎</span>`}
+                <svg id="crm-chev-email" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#a1a1aa" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;transition:transform 0.2s"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+            <div id="crm-sec-email" class="demo-crm-sec-body" style="max-height:2000px;">
+                <div style="padding:16px">
+                    <div class="demo-email-card">
+                        <div class="demo-email-toolbar">
+                            <span class="demo-email-toolbar-title">📧 New Message</span>
+                            ${emailSent ? '<span style="font-size:0.68rem;color:#166534;font-weight:600">✓ Sent</span>' : '<span style="font-size:0.68rem;color:#a1a1aa">Draft</span>'}
+                        </div>
+                        <div class="demo-email-row">
+                            <span class="demo-email-label">To</span>
+                            ${canEdit && !emailSent
+                                ? `<input class="demo-email-input-editable" value="${em.to}" />`
+                                : `<span class="demo-email-input" style="color:#2563eb">${em.to}</span>`}
+                        </div>
+                        <div class="demo-email-row">
+                            <span class="demo-email-label">Subject</span>
+                            ${canEdit && !emailSent
+                                ? `<input class="demo-email-input-editable" style="flex:1" value="${em.subject}" />`
+                                : `<span class="demo-email-input" style="font-weight:600">${em.subject}</span>`}
+                        </div>
+                        <div class="demo-email-body">
+                            ${canEdit && !emailSent
+                                ? `<textarea class="editable-body" rows="12">${em.body}</textarea>`
+                                : `<pre style="font-family:inherit;font-size:0.78rem;color:#3f3f46;line-height:1.7;white-space:pre-wrap">${em.body}</pre>`}
+                        </div>
+                        <div class="demo-email-actions">
+                            ${canEdit && !emailSent
+                                ? `<button class="demo-btn-send" onclick="sendDemoEmail()">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                                    Send Email
+                                  </button>
+                                  <span style="font-size:0.72rem;color:#a1a1aa">via Gmail</span>`
+                                : `<button class="demo-btn-sent" disabled>
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    Email Sent ✓
+                                  </button>`}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+
+        return `<div style="max-width:820px;margin:0 auto">
+            <div style="margin-bottom:20px">
+                <h3 style="font-size:1.1rem;font-weight:700;color:#18181b;margin-bottom:4px">${call.contact} · ${call.company} — ${call.type}</h3>
+                <p style="font-size:0.8rem;color:#a1a1aa">${call.date} · ${call.time} · ${call.duration}</p>
+            </div>
+            ${crmSection('contact', '🏢', 'Contact & Company Info',     false,          contactContent,  true)}
+            ${crmSection('lead',    '🏷️', 'Lead Categorization',         leadReview,     leadContent,     !leadReview)}
+            ${crmSection('qual',   '🎯', 'Qualification — BANT / MEDDIC', qualReview,    qualContent,     !qualReview)}
+            ${crmSection('opp',    '💰', 'Opportunity Details',           oppReview,     oppContent,      !oppReview)}
+            ${crmSection('insights','🔍','Call Insights',                 false,          insightsContent, true)}
+            ${crmSection('product','⚙️', 'Product & Technical Fit',       productReview, productContent,  !productReview)}
+            ${crmSection('internal','📋','Internal Notes',               internalReview, internalContent, !internalReview)}
+            ${emailSection}
+        </div>`;
+    }
+
+    function renderCoachingTab(call) {
+        const c = call.coaching;
+        const headerHtml = `
+            <div style="margin-bottom:20px">
+                <h3 style="font-size:1.1rem;font-weight:700;color:#18181b;margin-bottom:4px">${call.contact} · ${call.company} — AI Coaching Debrief</h3>
+                <p style="font-size:0.8rem;color:#a1a1aa">${call.date} · ${call.duration} · Coaching ready</p>
+            </div>
+        `;
+
+        const debriefHtml = `
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:20px">
+                <div class="demo-debrief-card positive">
+                    <div class="demo-debrief-tag" style="color:#16a34a">✦ What you nailed</div>
+                    <p style="font-size:0.78rem;color:#52525b;line-height:1.65">${c.nailed}</p>
+                    <div class="demo-timestamp-pill" style="background:#dcfce7;color:#166534">▶ ${c.nailedTs}</div>
+                </div>
+                <div class="demo-debrief-card improve">
+                    <div class="demo-debrief-tag" style="color:#d97706">▲ Try this next time</div>
+                    <p style="font-size:0.78rem;color:#52525b;line-height:1.65">${c.improve}</p>
+                    <div class="demo-timestamp-pill" style="background:#fef3c7;color:#92400e">▶ ${c.improveTs}</div>
+                </div>
+                <div class="demo-debrief-card trend">
+                    <div class="demo-debrief-tag" style="color:#2563eb">📈 Skill Trend</div>
+                    <p style="font-size:0.78rem;color:#52525b;line-height:1.65">${c.trend}</p>
+                    <div style="display:flex;align-items:flex-end;gap:3px;height:32px;margin-top:10px">
+                        ${c.trendBars.map(h => `<div class="demo-trend-bar" style="height:${h}%;background:${h > 65 ? '#22c55e' : h > 50 ? '#86efac' : '#bbf7d0'}"></div>`).join('')}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const circumference = 2 * Math.PI * 34;
+        const scoreDash = (c.score / 100) * circumference;
+        const scoreColor = c.score >= 80 ? '#22c55e' : c.score >= 65 ? '#f59e0b' : '#ef4444';
+
+        const scoreHtml = `
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+                <div class="demo-section-card" style="margin-bottom:0">
+                    <div class="demo-section-title">📊 Call Score Breakdown</div>
+                    <div style="display:flex;align-items:flex-start;gap:20px">
+                        <div style="position:relative;width:72px;height:72px;flex-shrink:0">
+                            <svg viewBox="0 0 80 80" style="width:100%;height:100%;transform:rotate(-90deg)">
+                                <circle cx="40" cy="40" r="34" fill="none" stroke="#e4e4e7" stroke-width="5"/>
+                                <circle cx="40" cy="40" r="34" fill="none" stroke="${scoreColor}" stroke-width="5" stroke-dasharray="${scoreDash} ${circumference - scoreDash}" stroke-linecap="round"/>
+                            </svg>
+                            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.25rem;font-weight:800;color:#18181b">${c.score}</div>
+                        </div>
+                        <div style="flex:1">
+                            ${c.skills.map(s => `
+                                <div class="demo-score-row">
+                                    <span class="demo-score-label">${s.name}</span>
+                                    <div class="demo-score-bar-bg"><div class="demo-score-bar" style="width:${s.value}%;background:${s.color}"></div></div>
+                                    <span class="demo-score-val">${s.value}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+                <div class="demo-section-card" style="margin-bottom:0">
+                    <div class="demo-section-title">🎓 Learn from the Best</div>
+                    <p style="font-size:0.7rem;color:#71717a;margin-bottom:10px">Based on your area: <strong style="color:#d97706">competitive handling</strong></p>
+                    <div style="display:flex;flex-direction:column;gap:8px">
+                        <div style="display:flex;align-items:center;gap:10px;background:#fafafa;border:1px solid #e4e4e7;border-radius:10px;padding:10px">
+                            <div style="width:32px;height:32px;border-radius:50%;background:#dcfce7;color:#166534;font-size:0.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">NK</div>
+                            <div style="flex:1;min-width:0">
+                                <div style="font-size:0.75rem;font-weight:600;color:#18181b">Nadia Karim <span style="font-size:0.6rem;background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;margin-left:4px">Top Performer</span></div>
+                                <div style="font-size:0.65rem;color:#71717a">Reframes "features" → "outcomes" during competitive eval.</div>
+                            </div>
+                            <span style="font-size:0.65rem;font-weight:700;color:#166534;background:#f0fdf4;padding:4px 8px;border-radius:6px;flex-shrink:0">▶ 90s</span>
+                        </div>
+                        <div style="display:flex;align-items:center;gap:10px;background:#fafafa;border:1px solid #e4e4e7;border-radius:10px;padding:10px">
+                            <div style="width:32px;height:32px;border-radius:50%;background:#dcfce7;color:#166534;font-size:0.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">AM</div>
+                            <div style="flex:1;min-width:0">
+                                <div style="font-size:0.75rem;font-weight:600;color:#18181b">Arjun Mehta <span style="font-size:0.6rem;background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;margin-left:4px">Most Improved</span></div>
+                                <div style="font-size:0.65rem;color:#71717a">Sets a competitive trap before prospect mentions alternatives.</div>
+                            </div>
+                            <span style="font-size:0.65rem;font-weight:700;color:#166534;background:#f0fdf4;padding:4px 8px;border-radius:6px;flex-shrink:0">▶ 60s</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        return headerHtml + debriefHtml + scoreHtml;
+    }
+
+    function fillSalesforce() {
+        demoFilledSalesforce = true;
+        demoEmailSent = false;
+
+        const bottomBar = document.getElementById('demo-bottom-bar');
+        bottomBar.innerHTML = `
+            <div class="demo-confirmation">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#166534" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Updated Salesforce with the call "Priya Sharma · Razorpay — Discovery Call" details
+            </div>
+            <div class="demo-btn-filled">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Updated Salesforce
+            </div>
+        `;
+
+        renderDemoContent();
+        renderDemoSidebar();
+    }
+
+    function sendDemoEmail() {
+        demoEmailSent = true;
+        renderDemoContent();
+    }
+
+    // Close on Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const modal = document.getElementById('demo-modal');
+            if (!modal.classList.contains('hidden')) {
+                closeDemoModal();
+            }
+        }
+    });
     </script>
 
 
