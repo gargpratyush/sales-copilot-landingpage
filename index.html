@@ -715,13 +715,18 @@ animation: wv 0.9s ease-in-out infinite;
                         </div>
                         <!-- Pipedrive -->
                         <div class="flex flex-col items-center gap-2">
-                            <iconify-icon icon="simple-icons:pipedrive" class="text-zinc-400" width="52" height="52"></iconify-icon>
+                            <img src="pipedrive.png" width="52" height="52" alt="Pipedrive" class="rounded-xl" style="filter: grayscale(100%) opacity(0.55);">
                             <span class="text-[0.55rem] font-semibold uppercase tracking-wider text-zinc-400">Pipedrive</span>
                         </div>
                         <!-- Freshsales -->
                         <div class="flex flex-col items-center gap-2">
-                            <iconify-icon icon="simple-icons:freshworks" class="text-zinc-400" width="52" height="52"></iconify-icon>
+                            <img src="freshsales.png" width="52" height="52" alt="Freshsales" class="rounded-xl" style="filter: grayscale(100%) opacity(0.55);">
                             <span class="text-[0.55rem] font-semibold uppercase tracking-wider text-zinc-400">Freshsales</span>
+                        </div>
+                        <!-- Excel -->
+                        <div class="flex flex-col items-center gap-2">
+                            <img src="excel.jpg" width="52" height="52" alt="Excel" class="rounded-xl" style="filter: grayscale(100%) opacity(0.55);">
+                            <span class="text-[0.55rem] font-semibold uppercase tracking-wider text-zinc-400">Excel</span>
                         </div>
                     </div>
                 </div>
@@ -1676,7 +1681,7 @@ animation: wv 0.9s ease-in-out infinite;
         .crm-cat-card.active .crm-cat-card-meta { color: rgba(255,255,255,0.45); }
         .crm-cat-badge { font-size: 0.58rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; display: inline-block; width: fit-content; margin-top: 2px; }
         .crm-cat-badge.filled { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
-        .crm-cat-badge.review { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
+        .crm-cat-badge.review { background: #f4f4f5; color: #52525b; border: 1px solid #d4d4d8; }
         .crm-cat-card.active .crm-cat-badge { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.75); border-color: rgba(255,255,255,0.15); }
         @keyframes crm-detail-in { from { opacity:0; transform:translateX(10px); } to { opacity:1; transform:translateX(0); } }
         .crm-detail-body { animation: crm-detail-in 0.2s ease forwards; }
@@ -2705,31 +2710,76 @@ animation: wv 0.9s ease-in-out infinite;
         document.querySelectorAll('.crm-cat-card').forEach(el => el.classList.remove('active'));
     }
 
+    function showAllReviewFields() {
+        const call = demoCalls[demoActiveCall];
+        const canEdit = isCallPending(call);
+        if (!canEdit) return;
+        const lc=call.leadCategorization, bm=call.bantMeddic,
+              od=call.opportunityDetails, pf=call.productTechFit,
+              int_=call.internalNotes, em=call.followUpEmail;
+        const emailSent = !!demoEmailSentByCall[call.id];
+
+        const critWarn = `<div style="display:flex;align-items:center;gap:9px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 14px;margin-bottom:16px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><span style="font-size:0.72rem;font-weight:600;color:#dc2626">Critical — Requires human judgement for these fields.</span></div>`;
+
+        function secBlock(title, fieldsHtml) {
+            return `<div style="margin-bottom:20px"><div style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#a1a1aa;margin-bottom:10px;display:flex;align-items:center;gap:8px"><span>${title}</span><span style="flex:1;height:1px;background:#e4e4e7;display:inline-block"></span></div>${fieldsHtml}</div>`;
+        }
+
+        const blocks = [];
+        if (lc.icpFit.editable) {
+            blocks.push(secBlock('Lead Categorization', `<div class="demo-fi-grid">${fiSel('ICP fit',lc.icpFit,true)}</div>`));
+        }
+        if (bm.championStrength.editable) {
+            blocks.push(secBlock('BANT / MEDDIC', `<div class="demo-fi-grid">${fiSel('Champion strength',bm.championStrength,true)}</div>`));
+        }
+        if (od.stage.editable||od.closeDate.editable||od.winProbability.editable||od.pipelineCategory.editable||od.forecastCategory.editable) {
+            blocks.push(secBlock('Opportunity Details', `<div class="demo-fi-grid">${[fiSel('Stage',od.stage,true),fiInput('Close date',od.closeDate,true),fiInput('Win probability',od.winProbability,true),fiSel('Pipeline category',od.pipelineCategory,true),fiSel('Forecast category',od.forecastCategory,true)].join('')}</div>`));
+        }
+        if (pf.productFitAssessment.editable) {
+            blocks.push(secBlock('Product & Tech Fit', `<div class="demo-fi-grid">${fiSel('Product fit assessment',pf.productFitAssessment,true)}</div>`));
+        }
+        if (int_.repDealAssessment.editable||int_.managerCoachingFlag.editable) {
+            blocks.push(secBlock('Internal Notes', `<div class="demo-fi-grid">${[fiTA("Rep's deal assessment",int_.repDealAssessment,true,4),fiSel('Manager coaching flag',int_.managerCoachingFlag,true)].join('')}</div>`));
+        }
+        if (!emailSent) {
+            const emailCard = `<div class="demo-email-card"><div class="demo-email-toolbar"><span class="demo-email-toolbar-title">New Message</span><span style="font-size:0.68rem;color:#a1a1aa">Draft</span></div><div class="demo-email-row"><span class="demo-email-label">To</span><span class="demo-email-input" style="color:#2563eb">${em.to}</span></div><div class="demo-email-row"><span class="demo-email-label">Subject</span><input class="demo-email-input-editable" style="flex:1" value="${em.subject}" /></div><div class="demo-email-body"><textarea class="editable-body" rows="8">${em.body}</textarea></div><div class="demo-email-actions"><button class="demo-btn-send" onclick="sendDemoEmail()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Send Email</button><span style="font-size:0.72rem;color:#a1a1aa">via Gmail</span></div></div>`;
+            blocks.push(secBlock('Follow-up Email', emailCard));
+        }
+
+        const html = `<div class="crm-detail-body"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid #f4f4f5"><h3 style="font-size:0.9rem;font-weight:700;color:#18181b">All Fields Needing Review</h3><span style="font-size:0.6rem;font-weight:700;background:#fffbeb;color:#92400e;border:1px solid #fde68a;padding:3px 9px;border-radius:6px">${blocks.length} sections</span></div>${critWarn}${blocks.join('')}</div>`;
+
+        demoActiveCRMSection = null;
+        document.querySelectorAll('.crm-cat-card').forEach(el => el.classList.remove('active'));
+
+        if (window.innerWidth < 768) {
+            const overlay = document.getElementById('crm-mobile-overlay');
+            const content = document.getElementById('crm-mobile-detail-content');
+            const titleEl = document.getElementById('crm-mobile-overlay-title');
+            if (overlay && content) {
+                if (titleEl) titleEl.textContent = 'Fields Needing Review';
+                content.innerHTML = html;
+                overlay.style.display = 'flex';
+                overlay.scrollTop = 0;
+                const demoContent = document.getElementById('demo-content');
+                if (demoContent) demoContent.scrollTop = 0;
+            }
+        } else {
+            const panel = document.getElementById('crm-detail-panel');
+            if (panel) panel.innerHTML = html;
+        }
+    }
+
     function renderCRMSectionDetail(id, call, canEdit) {
         const cc=call.contactAndCompany, lc=call.leadCategorization, bm=call.bantMeddic,
               od=call.opportunityDetails, ins=call.callInsights, pf=call.productTechFit,
               int_=call.internalNotes, em=call.followUpEmail;
         const emailSent = !!demoEmailSentByCall[call.id] || !canEdit;
 
-        const hasCriticalBySection = {
-            contact: false, lead: true, qual: true, opp: true,
-            insights: false, product: true, internal: true, email: true
-        };
-        const isReview = canEdit && hasCriticalBySection[id];
-        const badge = isReview
-            ? `<span style="font-size:0.6rem;font-weight:700;background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;padding:3px 9px;border-radius:6px">Critical fields</span>`
-            : `<span style="font-size:0.6rem;font-weight:700;background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;padding:3px 9px;border-radius:6px">Auto-filled</span>`;
         const sectionNames = {
             contact:'Contact & Company', lead:'Lead Categorization', qual:'BANT / MEDDIC',
             opp:'Opportunity Details', insights:'Call Insights', product:'Product & Tech Fit',
             internal:'Internal Notes', email:'Follow-up Email'
         };
-
-        // Warning banner shown before critical fields
-        const critWarn = `<div style="display:flex;align-items:center;gap:9px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 14px;margin-bottom:12px">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-            <span style="font-size:0.72rem;font-weight:600;color:#dc2626">Critical — Requires human judgement for critical fields.</span>
-        </div>`;
 
         // Auto-filled divider label
         const autoLabel = `<div style="font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#a1a1aa;margin:14px 0 8px;display:flex;align-items:center;gap:8px">
@@ -2862,10 +2912,10 @@ animation: wv 0.9s ease-in-out infinite;
             }
         }
 
-        // Build body: critical fields first (with warning), then auto-filled
+        // Build body: critical fields first, then auto-filled
         let body = '';
         if (criticalHtml) {
-            body = critWarn + criticalHtml;
+            body = criticalHtml;
             if (autoHtml) body += autoLabel + autoHtml;
         } else {
             body = autoHtml;
@@ -2874,7 +2924,6 @@ animation: wv 0.9s ease-in-out infinite;
         return `<div>
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid #f4f4f5">
                 <h3 style="font-size:0.9rem;font-weight:700;color:#18181b">${sectionNames[id]}</h3>
-                ${badge}
             </div>
             ${body}
         </div>`;
@@ -3227,24 +3276,28 @@ animation: wv 0.9s ease-in-out infinite;
         const reviewCount = Object.values(reviewMap).filter(Boolean).length;
 
         const sectionDefs = [
-            {id:'contact', title:'Contact & Company', count:10},
-            {id:'lead',    title:'Lead Categorization', count:5},
-            {id:'qual',    title:'BANT / MEDDIC', count:13},
-            {id:'opp',     title:'Opportunity Details', count:9},
-            {id:'insights',title:'Call Insights', count:5},
-            {id:'product', title:'Product & Tech Fit', count:6},
-            {id:'internal',title:'Internal Notes', count:5},
+            {id:'contact', title:'Contact & Company', count:10, reviewFields:0},
+            {id:'lead',    title:'Lead Categorization', count:5,  reviewFields:1},
+            {id:'qual',    title:'BANT / MEDDIC', count:13,       reviewFields:1},
+            {id:'opp',     title:'Opportunity Details', count:9,  reviewFields:5},
+            {id:'insights',title:'Call Insights', count:5,        reviewFields:0},
+            {id:'product', title:'Product & Tech Fit', count:6,   reviewFields:1},
+            {id:'internal',title:'Internal Notes', count:5,       reviewFields:2},
         ];
 
         const cards = sectionDefs.map(s => {
             const isActive = demoActiveCRMSection === s.id;
-            const badgeCls = reviewMap[s.id] ? 'review' : 'filled';
-            const badgeTxt = reviewMap[s.id] ? 'Review needed' : 'Auto-filled';
+            const badgeHtml = (reviewMap[s.id] && s.reviewFields > 0)
+                ? `<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:2px">
+                    <div class="crm-cat-badge filled">Auto Filled - ${s.count - s.reviewFields}</div>
+                    <div class="crm-cat-badge review">To Review - ${s.reviewFields}</div>
+                   </div>`
+                : `<div class="crm-cat-badge filled">Auto-filled</div>`;
             return `<div class="crm-cat-card${isActive?' active':''}" data-section-id="${s.id}" onclick="selectCRMSection('${s.id}')">
                 <div class="crm-cat-card-icon">${crmSectionIcon(s.id)}</div>
                 <div class="crm-cat-card-title">${s.title}</div>
                 <div class="crm-cat-card-meta">${s.count} fields</div>
-                <div class="crm-cat-badge ${badgeCls}">${badgeTxt}</div>
+                ${badgeHtml}
             </div>`;
         }).join('');
 
@@ -3260,7 +3313,7 @@ animation: wv 0.9s ease-in-out infinite;
                 <div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #e4e4e7">
                     <h3 style="font-size:0.88rem;font-weight:700;color:#18181b;margin-bottom:2px">${call.contact} · ${call.company}</h3>
                     <p style="font-size:0.7rem;color:#a1a1aa;margin-bottom:8px">${call.date} · ${call.duration}</p>
-                    ${reviewCount>0?`<div style="display:inline-flex;align-items:center;gap:6px;font-size:0.65rem;font-weight:600;color:#92400e;background:#fffbeb;border:1px solid #fde68a;border-radius:6px;padding:4px 9px"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>${reviewCount} need review</div>`:''}
+                    ${reviewCount>0?`<button onclick="showAllReviewFields()" style="display:inline-flex;align-items:center;gap:6px;font-size:0.65rem;font-weight:600;color:#3f3f46;background:#fff;border:1.5px solid #d4d4d8;border-radius:7px;padding:5px 11px;cursor:pointer;transition:all 0.15s;box-shadow:0 1px 3px rgba(0,0,0,0.07)" onmouseenter="this.style.background='#f4f4f5';this.style.borderColor='#a1a1aa'" onmouseleave="this.style.background='#fff';this.style.borderColor='#d4d4d8'"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>${reviewCount} fields to review<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></button>`:''}
                 </div>
                 <div class="crm-cat-grid">${cards}</div>
             </div>
