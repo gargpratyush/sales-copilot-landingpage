@@ -115,7 +115,7 @@ animation: wv 0.9s ease-in-out infinite;
                     <p class="text-lg md:text-xl text-zinc-500 leading-relaxed font-normal max-w-2xl">
                         Clariva <span class="highlighter-text">auto-fills your CRM</span> after every call — and <span class="highlighter-text">coaches your reps</span> to close more of them. Two problems. One product. Zero manual effort.
                     </p>
-                    <span class="inline-block mt-6 px-5 py-2 text-sm font-medium text-zinc-600 border-2 border-dashed border-zinc-300 rounded-full">Built for B2B sales teams of 5–50 reps.</span>
+                    <span class="inline-block mt-6 px-5 py-2 text-sm font-medium text-zinc-600 border-2 border-dashed border-zinc-300 rounded-full">Built for B2B sales teams.</span>
                 </div>
 
                 <div class="flex flex-col items-start md:items-end gap-3 shrink-0">
@@ -1471,6 +1471,9 @@ animation: wv 0.9s ease-in-out infinite;
         .demo-loading-step-text { font-size:0.82rem;font-weight:500;color:#e2e8f0; }
         .demo-loading-tick { font-size:1rem;width:24px;text-align:center; }
         .demo-loading-spinner { width:18px;height:18px;border:2px solid rgba(255,255,255,0.12);border-top-color:#DFFF00;border-radius:50%;animation:demo-spin 0.75s linear infinite;flex-shrink:0; }
+        /* Critical field — filled/confirmed state */
+        .crm-field-filled { background:#f0fdf4 !important; border:1.5px solid #22c55e !important; color:#166534 !important; transition:all 0.2s ease; }
+        select.crm-field-filled { background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2322c55e' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important; background-repeat:no-repeat !important; background-position:right 10px center !important; }
 
         /* ── CRM split-view category grid ── */
         .crm-cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
@@ -1508,7 +1511,7 @@ animation: wv 0.9s ease-in-out infinite;
             <!-- Body -->
             <div class="flex flex-1 overflow-hidden flex-col md:flex-row">
                 <!-- Sidebar -->
-                <div id="demo-sidebar" class="w-full md:w-72 border-r border-zinc-200 bg-zinc-50 overflow-y-auto shrink-0 flex flex-col">
+                <div id="demo-sidebar" class="w-full md:w-96 border-r border-zinc-200 bg-zinc-50 overflow-y-auto shrink-0 flex flex-col">
                     <div class="px-4 py-3 border-b border-zinc-200">
                         <h3 class="text-xs font-bold uppercase tracking-widest text-zinc-400">Today's Calls</h3>
                         <p class="text-[0.65rem] text-zinc-400 mt-1">Mon, Mar 30 · 6 calls today</p>
@@ -2215,21 +2218,15 @@ animation: wv 0.9s ease-in-out infinite;
         const cc=call.contactAndCompany, lc=call.leadCategorization, bm=call.bantMeddic,
               od=call.opportunityDetails, ins=call.callInsights, pf=call.productTechFit,
               int_=call.internalNotes, em=call.followUpEmail;
-          const emailSent = !!demoEmailSentByCall[call.id] || !canEdit;
+        const emailSent = !!demoEmailSentByCall[call.id] || !canEdit;
 
-        const reviewMap = {
-            contact: false,
-            lead:    canEdit&&lc.icpFit.editable,
-            qual:    canEdit&&(bm.championStrength.editable),
-            opp:     canEdit&&(od.stage.editable||od.closeDate.editable||od.winProbability.editable||od.pipelineCategory.editable||od.forecastCategory.editable),
-            insights:false,
-            product: canEdit&&pf.productFitAssessment.editable,
-            internal:canEdit&&(int_.repDealAssessment.editable||int_.managerCoachingFlag.editable),
-            email:   canEdit&&!emailSent
+        const hasCriticalBySection = {
+            contact: false, lead: true, qual: true, opp: true,
+            insights: false, product: true, internal: true, email: true
         };
-        const isReview = reviewMap[id];
+        const isReview = canEdit && hasCriticalBySection[id];
         const badge = isReview
-            ? `<span style="font-size:0.6rem;font-weight:700;background:#fffbeb;color:#92400e;border:1px solid #fde68a;padding:3px 9px;border-radius:6px">Review needed</span>`
+            ? `<span style="font-size:0.6rem;font-weight:700;background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;padding:3px 9px;border-radius:6px">Critical fields</span>`
             : `<span style="font-size:0.6rem;font-weight:700;background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;padding:3px 9px;border-radius:6px">Auto-filled</span>`;
         const sectionNames = {
             contact:'Contact & Company', lead:'Lead Categorization', qual:'BANT / MEDDIC',
@@ -2237,26 +2234,44 @@ animation: wv 0.9s ease-in-out infinite;
             internal:'Internal Notes', email:'Follow-up Email'
         };
 
-        let body = '';
+        // Warning banner shown before critical fields
+        const critWarn = `<div style="display:flex;align-items:center;gap:9px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 14px;margin-bottom:12px">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            <span style="font-size:0.72rem;font-weight:600;color:#dc2626">Critical — Requires human judgement for critical fields.</span>
+        </div>`;
+
+        // Auto-filled divider label
+        const autoLabel = `<div style="font-size:0.62rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#a1a1aa;margin:14px 0 8px;display:flex;align-items:center;gap:8px">
+            <span>Auto-filled</span><span style="flex:1;height:1px;background:#e4e4e7;display:inline-block"></span>
+        </div>`;
+
+        let criticalHtml = '';
+        let autoHtml = '';
+
         switch(id) {
             case 'contact':
-                body = `<div class="demo-fi-grid">${[
+                autoHtml = `<div class="demo-fi-grid">${[
                     fi('Full name',cc.fullName), fi('Email',cc.email),
                     fi('Phone',cc.phone), fi('WhatsApp',cc.whatsapp),
                     fi('Designation',cc.designation), fi('LinkedIn URL',cc.linkedinUrl),
                     fi('Company name',cc.companyName), fi('Industry',cc.industry),
                     fi('Company size',cc.companySize), fi('HQ location',cc.hqLocation)
-                ].join('')}</div>`; break;
+                ].join('')}</div>`;
+                break;
+
             case 'lead':
-                body = `<div class="demo-fi-grid">${[
+                if (canEdit) criticalHtml = `<div class="demo-fi-grid">${fiSel('ICP fit',lc.icpFit,true)}</div>`;
+                autoHtml = `<div class="demo-fi-grid">${[
                     fiSel('Lead source',lc.leadSource,false),
-                    fiSel('ICP fit',lc.icpFit,canEdit),
                     fiSel('Segment',lc.segment,false),
                     fiSel('Territory / region',lc.territoryRegion,false),
                     fi('Inbound intent signal',lc.inboundIntentSignal)
-                ].join('')}</div>`; break;
+                ].join('')}</div>`;
+                break;
+
             case 'qual':
-                body = `<div class="demo-fi-grid">${[
+                if (canEdit) criticalHtml = `<div class="demo-fi-grid">${fiSel('Champion strength',bm.championStrength,true)}</div>`;
+                autoHtml = `<div class="demo-fi-grid">${[
                     fiSel('Budget status',bm.budgetStatus,false),
                     fi('Budget evidence',bm.budgetEvidence),
                     fiSel('Authority identified',bm.authorityIdentified,false),
@@ -2265,61 +2280,75 @@ animation: wv 0.9s ease-in-out infinite;
                     fi('Pain evidence',bm.painEvidence),
                     fiSel('Timeline status',bm.timelineStatus,false),
                     fi('Timeline evidence',bm.timelineEvidence),
-                    fiSel('Champion strength',bm.championStrength,canEdit),
                     fiSel('Competition awareness',bm.competitionAwareness,false),
                     fi('Decision process',bm.decisionProcess),
                     fi('Identified risks',bm.identifiedRisks),
                     fi('Overall MEDDIC score',bm.overallMeddic.value)
-                ].join('')}</div>`; break;
+                ].join('')}</div>`;
+                break;
+
             case 'opp':
-                body = `<div class="demo-fi-grid">${[
-                    fiSel('Stage',od.stage,canEdit),
+                if (canEdit) criticalHtml = `<div class="demo-fi-grid">${[
+                    fiSel('Stage',od.stage,true),
+                    fiInput('Close date',od.closeDate,true),
+                    fiInput('Win probability',od.winProbability,true),
+                    fiSel('Pipeline category',od.pipelineCategory,true),
+                    fiSel('Forecast category',od.forecastCategory,true)
+                ].join('')}</div>`;
+                autoHtml = `<div class="demo-fi-grid">${[
                     fi('Deal size',od.dealSize),
-                    fiInput('Close date',od.closeDate,canEdit),
-                    fiInput('Win probability',od.winProbability,canEdit),
-                    fiSel('Pipeline category',od.pipelineCategory,canEdit),
-                    fiSel('Forecast category',od.forecastCategory,canEdit),
                     fiSel('Risk level',od.riskLevel,false),
                     fi('Deal velocity',od.dealVelocity),
                     fi('Competitors in deal',od.competitorsInDeal)
-                ].join('')}</div>`; break;
+                ].join('')}</div>`;
+                break;
+
             case 'insights':
-                body = `<div class="demo-fi-grid">${[
+                autoHtml = `<div class="demo-fi-grid">${[
                     fiTA('Meeting summary',{value:ins.meetingSummary},false,5),
                     fiTags('Key topics discussed',ins.keyTopicsDiscussed),
                     fiBullets('Questions raised by prospect',ins.questionsRaised),
                     fiBullets('Objections / concerns',ins.objectionsConcerns),
                     fi('Sentiment / engagement',ins.sentimentEngagement)
-                ].join('')}</div>`; break;
+                ].join('')}</div>`;
+                break;
+
             case 'product':
-                body = `<div class="demo-fi-grid">${[
+                if (canEdit) criticalHtml = `<div class="demo-fi-grid">${fiSel('Product fit assessment',pf.productFitAssessment,true)}</div>`;
+                autoHtml = `<div class="demo-fi-grid">${[
                     fiTags('Current tools',pf.currentTools),
                     fiSel('Primary use case',pf.primaryUseCase,false),
                     fi('Technical requirements mentioned',pf.technicalRequirementsMentioned),
-                    fiSel('Product fit assessment',pf.productFitAssessment,canEdit),
                     fiSel('SE / technical support needed',pf.seNeeded,false),
                     fiSel('Integration complexity',pf.integrationComplexity,false)
-                ].join('')}</div>`; break;
+                ].join('')}</div>`;
+                break;
+
             case 'internal':
-                body = `<div class="demo-fi-grid">${[
+                if (canEdit) criticalHtml = `<div class="demo-fi-grid">${[
+                    fiTA("Rep's deal assessment",int_.repDealAssessment,true,4),
+                    fiSel('Manager coaching flag',int_.managerCoachingFlag,true)
+                ].join('')}</div>`;
+                autoHtml = `<div class="demo-fi-grid">${[
                     fi('Next step',int_.nextStep),
                     fiSel('Next step owner',int_.nextStepOwner,false),
-                    fi('Next step deadline',int_.nextStepDeadline),
-                    fiTA('Rep\'s deal assessment',int_.repDealAssessment,canEdit,4),
-                    fiSel('Manager coaching flag',int_.managerCoachingFlag,canEdit)
-                ].join('')}</div>`; break;
-            case 'email':
+                    fi('Next step deadline',int_.nextStepDeadline)
+                ].join('')}</div>`;
+                break;
+
+            case 'email': {
                 const emailEditable = canEdit && !emailSent;
-                body = `<div class="demo-email-card">
+                const emailBody = `<div class="demo-email-card">
                     <div class="demo-email-toolbar">
                         <span class="demo-email-toolbar-title">New Message</span>
                         ${emailSent ? '<span style="font-size:0.68rem;color:#166534;font-weight:600">Sent</span>' : '<span style="font-size:0.68rem;color:#a1a1aa">Draft</span>'}
                     </div>
                     <div class="demo-email-row">
                         <span class="demo-email-label">To</span>
-                        ${emailEditable ? `<input class="demo-email-input-editable" value="${em.to}" />` : `<span class="demo-email-input" style="color:#2563eb">${em.to}</span>`}
+                        <span class="demo-email-input" style="color:#2563eb">${em.to}</span>
                     </div>
-                    <div class="demo-email-row">
+                    ${emailEditable ? critWarn.replace('margin-bottom:12px','margin:10px 16px 4px') : ''}
+                    <div class="demo-email-row" ${emailEditable ? 'style="border-top:none"' : ''}>
                         <span class="demo-email-label">Subject</span>
                         ${emailEditable ? `<input class="demo-email-input-editable" style="flex:1" value="${em.subject}" />` : `<span class="demo-email-input" style="font-weight:600">${em.subject}</span>`}
                     </div>
@@ -2331,7 +2360,24 @@ animation: wv 0.9s ease-in-out infinite;
                             ? `<button class="demo-btn-send" onclick="sendDemoEmail()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Send Email</button><span style="font-size:0.72rem;color:#a1a1aa">via Gmail</span>`
                             : `<button class="demo-btn-sent" disabled><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Email Sent</button>`}
                     </div>
-                </div>`; break;
+                </div>`;
+                return `<div>
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid #f4f4f5">
+                        <h3 style="font-size:0.9rem;font-weight:700;color:#18181b">${sectionNames[id]}</h3>
+                        ${badge}
+                    </div>
+                    ${emailBody}
+                </div>`;
+            }
+        }
+
+        // Build body: critical fields first (with warning), then auto-filled
+        let body = '';
+        if (criticalHtml) {
+            body = critWarn + criticalHtml;
+            if (autoHtml) body += autoLabel + autoHtml;
+        } else {
+            body = autoHtml;
         }
 
         return `<div>
@@ -2528,8 +2574,8 @@ animation: wv 0.9s ease-in-out infinite;
         if (canEdit && obj.editable) {
             const opts = (obj.options||[]).map(o => `<option${o===obj.value?' selected':''}>${o}</option>`).join('');
             return `<div class="demo-fi full">
-                <span class="demo-fi-label">${label} <span style="color:#f59e0b;font-size:0.62rem">✎ your judgment</span></span>
-                <select class="demo-fi-select">${opts}</select>
+                <span class="demo-fi-label">${label}</span>
+                <select class="demo-fi-select" onfocus="this.classList.add('crm-field-filled')">${opts}</select>
             </div>`;
         }
         return fi(label, obj.value);
@@ -2537,8 +2583,8 @@ animation: wv 0.9s ease-in-out infinite;
     function fiInput(label, obj, canEdit) {
         if (canEdit && obj.editable) {
             return `<div class="demo-fi full">
-                <span class="demo-fi-label">${label} <span style="color:#f59e0b;font-size:0.62rem">✎ your judgment</span></span>
-                <input type="text" class="demo-fi-input" value="${obj.value||''}"/>
+                <span class="demo-fi-label">${label}</span>
+                <input type="text" class="demo-fi-input" value="${obj.value||''}" onfocus="this.classList.add('crm-field-filled')"/>
             </div>`;
         }
         return fi(label, obj.value);
@@ -2547,8 +2593,8 @@ animation: wv 0.9s ease-in-out infinite;
         rows = rows || 4;
         if (canEdit && obj && obj.editable) {
             return `<div class="demo-fi full">
-                <span class="demo-fi-label">${label} <span style="color:#f59e0b;font-size:0.62rem">✎ your judgment</span></span>
-                <textarea class="demo-fi-textarea editable" rows="${rows}">${obj.value||''}</textarea>
+                <span class="demo-fi-label">${label}</span>
+                <textarea class="demo-fi-textarea editable" rows="${rows}" onfocus="this.classList.add('crm-field-filled')">${obj.value||''}</textarea>
             </div>`;
         }
         const val = obj ? obj.value : (typeof label !== 'object' ? '' : '');
@@ -2686,7 +2732,7 @@ animation: wv 0.9s ease-in-out infinite;
             </div>`;
 
         return `<div style="display:flex;height:100%;overflow:hidden">
-            <div style="width:42%;border-right:1px solid #e4e4e7;overflow-y:auto;background:#f8fafc;padding:18px 14px;flex-shrink:0">
+            <div style="width:48%;border-right:1px solid #e4e4e7;overflow-y:auto;background:#f8fafc;padding:18px 14px;flex-shrink:0">
                 <div style="margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid #e4e4e7">
                     <h3 style="font-size:0.88rem;font-weight:700;color:#18181b;margin-bottom:2px">${call.contact} · ${call.company}</h3>
                     <p style="font-size:0.7rem;color:#a1a1aa;margin-bottom:8px">${call.date} · ${call.duration}</p>
