@@ -1536,112 +1536,95 @@ animation: wv 0.9s ease-in-out infinite;
     const demoCalls = [
         {
             id: 0,
-            contact: "Priya Sharma",
-            company: "Razorpay",
-            role: "VP Engineering",
+            contact: "Rahul Verma",
+            company: "Urban Company",
+            role: "VP of Engineering",
             type: "Discovery Call",
             date: "Mon, Mar 30",
             time: "10:15 AM",
             duration: "34 min",
-            initials: "PS",
+            initials: "RV",
             avatarBg: "#dbeafe",
             avatarColor: "#1e40af",
             status: "pending",
-            contactInfo: {
-                company: "Razorpay",
-                contactName: "Priya Sharma",
-                title: "VP Engineering",
-                email: "priya.sharma@razorpay.com",
-                phone: "+91 98201 44738",
-                linkedin: "linkedin.com/in/priyasharma-rzp",
-                companySize: "3,500+ employees",
-                annualRevenue: "₹2,800 Cr ($340M)",
-                industry: "FinTech / Payments",
-                region: "Bengaluru, Karnataka"
+            contactAndCompany: {
+                fullName: "Rahul Verma",
+                email: "rahul.verma@urbancompany.com",
+                phone: "+91 98765 43210",
+                whatsapp: "+91 98765 43210",
+                designation: "VP of Engineering",
+                linkedinUrl: "linkedin.com/in/rahulverma-uc",
+                companyName: "Urban Company",
+                industry: "Consumer Tech / Home Services",
+                companySize: "~3,000 employees",
+                hqLocation: "Gurugram, India"
             },
             leadCategorization: {
-                leadSource: "Outbound — SDR Sequence",
-                leadType: { value: "New", editable: true, options: ["New","Existing","Referral","Inbound","Partner"] },
-                leadScore: { value: "82", editable: true },
-                leadStatus: { value: "Working", editable: true, options: ["New","Working","Nurturing","Qualified","Unqualified"] },
-                icpFit: { value: "Strong", editable: true, options: ["Strong","Moderate","Weak"] }
+                leadSource: { value: "Inbound - Website", editable: false, options: ["Inbound - Website","Inbound - Content","Outbound - SDR","Outbound - LinkedIn","Referral - Customer","Referral - Partner","Event - SaaSBOOMi","Event - Other","Channel partner","Product signup"] },
+                icpFit: { value: "Strong fit", editable: true, options: ["Strong fit","Moderate fit","Weak fit","Not ICP"] },
+                segment: { value: "Mid-market", editable: false, options: ["SMB (<100 emp)","Mid-market (100-1000)","Enterprise (1000+)"] },
+                territoryRegion: { value: "North India", editable: false, options: ["North India","South India","West India","East India","PAN India","International"] },
+                inboundIntentSignal: "Visited pricing page 3x, downloaded CRM integration guide"
             },
-            qualification: {
-                budgetConfirmed: { value: "Yes", editable: true, options: ["Yes","No","Partially"] },
-                budgetRange: "₹15L — ₹25L/year",
-                authorityDecisionMaker: "Priya Sharma (VP Engg) + CTO Harshil Mathur",
-                economicBuyer: "Harshil Mathur, CTO",
-                championIdentified: { value: "Yes — Priya Sharma", editable: true },
-                painLevel: { value: "High", editable: true, options: ["Critical","High","Medium","Low"] },
-                currentSolution: "Datadog (Enterprise Plan)",
-                painPoints: [
-                    "Spending ₹45L/year on Datadog but missing ~30% critical incidents",
-                    "Alert fatigue — 200+ false positives per week across 200 microservices",
-                    "No AI-driven root cause analysis; manual triage takes 45+ min per incident",
-                    "Lack of cost visibility per service — cannot attribute infra spend to teams"
-                ],
-                decisionTimeline: "6 weeks (mid-May 2026)",
-                urgencyLevel: { value: "High", editable: true, options: ["Critical","High","Medium","Low"] },
-                decisionProcess: "Technical eval → POC → CTO sign-off → Procurement",
-                decisionCriteria: "Incident detection speed, cost reduction vs Datadog, AI root-cause accuracy",
-                metricsKPIs: "MTTR (<5 min target), false positive rate (<5%), infra cost attribution"
+            bantMeddic: {
+                budgetStatus: { value: "Budget identified", editable: false, options: ["No budget discussion","Budget exploring","Budget identified","Budget approved","Budget allocated"] },
+                budgetEvidence: '"We have 18-20L earmarked for observability tooling this FY" — said at 14:32',
+                authorityIdentified: { value: "Influencer identified", editable: false, options: ["Unknown","Influencer identified","Decision maker identified","EB + champion confirmed","Buying committee mapped"] },
+                decisionMaker: '"This will need Priya\'s sign-off — she heads platform engineering" — said at 22:15',
+                needPainIdentified: { value: "Pain articulated", editable: false, options: ["No pain discussed","Latent pain","Pain acknowledged","Pain articulated","Pain quantified"] },
+                painEvidence: '"Our engineers spend 2-3 hours a day on log debugging — it\'s our #1 productivity killer" — said at 08:47',
+                timelineStatus: { value: "Event-driven deadline", editable: false, options: ["No timeline discussed","Vague (\"sometime this year\")","Rough quarter (\"Q2-ish\")","Event-driven deadline","Hard contractual date"] },
+                timelineEvidence: '"Our Datadog contract renews June 30 — we need to have a decision by mid-May" — said at 19:05',
+                championStrength: { value: "Supportive, not yet selling internally", editable: true, options: ["No champion","Sympathetic but passive","Supportive, not yet selling internally","Actively selling internally","Has mobilized buying committee"] },
+                competitionAwareness: { value: "Evaluating alternatives", editable: false, options: ["No mention of alternatives","Aware of alternatives","Evaluating alternatives","Shortlisted (2-3 vendors)","Head-to-head final eval"] },
+                decisionProcess: '"We\'ll do a POC with 2 vendors, then present to leadership in May" — said at 24:10',
+                identifiedRisks: "Single-threaded (only Rahul engaged). No access to EB yet. Datadog incumbent with 2yr history.",
+                overallMeddic: { value: "6 / 10", editable: false }
             },
             opportunityDetails: {
-                stage: { value: "Qualification", editable: true, options: ["Prospecting","Qualification","Proposal","Negotiation","Closed Won","Closed Lost"] },
+                stage: { value: "Qualification", editable: true, options: ["Prospecting","Qualification","Discovery","Demo / POC","Proposal sent","Negotiation","Verbal commit","Closed won","Closed lost"] },
                 dealSize: "₹18,00,000",
-                closeDate: "15 May 2026",
+                closeDate: { value: "15 May 2026", editable: true },
                 winProbability: { value: "45%", editable: true },
-                pipelineCategory: { value: "Upside", editable: true, options: ["Commit","Best Case","Upside","Pipeline","Omitted"] },
-                forecastCategory: { value: "Pipeline", editable: true, options: ["Closed","Commit","Best Case","Pipeline","Omitted"] },
-                riskLevel: { value: "Medium", editable: true, options: ["Low","Medium","High"] },
+                pipelineCategory: { value: "Upside", editable: true, options: ["Commit","Upside","Best case","Pipeline","Omit"] },
+                forecastCategory: { value: "Pipeline", editable: true, options: ["Omit","Pipeline","Best case","Most likely","Commit","Closed"] },
+                riskLevel: { value: "Medium", editable: false, options: ["Low","Medium","High","At risk"] },
                 dealVelocity: "18 days in current stage",
                 competitorsInDeal: "Grafana Cloud, Datadog (incumbent)"
             },
             callInsights: {
-                keyTakeaways: [
-                    "Exploring automated cloud monitoring for 200+ microservices on AWS and GCP",
-                    "Currently on Datadog — spending ₹45L/year but missing ~30% critical incidents",
-                    "Decision in 6 weeks; evaluating Grafana Cloud as alternative"
+                meetingSummary: "Rahul (VP Eng) exploring alternatives to Datadog before June renewal. Key pain: engineer debugging time (2-3 hrs/day). Budget 18-20L approved. Needs POC with 2 vendors, decision by mid-May. Priya (Head of Platform) is the final sign-off.",
+                keyTopicsDiscussed: ["Pricing","Datadog migration","Log debugging pain","POC requirements","Timeline pressure","Budget allocation"],
+                questionsRaised: [
+                    "Can you match Datadog's Kubernetes integration?",
+                    "What does migration from Datadog look like?",
+                    "Do you support on-prem for our compliance-sensitive workloads?"
                 ],
-                objectionsRaised: [
-                    "Concerned about migration complexity from Datadog — 200 dashboards to recreate",
-                    "Questioned whether CloudPulse can match Datadog's APM depth"
+                objectionsConcerns: [
+                    '"Datadog is deeply integrated — switching cost worries me" (at 16:20)',
+                    '"My team is stretched — can\'t afford a long migration" (at 21:45)'
                 ],
-                featuresDiscussed: ["AI Root Cause Analysis","Real-time Alerting","Cost Attribution","Multi-cloud Support","Custom Dashboards","Kubernetes Monitoring"],
-                buyingSignals: [
-                    "Asked about implementation timeline and onboarding support",
-                    "Requested pricing comparison document vs Datadog",
-                    "Mentioned CTO is 'very interested in seeing an alternative'"
-                ],
-                redFlags: [
-                    "Priya mentioned Grafana Cloud is offering a 3-month free pilot",
-                    "DevOps lead Arjun Bhatia was not on the call — may have competing preference"
-                ]
+                sentimentEngagement: "Positive — high engagement, asked detailed technical questions, voluntarily shared budget and timeline info"
             },
-            productFit: {
-                productsOfInterest: "CloudPulse Pro + AI Root Cause Add-on",
-                primaryUseCase: "Full-stack observability across 200+ microservices (AWS + GCP)",
-                integrationRequirements: "AWS CloudWatch, GCP Stackdriver, PagerDuty, Slack, Jira",
-                technicalComplexity: { value: "High", editable: true, options: ["Low","Medium","High"] },
-                implementationTimeline: "4–6 weeks (phased rollout by team)",
-                pocRequired: { value: "Yes", editable: true, options: ["Yes","No","TBD"] }
+            productTechFit: {
+                currentTools: ["Datadog (primary)","Grafana (team-level)","PagerDuty","Kubernetes","AWS"],
+                primaryUseCase: { value: "Replace incumbent", editable: false, options: ["Greenfield (no existing tool)","Replace incumbent","Complement existing","Consolidate multiple tools","Expand from team to org"] },
+                technicalRequirementsMentioned: "Kubernetes-native integration, on-prem option for compliance workloads, Datadog migration path",
+                productFitAssessment: { value: "Good fit with gaps", editable: true, options: ["Perfect fit","Good fit with gaps","Partial fit — needs customization","Poor fit — major gaps","Not a fit"] },
+                seNeeded: { value: "POC support required", editable: false, options: ["None — self-serve","Light (async questions)","POC support required","Custom demo required","Full SE engagement"] },
+                integrationComplexity: { value: "Medium", editable: false, options: ["Low (plug and play)","Medium (some config)","High (custom integration)","Very high (professional services)"] }
             },
-            internal: {
-                repNotes: { value: "Priya is a strong champion — she personally experienced alert fatigue during the March 15 outage. Need to get Arjun Bhatia (DevOps lead) on next call. He may prefer Grafana due to open-source familiarity. Strategy: lead with cost savings angle + AI differentiation vs both Datadog and Grafana.", editable: true },
-                managerFlag: { value: "No", editable: true, options: ["No","Yes — Review Deal","Yes — Escalate"] },
-                followUpDate: "1 Apr 2026",
-                nextStepPriority: { value: "High", editable: true, options: ["Low","Medium","High","Urgent"] },
-                nextActions: [
-                    "Send pricing comparison vs Datadog by Wednesday",
-                    "Schedule technical deep-dive with DevOps lead Arjun Bhatia",
-                    "Share customer case study — similar scale (FinTech, 150+ services)",
-                    "Prepare ROI model showing ₹45L Datadog spend vs CloudPulse TCO"
-                ]
+            internalNotes: {
+                nextStep: "Send POC scoping document and Datadog migration case study by Thursday Apr 3",
+                nextStepOwner: { value: "Us (seller)", editable: false, options: ["Us (seller)","Them (prospect)","Both","Pending decision"] },
+                nextStepDeadline: "Thu, 3 Apr 2026",
+                repDealAssessment: { value: "Good opportunity — real pain, real budget, clear timeline pressure from Datadog renewal. Risk: single-threaded with Rahul, no access to Priya (EB) yet. Need to multi-thread before POC.", editable: true },
+                managerCoachingFlag: { value: "Help needed — access to EB", editable: true, options: ["No help needed","Help needed — access to EB","Help needed — pricing/discount","Help needed — competitive positioning","Help needed — technical objection","Escalation to leadership"] }
             },
-            draftEmail: {
-                to: "priya.sharma@razorpay.com",
-                subject: "CloudPulse x Razorpay — Pricing Comparison & Next Steps",
-                body: "Hi Priya,\n\nThank you for taking the time to walk me through Razorpay's monitoring setup today. It was really helpful to understand the scale of your infrastructure — 200+ microservices across AWS and GCP is no small feat.\n\nA few things I'm putting together based on our conversation:\n\n1. Pricing comparison — CloudPulse vs Datadog for your current usage (200 services, 2 cloud providers). I'll have this ready by Wednesday.\n\n2. Customer case study — a FinTech company running 150+ services that reduced their MTTR from 42 min to under 4 min after switching to CloudPulse.\n\n3. Technical deep-dive — I'd love to set up a session with Arjun Bhatia and our Solutions Engineering team to walk through the migration path from Datadog, including dashboard portability.\n\nWould Thursday 2:00 PM IST work for the technical session? Happy to adjust based on Arjun's availability.\n\nLooking forward to it.\n\nBest regards,\nAditya Rajan\nAccount Executive, CloudPulse\naditya.rajan@cloudpulse.io | +91 98765 43210"
+            followUpEmail: {
+                to: "rahul.verma@urbancompany.com",
+                subject: "Following up: POC scope + Datadog migration path",
+                body: "Hi Rahul,\n\nGreat speaking with you today. As discussed, I'll share:\n\n1. POC scoping document for your Kubernetes environment\n2. Datadog migration case study from a similar-scale deployment\n\nI'll have these over by Thursday.\n\nIn the meantime, would it make sense to loop in Priya for the next conversation so we can address the compliance workload requirements?"
             },
             coaching: {
                 score: 78,
@@ -1654,7 +1637,7 @@ animation: wv 0.9s ease-in-out infinite;
                 ],
                 nailed: 'Strong pain discovery — got prospect to quantify: <strong>"We\'re spending ₹45L/year on Datadog and still missing 30% of incidents."</strong> This gives you a concrete anchor for ROI.',
                 nailedTs: "12:18 — pain quantification",
-                improve: 'When Priya mentioned evaluating <strong>Grafana Cloud</strong>, you moved on too quickly. Next time ask: <span style="color:#16a34a;font-weight:500">"What criteria matter most when you compare tools?"</span>',
+                improve: 'When Rahul mentioned evaluating <strong>Grafana Cloud</strong>, you moved on too quickly. Next time ask: <span style="color:#16a34a;font-weight:500">"What criteria matter most when you compare tools?"</span>',
                 improveTs: "19:45 — missed competitive dig",
                 trend: 'Discovery depth <strong>up 22%</strong> over last 8 calls. <strong style="color:#d97706">Competitive handling</strong> flagged in 4 of last 6.',
                 trendBars: [40,48,44,56,52,62,66,76]
@@ -1673,100 +1656,84 @@ animation: wv 0.9s ease-in-out infinite;
             avatarBg: "#fce7f3",
             avatarColor: "#9d174d",
             status: "updated",
-            contactInfo: {
-                company: "Lenskart",
-                contactName: "Vikram Desai",
-                title: "Head of Platform Engineering",
+            contactAndCompany: {
+                fullName: "Vikram Desai",
                 email: "vikram.desai@lenskart.com",
                 phone: "+91 99100 28374",
-                linkedin: "linkedin.com/in/vikramdesai-lk",
-                companySize: "10,000+ employees",
-                annualRevenue: "₹5,400 Cr ($650M)",
+                whatsapp: "+91 99100 28374",
+                designation: "Head of Platform Engineering",
+                linkedinUrl: "linkedin.com/in/vikramdesai-lk",
+                companyName: "Lenskart",
                 industry: "E-commerce / D2C Retail",
-                region: "Gurugram, Haryana"
+                companySize: "10,000+ employees",
+                hqLocation: "Gurugram, Haryana"
             },
             leadCategorization: {
-                leadSource: "Inbound — Website Demo Request",
-                leadType: { value: "New", editable: false },
-                leadScore: { value: "91", editable: false },
-                leadStatus: { value: "Qualified", editable: false },
-                icpFit: { value: "Strong", editable: false }
+                leadSource: { value: "Inbound - Website", editable: false, options: ["Inbound - Website","Inbound - Content","Outbound - SDR","Outbound - LinkedIn","Referral - Customer","Referral - Partner","Event - SaaSBOOMi","Event - Other","Channel partner","Product signup"] },
+                icpFit: { value: "Strong fit", editable: false, options: ["Strong fit","Moderate fit","Weak fit","Not ICP"] },
+                segment: { value: "Enterprise (1000+)", editable: false, options: ["SMB (<100 emp)","Mid-market (100-1000)","Enterprise (1000+)"] },
+                territoryRegion: { value: "North India", editable: false, options: ["North India","South India","West India","East India","PAN India","International"] },
+                inboundIntentSignal: "Visited pricing page 5x, downloaded case studies, attended webinar on alert latency"
             },
-            qualification: {
-                budgetConfirmed: { value: "Yes", editable: false },
-                budgetRange: "₹20L — ₹30L/year",
-                authorityDecisionMaker: "Vikram Desai (Head of Platform) + VP Engineering Ramesh Iyer",
-                economicBuyer: "Ramesh Iyer, VP Engineering",
-                championIdentified: { value: "Yes — Vikram Desai", editable: false },
-                painLevel: { value: "Critical", editable: false },
-                currentSolution: "PagerDuty + custom Grafana dashboards",
-                painPoints: [
-                    "PagerDuty alerting has 4-min avg notification delay — too slow for production",
-                    "Grafana dashboards are manual and fragmented — no unified observability",
-                    "Recent Black Friday outage lasted 22 min due to slow alert routing",
-                    "Cannot correlate metrics across 120 services and 2 AWS regions"
-                ],
-                decisionTimeline: "4 weeks (end of April 2026)",
-                urgencyLevel: { value: "Critical", editable: false },
-                decisionProcess: "Vendor security review → Final pricing → VP sign-off → Procurement",
-                decisionCriteria: "Alert latency (<30s), multi-region support, SOC 2 compliance",
-                metricsKPIs: "Alert latency, MTTR, service uptime (99.95% target), cost per service"
+            bantMeddic: {
+                budgetStatus: { value: "Budget approved", editable: false, options: ["No budget discussion","Budget exploring","Budget identified","Budget approved","Budget allocated"] },
+                budgetEvidence: '"Budget already approved for Q2 — no additional approval needed" — said at 08:15',
+                authorityIdentified: { value: "Buying committee mapped", editable: false, options: ["Unknown","Influencer identified","Decision maker identified","EB + champion confirmed","Buying committee mapped"] },
+                decisionMaker: '"Vikram is very engaged, but VP Engineering Ramesh Iyer has final sign-off" — said at 12:30',
+                needPainIdentified: { value: "Pain quantified", editable: false, options: ["No pain discussed","Latent pain","Pain acknowledged","Pain articulated","Pain quantified"] },
+                painEvidence: '"Alert latency costs us ₹2.3L per minute of downtime during peak sales" — said at 09:50',
+                timelineStatus: { value: "Hard contractual date", editable: false, options: ["No timeline discussed","Vague (\"sometime this year\")","Rough quarter (\"Q2-ish\")","Event-driven deadline","Hard contractual date"] },
+                timelineEvidence: '"Security questionnaire review by Thursday, decision by end of April" — said at 14:00',
+                championStrength: { value: "Actively selling internally", editable: false, options: ["No champion","Sympathetic but passive","Supportive, not yet selling internally","Actively selling internally","Has mobilized buying committee"] },
+                competitionAwareness: { value: "Shortlisted (2-3 vendors)", editable: false, options: ["No mention of alternatives","Aware of alternatives","Evaluating alternatives","Shortlisted (2-3 vendors)","Head-to-head final eval"] },
+                decisionProcess: '"Vendor security review → Final pricing → VP sign-off → Procurement" — said at 11:20',
+                identifiedRisks: "Procurement team may benchmark against PagerDuty renewal discount.",
+                overallMeddic: { value: "8 / 10", editable: false }
             },
             opportunityDetails: {
-                stage: { value: "Negotiation", editable: false },
+                stage: { value: "Negotiation", editable: false, options: ["Prospecting","Qualification","Discovery","Demo / POC","Proposal sent","Negotiation","Verbal commit","Closed won","Closed lost"] },
                 dealSize: "₹24,00,000",
-                closeDate: "28 Apr 2026",
+                closeDate: { value: "28 Apr 2026", editable: false },
                 winProbability: { value: "72%", editable: false },
-                pipelineCategory: { value: "Best Case", editable: false },
-                forecastCategory: { value: "Best Case", editable: false },
-                riskLevel: { value: "Low", editable: false },
+                pipelineCategory: { value: "Best case", editable: false, options: ["Commit","Upside","Best case","Pipeline","Omit"] },
+                forecastCategory: { value: "Best case", editable: false, options: ["Omit","Pipeline","Best case","Most likely","Commit","Closed"] },
+                riskLevel: { value: "Low", editable: false, options: ["Low","Medium","High","At risk"] },
                 dealVelocity: "12 days in current stage",
                 competitorsInDeal: "PagerDuty (incumbent), Datadog"
             },
             callInsights: {
-                keyTakeaways: [
-                    "Interested in real-time alerting module — current PagerDuty has 4-min delay",
-                    "Infrastructure team of 8 engineers managing 120 services across 2 AWS regions",
-                    "Budget approved for Q2; procurement needs vendor security questionnaire"
+                meetingSummary: "Vikram leading technical eval for 120 services across 2 AWS regions. Alert latency is the main driver — current system has 4-min delay. Budget approved for Q2. Security questionnaire is blocking approval. Team of 8 engineers managing infrastructure.",
+                keyTopicsDiscussed: ["Real-time alerting","Multi-region support","SOC 2 compliance","Slack integration","Alert latency SLA","Annual contract discount"],
+                questionsRaised: [
+                    "Pricing per service vs PagerDuty's per-user model — how do they compare?",
+                    "Can you guarantee <30s alert latency in contract SLA?",
+                    "What's your annual contract discount structure?"
                 ],
-                objectionsRaised: [
-                    "Pricing per service seems higher than PagerDuty's per-user model",
-                    "Wants guarantee of <30s alert latency in contract SLA"
+                objectionsConcerns: [
+                    '"PagerDuty has 2 years of history — switching feels risky" (at 18:45)',
+                    '"Need CISO approval for any new vendor" (at 19:30)'
                 ],
-                featuresDiscussed: ["Real-time Alerting","Multi-region Monitoring","SOC 2 Compliance","Slack Integration","Custom Metrics","On-call Scheduling"],
-                buyingSignals: [
-                    "Budget already approved for Q2 — no additional approval needed",
-                    "Sent vendor security questionnaire proactively",
-                    "Asked about annual contract discount structure"
-                ],
-                redFlags: [
-                    "Procurement team may benchmark against PagerDuty renewal discount"
-                ]
+                sentimentEngagement: "Very positive — initiated inbound after Black Friday incident. Proactively sent security questionnaire. High urgency and engagement level."
             },
-            productFit: {
-                productsOfInterest: "CloudPulse Pro + Real-time Alerting Module",
-                primaryUseCase: "Sub-30s alerting across 120 services in 2 AWS regions",
-                integrationRequirements: "AWS CloudWatch, PagerDuty (migration), Slack, Jira, OpsGenie",
-                technicalComplexity: { value: "Medium", editable: false },
-                implementationTimeline: "3–4 weeks (single-phase rollout)",
-                pocRequired: { value: "No", editable: false }
+            productTechFit: {
+                currentTools: ["PagerDuty (primary)","Custom Grafana dashboards","AWS CloudWatch","Slack","Jira"],
+                primaryUseCase: { value: "Replace incumbent", editable: false, options: ["Greenfield (no existing tool)","Replace incumbent","Complement existing","Consolidate multiple tools","Expand from team to org"] },
+                technicalRequirementsMentioned: "Sub-30s alerting, multi-region support (AWS), SOC 2 compliance, Slack/Jira integration, alert correlation",
+                productFitAssessment: { value: "Perfect fit", editable: false, options: ["Perfect fit","Good fit with gaps","Partial fit — needs customization","Poor fit — major gaps","Not a fit"] },
+                seNeeded: { value: "Light (async questions)", editable: false, options: ["None — self-serve","Light (async questions)","POC support required","Custom demo required","Full SE engagement"] },
+                integrationComplexity: { value: "Low (plug and play)", editable: false, options: ["Low (plug and play)","Medium (some config)","High (custom integration)","Very high (professional services)"] }
             },
-            internal: {
-                repNotes: { value: "Vikram is very engaged — he initiated the inbound request after the Black Friday incident. Security questionnaire is the main blocker. Need to fast-track SOC 2 documentation. Pricing negotiation will center on per-service vs per-user model comparison.", editable: false },
-                managerFlag: { value: "No", editable: false },
-                followUpDate: "31 Mar 2026",
-                nextStepPriority: { value: "Urgent", editable: false },
-                nextActions: [
-                    "Fill vendor security questionnaire by Thursday EOD",
-                    "Send revised pricing for 120-service tier with annual discount",
-                    "Loop in Lenskart's CISO for compliance walkthrough",
-                    "Prepare alert latency benchmarks from existing customers"
-                ]
+            internalNotes: {
+                nextStep: "Fill vendor security questionnaire by Thursday EOD. Send revised pricing for 120-service tier.",
+                nextStepOwner: { value: "Us (seller)", editable: false, options: ["Us (seller)","Them (prospect)","Both","Pending decision"] },
+                nextStepDeadline: "Thu, 31 Mar 2026",
+                repDealAssessment: { value: "Very strong deal — real urgency from Black Friday incident, champion actively pushing internally, budget already approved. Main blocker is security questionnaire. Once cleared, should close by end of April.", editable: false },
+                managerCoachingFlag: { value: "No help needed", editable: false, options: ["No help needed","Help needed — access to EB","Help needed — pricing/discount","Help needed — competitive positioning","Help needed — technical objection","Escalation to leadership"] }
             },
-            draftEmail: {
+            followUpEmail: {
                 to: "vikram.desai@lenskart.com",
-                subject: "Re: CloudPulse Security Questionnaire & Revised Pricing",
-                body: "Hi Vikram,\n\nGreat speaking with you again today. I'm glad the alerting demo resonated with your team's needs.\n\nHere's what I'm sending over:\n\n1. Security questionnaire — Our compliance team is completing it and will have it back to you by Thursday EOD. We're SOC 2 Type II certified, so most questions should be straightforward.\n\n2. Revised pricing — I've worked with our team on a 120-service tier that brings the per-service cost down meaningfully compared to the standard plan. Attaching the updated proposal.\n\n3. CISO walkthrough — Would it help to schedule a 30-min session with your CISO and our Head of Security? We can walk through our data handling, encryption, and compliance posture live.\n\nLet me know if Thursday 11:00 AM IST works for the CISO session.\n\nBest,\nAditya Rajan\nAccount Executive, CloudPulse\naditya.rajan@cloudpulse.io | +91 98765 43210"
+                subject: "Re: Security Questionnaire & Revised Pricing",
+                body: "Hi Vikram,\n\nGreat speaking with you today. Really impressed by your technical depth and clear urgency.\n\nHere's what I'm sending over:\n\n1. Completed security questionnaire — SOC 2 Type II certified\n2. Revised pricing for 120-service tier with annual discount\n3. Reference customer in e-commerce with similar architecture\n\nWould Thursday 11 AM work for a CISO walkthrough session?\n\nBest,\nAditya"
             },
             coaching: {
                 score: 82,
@@ -1777,7 +1744,7 @@ animation: wv 0.9s ease-in-out infinite;
                     { name: "Next Steps", value: 90, color: "#22c55e" },
                     { name: "Talk Ratio", value: 72, color: "#22c55e" }
                 ],
-                nailed: 'Excellent objection reframe — when Vikram pushed back on pricing, you anchored to <strong>₹2.3L/month cost of downtime</strong> from their own incident report. Very effective.',
+                nailed: 'Excellent objection reframe — when Vikram questioned pricing model, you anchored to <strong>₹2.3L/month cost of downtime</strong> from incident report. Very effective.',
                 nailedTs: "08:52 — ROI anchoring",
                 improve: 'You spent 6 minutes on feature walkthrough when Vikram had already seen the demo. Next time ask: <span style="color:#16a34a;font-weight:500">"Which specific area would be most useful to revisit?"</span>',
                 improveTs: "15:10 — unnecessary feature recap",
@@ -1798,101 +1765,84 @@ animation: wv 0.9s ease-in-out infinite;
             avatarBg: "#fef3c7",
             avatarColor: "#92400e",
             status: "updated",
-            contactInfo: {
-                company: "Delhivery",
-                contactName: "Ananya Iyer",
-                title: "Director of Engineering — Infrastructure",
+            contactAndCompany: {
+                fullName: "Ananya Iyer",
                 email: "ananya.iyer@delhivery.com",
                 phone: "+91 88261 97450",
-                linkedin: "linkedin.com/in/ananyaiyer-dlv",
-                companySize: "25,000+ employees",
-                annualRevenue: "₹7,600 Cr ($920M)",
+                whatsapp: "+91 88261 97450",
+                designation: "Director of Engineering — Infrastructure",
+                linkedinUrl: "linkedin.com/in/ananyaiyer-dlv",
+                companyName: "Delhivery",
                 industry: "Logistics / Supply Chain",
-                region: "Gurugram, Haryana"
+                companySize: "25,000+ employees",
+                hqLocation: "Gurugram, Haryana"
             },
             leadCategorization: {
-                leadSource: "Event — YourStory TechSparks 2025",
-                leadType: { value: "New", editable: false },
-                leadScore: { value: "76", editable: false },
-                leadStatus: { value: "Qualified", editable: false },
-                icpFit: { value: "Strong", editable: false }
+                leadSource: { value: "Event - YourStory TechSparks 2025", editable: false, options: [] },
+                icpFit: { value: "Strong fit", editable: false, options: ["Strong fit","Moderate fit","Weak fit","Not ICP"] },
+                segment: { value: "Enterprise (1000+)", editable: false, options: ["SMB (<100 emp)","Mid-market (100-1000)","Enterprise (1000+)"] },
+                territoryRegion: { value: "North India", editable: false, options: ["North India","South India","West India","East India","PAN India","International"] },
+                inboundIntentSignal: "Preparing major infrastructure overhaul — interested in unified monitoring"
             },
-            qualification: {
-                budgetConfirmed: { value: "Partially", editable: false },
-                budgetRange: "₹25L — ₹40L/year",
-                authorityDecisionMaker: "Ananya Iyer (Dir. Engg) + CTO Kapil Bharati",
-                economicBuyer: "Kapil Bharati, CTO",
-                championIdentified: { value: "Yes — Ananya Iyer", editable: false },
-                painLevel: { value: "High", editable: false },
-                currentSolution: "Zabbix (on-prem) + AWS CloudWatch (cloud)",
-                painPoints: [
-                    "No unified view across 500+ servers (on-prem) and cloud infrastructure",
-                    "Zabbix is aging — requires 2 FTE just for monitoring tool maintenance",
-                    "Data residency requirements limit which cloud tools they can use",
-                    "Manual incident correlation across on-prem and cloud takes 60+ min"
-                ],
-                decisionTimeline: "8–10 weeks (June 2026)",
-                urgencyLevel: { value: "Medium", editable: false },
-                decisionProcess: "Technical eval + POC → Architecture review board → CTO approval → Legal",
-                decisionCriteria: "Hybrid cloud support, data residency compliance, CloudWatch integration depth",
-                metricsKPIs: "Unified dashboard adoption, incident correlation time, Zabbix replacement savings"
+            bantMeddic: {
+                budgetStatus: { value: "Budget exploring", editable: false, options: ["No budget discussion","Budget exploring","Budget identified","Budget approved","Budget allocated"] },
+                budgetEvidence: '"Considering ₹30-40L annually for new observability platform" — said at 09:15',
+                authorityIdentified: { value: "Buying committee mapped", editable: false, options: ["Unknown","Influencer identified","Decision maker identified","EB + champion confirmed","Buying committee mapped"] },
+                decisionMaker: '"CTO Kapil Bharati has final sign-off on platform choices" — said at 14:00',
+                needPainIdentified: { value: "Pain articulated", editable: false, options: ["No pain discussed","Latent pain","Pain acknowledged","Pain articulated","Pain quantified"] },
+                painEvidence: '"No unified view across 500+ servers in 3 data centers" — said at 10:30',
+                timelineStatus: { value: "Rough quarter", editable: false, options: ["No timeline discussed","Vague (\"sometime this year\")","Rough quarter (\"Q2-ish\")","Event-driven deadline","Hard contractual date"] },
+                timelineEvidence: '"Planning procurement in Q3 after internal reviews" — said at 15:45',
+                championStrength: { value: "Supportive, not yet selling internally", editable: false, options: ["No champion","Sympathetic but passive","Supportive, not yet selling internally","Actively selling internally","Has mobilized buying committee"] },
+                competitionAwareness: { value: "Evaluating alternatives", editable: false, options: ["No mention of alternatives","Aware of alternatives","Evaluating alternatives","Shortlisted (2-3 vendors)","Head-to-head final eval"] },
+                decisionProcess: '"Technical eval → Architecture review → CTO approval" — said at 16:20',
+                identifiedRisks: "Dynatrace is the main competitor. Data residency concerns because of ops across India.",
+                overallMeddic: { value: "6 / 10", editable: false }
             },
             opportunityDetails: {
-                stage: { value: "Proposal", editable: false },
+                stage: { value: "Proposal", editable: false, options: ["Prospecting","Qualification","Discovery","Demo / POC","Proposal sent","Negotiation","Verbal commit","Closed won","Closed lost"] },
                 dealSize: "₹32,00,000",
-                closeDate: "10 Jun 2026",
+                closeDate: { value: "10 Jun 2026", editable: false },
                 winProbability: { value: "38%", editable: false },
-                pipelineCategory: { value: "Pipeline", editable: false },
-                forecastCategory: { value: "Pipeline", editable: false },
-                riskLevel: { value: "Medium", editable: false },
+                pipelineCategory: { value: "Pipeline", editable: false, options: ["Commit","Upside","Best case","Pipeline","Omit"] },
+                forecastCategory: { value: "Pipeline", editable: false, options: ["Omit","Pipeline","Best case","Most likely","Commit","Closed"] },
+                riskLevel: { value: "Medium", editable: false, options: ["Low","Medium","High","At risk"] },
                 dealVelocity: "22 days in current stage",
                 competitorsInDeal: "Dynatrace, Zabbix (incumbent)"
             },
             callInsights: {
-                keyTakeaways: [
-                    "Need integration with AWS CloudWatch and custom Kafka metrics pipeline",
-                    "500+ servers across Mumbai, Chennai, Hyderabad DCs — strict data residency",
-                    "Current monitoring gap: no unified view across on-prem and cloud infra"
+                meetingSummary: "Ananya exploring unified monitoring for 500+ on-prem servers across 3 Indian data centers + AWS. Current pain: no unified view, Zabbix maintenance overhead. Budget exploring ₹30-40L annually. Timeline: Q3 procurement, decision by June.",
+                keyTopicsDiscussed: ["Hybrid cloud monitoring","Data residency requirements","On-prem deployment options","Zabbix replacement","Kafka metrics integration"],
+                questionsRaised: [
+                    "Do you support on-prem deployment with data residency in India?",
+                    "What's the migration path from Zabbix?",
+                    "Can you integrate with Kafka metrics pipeline?"
                 ],
-                objectionsRaised: [
-                    "Data must stay in Indian data centers — concerned about cloud SaaS compliance",
-                    "Dynatrace offering on-prem deployment option; CloudPulse needs to match"
+                objectionsConcerns: [
+                    '"Data must stay in Indian data centers — compliance requirement" (at 18:50)',
+                    '"Dynatrace offers on-prem option — can you match that?" (at 19:30)'
                 ],
-                featuresDiscussed: ["Hybrid Cloud Monitoring","CloudWatch Integration","Kafka Metrics Pipeline","Data Residency Controls","On-prem Agent","Custom Dashboards"],
-                buyingSignals: [
-                    "Asked for sandbox access to test CloudWatch integration immediately",
-                    "Ananya mentioned that eliminating Zabbix maintenance would free 2 engineers",
-                    "Requested data residency documentation for internal legal review"
-                ],
-                redFlags: [
-                    "Dynatrace is offering an on-prem deployment — we need a strong counter",
-                    "Architecture review board may slow down decision by 3–4 weeks"
-                ]
+                sentimentEngagement: "Positive — technical buyer, detailed questions, clear use case. Concerned about vendor lock-in."
             },
-            productFit: {
-                productsOfInterest: "CloudPulse Enterprise + Hybrid Cloud Module + On-prem Agent",
-                primaryUseCase: "Unified monitoring across 500+ on-prem servers and AWS cloud",
-                integrationRequirements: "AWS CloudWatch, Kafka, Zabbix (data migration), Prometheus, Grafana",
-                technicalComplexity: { value: "High", editable: false },
-                implementationTimeline: "8–10 weeks (phased: cloud → on-prem → unified)",
-                pocRequired: { value: "Yes", editable: false }
+            productTechFit: {
+                currentTools: ["Zabbix (primary on-prem)","AWS CloudWatch","Prometheus","Grafana","Kafka"],
+                primaryUseCase: { value: "Replace incumbent", editable: false, options: ["Greenfield (no existing tool)","Replace incumbent","Complement existing","Consolidate multiple tools","Expand from team to org"] },
+                technicalRequirementsMentioned: "On-prem deployment, data residency in India, Kafka integration, Zabbix migration, CloudWatch support",
+                productFitAssessment: { value: "Good fit with gaps", editable: false, options: ["Perfect fit","Good fit with gaps","Partial fit — needs customization","Poor fit — major gaps","Not a fit"] },
+                seNeeded: { value: "Full SE engagement", editable: false, options: ["None — self-serve","Light (async questions)","POC support required","Custom demo required","Full SE engagement"] },
+                integrationComplexity: { value: "High (custom integration)", editable: false, options: ["Low (plug and play)","Medium (some config)","High (custom integration)","Very high (professional services)"] }
             },
-            internal: {
-                repNotes: { value: "Complex deal — hybrid infrastructure is our sweet spot but data residency is a real concern. Need to get legal docs ready ASAP. Dynatrace is the main threat here with their on-prem option. Strategy: emphasize our CloudWatch-native integration depth + Zabbix migration toolkit. Ananya is a technical buyer — lead with architecture, not ROI.", editable: false },
-                managerFlag: { value: "Yes — Review Deal", editable: false },
-                followUpDate: "3 Apr 2026",
-                nextStepPriority: { value: "High", editable: false },
-                nextActions: [
-                    "Send data residency compliance documentation (Indian DC locations)",
-                    "Set up sandbox environment with CloudWatch integration",
-                    "Schedule follow-up with infra architect Meera Krishnan",
-                    "Prepare Zabbix-to-CloudPulse migration assessment document"
-                ]
+            internalNotes: {
+                nextStep: "Send data residency documentation and on-prem deployment specs. Prepare Zabbix migration roadmap.",
+                nextStepOwner: { value: "Us (seller)", editable: false, options: ["Us (seller)","Them (prospect)","Both","Pending decision"] },
+                nextStepDeadline: "Wed, 2 Apr 2026",
+                repDealAssessment: { value: "Complex deal but strong fit. Dynatrace is main threat with on-prem option. Our hybrid strength is ideal. Data residency is key blocker — need legal sign-off.", editable: false },
+                managerCoachingFlag: { value: "Help needed — technical objection", editable: false, options: ["No help needed","Help needed — access to EB","Help needed — pricing/discount","Help needed — competitive positioning","Help needed — technical objection","Escalation to leadership"] }
             },
-            draftEmail: {
+            followUpEmail: {
                 to: "ananya.iyer@delhivery.com",
-                subject: "CloudPulse x Delhivery — Data Residency Docs & Sandbox Access",
-                body: "Hi Ananya,\n\nThank you for the detailed demo session today. Your hybrid infrastructure setup is exactly the kind of environment CloudPulse was built for, and I'm excited about the possibilities.\n\nFollowing up on our conversation:\n\n1. Data residency documentation — Attaching our data handling policy and Indian data center certifications (Mumbai and Chennai regions). This should cover what your legal team needs for the initial review.\n\n2. Sandbox environment — I'm setting up a pre-configured sandbox with CloudWatch integration enabled. You'll have access by tomorrow morning with sample dashboards mirroring your AWS setup.\n\n3. Meera Krishnan session — I'd love to schedule a technical deep-dive with Meera to walk through the on-prem agent deployment architecture and Zabbix migration path.\n\nWould Wednesday 3:00 PM IST work for the session with Meera?\n\nBest regards,\nAditya Rajan\nAccount Executive, CloudPulse\naditya.rajan@cloudpulse.io | +91 98765 43210"
+                subject: "Data Residency & On-Prem Deployment — CloudPulse for Delhivery",
+                body: "Hi Ananya,\n\nThank you for the detailed technical discussion today. Your hybrid infrastructure across 3 Indian data centers is exactly what CloudPulse handles best.\n\n1. Data residency documentation — Attached: Indian DC certifications (Mumbai, Chennai, Bengaluru). Meets compliance.\n\n2. On-prem deployment specs — Coming by Friday with architecture diagrams.\n\n3. Zabbix migration roadmap — Step-by-step process for your 500+ server environment.\n\nLet's schedule a follow-up with your infrastructure architect to walk through deployment options.\n\nBest regards,\nAditya"
             },
             coaching: {
                 score: 71,
@@ -1903,265 +1853,12 @@ animation: wv 0.9s ease-in-out infinite;
                     { name: "Next Steps", value: 80, color: "#22c55e" },
                     { name: "Talk Ratio", value: 55, color: "#f59e0b" }
                 ],
-                nailed: 'Strong technical demo — showed CloudWatch integration live which directly addressed their pain. Ananya said: <strong>"This is exactly the unified view we\'ve been looking for."</strong>',
+                nailed: 'Strong technical demo — showed CloudWatch integration live. Ananya said: <strong>"This is the unified view we need."</strong>',
                 nailedTs: "22:30 — live integration demo",
-                improve: 'Talk ratio was 68% — you spent too long on the Kafka pipeline integration without checking if it was relevant to Ananya\'s team. Ask: <span style="color:#16a34a;font-weight:500">"Is this the workflow your team would actually use?"</span>',
+                improve: 'Talk ratio was 68% — too much speaking on Kafka pipeline without checking relevance. Ask: <span style="color:#16a34a;font-weight:500">"Is this workflow your team would use?"</span>',
                 improveTs: "28:14 — extended monologue",
-                trend: 'Talk ratio <strong>trending high</strong> — above 60% in 5 of last 7 demos. <strong style="color:#d97706">Value articulation</strong> needs sharper business impact framing.',
+                trend: 'Talk ratio trending high in 5 of last 7 demos. Value articulation needs sharper business framing.',
                 trendBars: [55,52,48,50,54,58,55,52]
-            }
-        },
-        {
-            id: 3,
-            contact: "Rohan Kapoor",
-            company: "Groww",
-            role: "Engineering Manager",
-            type: "Intro Call",
-            date: "Mon, Mar 30",
-            time: "3:15 PM",
-            duration: "22 min",
-            initials: "RK",
-            avatarBg: "#dcfce7",
-            avatarColor: "#166534",
-            status: "updated",
-            contactInfo: {
-                company: "Groww",
-                contactName: "Rohan Kapoor",
-                title: "Engineering Manager — Backend & Infrastructure",
-                email: "rohan.kapoor@groww.in",
-                phone: "+91 70219 83456",
-                linkedin: "linkedin.com/in/rohankapoor-groww",
-                companySize: "2,800+ employees",
-                annualRevenue: "₹1,500 Cr ($180M)",
-                industry: "FinTech / Investment Platform",
-                region: "Bengaluru, Karnataka"
-            },
-            leadCategorization: {
-                leadSource: "Inbound — G2 Review Comparison",
-                leadType: { value: "New", editable: false },
-                leadScore: { value: "68", editable: false },
-                leadStatus: { value: "Working", editable: false },
-                icpFit: { value: "Strong", editable: false }
-            },
-            qualification: {
-                budgetConfirmed: { value: "No", editable: false },
-                budgetRange: "₹8L — ₹15L/year (estimated)",
-                authorityDecisionMaker: "Rohan Kapoor (EM) → VP Engg Nishant Patel → CFO",
-                economicBuyer: "Nishant Patel, VP Engineering",
-                championIdentified: { value: "Potential — Rohan Kapoor", editable: false },
-                painLevel: { value: "Critical", editable: false },
-                currentSolution: "None — manual CloudWatch dashboards + Slack alerts",
-                painPoints: [
-                    "No monitoring tool — relying on CloudWatch dashboards and manual Slack alerts",
-                    "Recent 3-hr production outage cost ₹12L in revenue",
-                    "15 engineers spending ~20% time on manual monitoring tasks",
-                    "Kubernetes cluster visibility is near zero — blind spots across 80+ services"
-                ],
-                decisionTimeline: "10–12 weeks (end of June 2026)",
-                urgencyLevel: { value: "High", editable: false },
-                decisionProcess: "EM evaluation → VP Engg buy-in → Budget request to CFO → Procurement",
-                decisionCriteria: "Kubernetes-native monitoring, ease of setup, cost vs build-in-house",
-                metricsKPIs: "Outage frequency, MTTR, K8s pod visibility, engineer time saved"
-            },
-            opportunityDetails: {
-                stage: { value: "Qualification", editable: false },
-                dealSize: "₹12,00,000",
-                closeDate: "30 Jun 2026",
-                winProbability: { value: "30%", editable: false },
-                pipelineCategory: { value: "Pipeline", editable: false },
-                forecastCategory: { value: "Pipeline", editable: false },
-                riskLevel: { value: "Low", editable: false },
-                dealVelocity: "5 days in current stage",
-                competitorsInDeal: "None (greenfield); may consider building in-house"
-            },
-            callInsights: {
-                keyTakeaways: [
-                    "No monitoring tool currently — relying on manual CloudWatch and Slack alerts",
-                    "Backend team of 15 engineers handling 80+ microservices on Kubernetes",
-                    "Recent production outage (3 hrs, ₹12L impact) prompted the search"
-                ],
-                objectionsRaised: [
-                    "Team is considering building in-house monitoring — needs ROI justification",
-                    "Budget not yet approved — Rohan needs to make the internal case"
-                ],
-                featuresDiscussed: ["Kubernetes Monitoring","Auto-discovery","Slack Alerting","Quick Setup","Cost Analytics","Service Maps"],
-                buyingSignals: [
-                    "Recent outage created strong internal urgency to find a solution",
-                    "Rohan asked about time-to-value and quick setup options",
-                    "Expressed interest in case studies from similar FinTech companies"
-                ],
-                redFlags: [
-                    "Budget not approved — Rohan is not the economic buyer",
-                    "Build-vs-buy debate may delay decision by 4+ weeks"
-                ]
-            },
-            productFit: {
-                productsOfInterest: "CloudPulse Pro (Kubernetes Edition)",
-                primaryUseCase: "Full Kubernetes observability across 80+ microservices",
-                integrationRequirements: "AWS EKS, CloudWatch, Slack, GitHub Actions",
-                technicalComplexity: { value: "Low", editable: false },
-                implementationTimeline: "1–2 weeks (K8s agent deployment)",
-                pocRequired: { value: "Yes", editable: false }
-            },
-            internal: {
-                repNotes: { value: "Greenfield opportunity — no incumbent to displace, but budget is the risk. The ₹12L outage is our strongest lever. Need to help Rohan build the internal business case. Send him the ROI calculator and a one-pager he can forward to VP Engg. Build-vs-buy objection is common at this stage — counter with time-to-value (2 weeks vs 6 months to build).", editable: false },
-                managerFlag: { value: "No", editable: false },
-                followUpDate: "2 Apr 2026",
-                nextStepPriority: { value: "Medium", editable: false },
-                nextActions: [
-                    "Send intro deck + Kubernetes monitoring one-pager",
-                    "Schedule full demo with Rohan and his team lead",
-                    "Share FinTech case study (similar K8s setup, 80+ services)",
-                    "Send ROI calculator pre-filled with Groww's outage data"
-                ]
-            },
-            draftEmail: {
-                to: "rohan.kapoor@groww.in",
-                subject: "CloudPulse for Groww — K8s Monitoring One-Pager & Case Study",
-                body: "Hi Rohan,\n\nReally enjoyed our conversation today. The challenges your team is facing with Kubernetes visibility are exactly what we hear from fast-growing FinTech engineering teams.\n\nI'm sending over a few resources that should help:\n\n1. Kubernetes Monitoring One-Pager — A quick overview of how CloudPulse auto-discovers K8s services, pods, and nodes with zero-config setup. Great for sharing with your VP Engg.\n\n2. FinTech Case Study — A company running 85+ microservices on EKS that went from zero monitoring to full observability in 9 days. Their MTTR dropped from 38 min to 3.5 min.\n\n3. ROI Calculator — I've pre-filled it with the numbers you shared (80 services, ₹12L outage cost, 15 engineers). The model shows ~₹48L annual savings vs the current manual approach.\n\nWould you be open to a 45-min demo with your team lead next week? I think seeing the K8s auto-discovery live would be compelling.\n\nBest regards,\nAditya Rajan\nAccount Executive, CloudPulse\naditya.rajan@cloudpulse.io | +91 98765 43210"
-            },
-            coaching: {
-                score: 85,
-                skills: [
-                    { name: "Discovery", value: 92, color: "#22c55e" },
-                    { name: "Objections", value: 78, color: "#22c55e" },
-                    { name: "Value Articulation", value: 82, color: "#22c55e" },
-                    { name: "Next Steps", value: 88, color: "#22c55e" },
-                    { name: "Talk Ratio", value: 76, color: "#22c55e" }
-                ],
-                nailed: 'Masterful discovery — used the recent outage to quantify urgency: <strong>"So that 3-hour outage cost ₹12L — what if you could detect it in under 2 minutes?"</strong> Rohan leaned in immediately.',
-                nailedTs: "06:42 — outage cost reframe",
-                improve: 'Good call overall. One minor point — you could\'ve asked about budget authority earlier. <span style="color:#16a34a;font-weight:500">"Who else would be involved in the final decision?"</span> came too late at minute 20.',
-                improveTs: "20:05 — late stakeholder mapping",
-                trend: 'Discovery scores <strong>consistently above 85</strong> for 6 straight calls. Strongest skill area — keep sharpening competitive positioning.',
-                trendBars: [70,74,78,82,85,88,90,92]
-            }
-        },
-        {
-            id: 4,
-            contact: "Sneha Patel",
-            company: "UrbanCompany",
-            role: "VP Technology",
-            type: "Negotiation Call",
-            date: "Mon, Mar 30",
-            time: "4:30 PM",
-            duration: "38 min",
-            initials: "SP",
-            avatarBg: "#f3e8ff",
-            avatarColor: "#6b21a8",
-            status: "updated",
-            contactInfo: {
-                company: "UrbanCompany",
-                contactName: "Sneha Patel",
-                title: "VP Technology",
-                email: "sneha.patel@urbancompany.com",
-                phone: "+91 98182 56790",
-                linkedin: "linkedin.com/in/snehapatel-uc",
-                companySize: "8,000+ employees",
-                annualRevenue: "₹2,100 Cr ($255M)",
-                industry: "Consumer Services / Marketplace",
-                region: "Gurugram, Haryana"
-            },
-            leadCategorization: {
-                leadSource: "Referral — Razorpay (Priya Sharma)",
-                leadType: { value: "Referral", editable: false },
-                leadScore: { value: "88", editable: false },
-                leadStatus: { value: "Qualified", editable: false },
-                icpFit: { value: "Strong", editable: false }
-            },
-            qualification: {
-                budgetConfirmed: { value: "Yes", editable: false },
-                budgetRange: "₹22L — ₹30L/year",
-                authorityDecisionMaker: "Sneha Patel (VP Tech) + CTO Ankit Gupta",
-                economicBuyer: "Ankit Gupta, CTO",
-                championIdentified: { value: "Yes — Sneha Patel", editable: false },
-                painLevel: { value: "High", editable: false },
-                currentSolution: "New Relic (contract expiring April 2026)",
-                painPoints: [
-                    "New Relic contract expiring — evaluating alternatives for better pricing",
-                    "Current New Relic plan lacks Indian-hours support (only US timezone coverage)",
-                    "Need 99.9% uptime SLA for enterprise clients — New Relic doesn't contractually guarantee it",
-                    "Alert depth is insufficient for their microservices architecture (180+ services)"
-                ],
-                decisionTimeline: "1 week (by 5 Apr 2026)",
-                urgencyLevel: { value: "Critical", editable: false },
-                decisionProcess: "Final pricing negotiation → CTO sign-off → Legal contract review → Procurement",
-                decisionCriteria: "Pricing vs New Relic, Indian support hours, 99.9% SLA, alerting depth",
-                metricsKPIs: "Cost savings vs New Relic, support response time, SLA compliance, alert accuracy"
-            },
-            opportunityDetails: {
-                stage: { value: "Negotiation", editable: false },
-                dealSize: "₹28,00,000",
-                closeDate: "5 Apr 2026",
-                winProbability: { value: "65%", editable: false },
-                pipelineCategory: { value: "Commit", editable: false },
-                forecastCategory: { value: "Commit", editable: false },
-                riskLevel: { value: "High", editable: false },
-                dealVelocity: "8 days in current stage",
-                competitorsInDeal: "New Relic (incumbent renewal)"
-            },
-            callInsights: {
-                keyTakeaways: [
-                    "Final evaluation — comparing CloudPulse vs New Relic renewal on pricing and support",
-                    "Need 20% discount to close this quarter — procurement benchmarked New Relic's offer",
-                    "Sneha is champion internally; CTO Ankit Gupta gives final sign-off and wants 99.9% SLA"
-                ],
-                objectionsRaised: [
-                    "Procurement team benchmarked New Relic's renewal at 20% lower than CloudPulse quote",
-                    "CTO wants 99.9% uptime SLA with financial penalties written into contract",
-                    "Concerned about migration risk — 180 services to move in 4 weeks"
-                ],
-                featuresDiscussed: ["Enterprise SLA","Indian-hours Support","Migration Toolkit","Custom Alerting Rules","Cost Dashboards","Executive Reporting"],
-                buyingSignals: [
-                    "Sneha said 'Indian support hours alone is worth the switch'",
-                    "Asked for extended onboarding support — signals commitment to migrate",
-                    "CTO personally requested the 99.9% SLA conversation — executive attention"
-                ],
-                redFlags: [
-                    "New Relic may counter with aggressive renewal discount to retain",
-                    "4-week migration timeline is tight for 180 services — execution risk"
-                ]
-            },
-            productFit: {
-                productsOfInterest: "CloudPulse Enterprise + Premium Support (Indian Hours)",
-                primaryUseCase: "Full-stack monitoring with 99.9% SLA for 180+ microservices",
-                integrationRequirements: "New Relic (data migration), AWS, Slack, PagerDuty, Jira, ServiceNow",
-                technicalComplexity: { value: "Medium", editable: false },
-                implementationTimeline: "4 weeks (aggressive — parallel migration)",
-                pocRequired: { value: "No", editable: false }
-            },
-            internal: {
-                repNotes: { value: "High-value deal at risk. Sneha is a strong champion but CTO needs the SLA clause to commit. New Relic will likely counter — we need to close fast. Offered 15% discount + extended onboarding (₹3L value) instead of 20% — Sneha accepted the reframe. Need legal to draft 99.9% SLA clause by tomorrow. This is a potential lighthouse account for the consumer services vertical.", editable: false },
-                managerFlag: { value: "Yes — Review Deal", editable: false },
-                followUpDate: "31 Mar 2026",
-                nextStepPriority: { value: "Urgent", editable: false },
-                nextActions: [
-                    "Send revised proposal with 15% discount + extended onboarding support",
-                    "Draft 99.9% uptime SLA clause for legal review (by tomorrow EOD)",
-                    "Schedule 15-min call with CTO Ankit Gupta before Thursday",
-                    "Prepare New Relic migration timeline and risk mitigation plan"
-                ]
-            },
-            draftEmail: {
-                to: "sneha.patel@urbancompany.com",
-                subject: "CloudPulse x UrbanCompany — Revised Proposal & SLA Draft",
-                body: "Hi Sneha,\n\nThank you for the candid conversation today. I appreciate you sharing the procurement benchmarks — it helps me put together the best possible package for UrbanCompany.\n\nHere's what I'm sending over:\n\n1. Revised proposal — 15% discount on the Enterprise plan + 4 weeks of extended onboarding support (valued at ₹3L) at no additional cost. This brings the annual cost to ₹23,80,000.\n\n2. 99.9% SLA draft — Our legal team is drafting the uptime guarantee clause with financial penalty terms as discussed with Ankit. I'll have this ready by tomorrow EOD for your legal team's review.\n\n3. Migration plan — A detailed 4-week migration timeline covering all 180 services, with dedicated migration engineering support and rollback procedures at each phase.\n\nI'd also love to set up a brief 15-minute call with Ankit before Thursday to walk through the SLA terms directly. Would Wednesday 4:00 PM IST work for him?\n\nLooking forward to getting this across the line.\n\nBest regards,\nAditya Rajan\nAccount Executive, CloudPulse\naditya.rajan@cloudpulse.io | +91 98765 43210"
-            },
-            coaching: {
-                score: 74,
-                skills: [
-                    { name: "Discovery", value: 70, color: "#22c55e" },
-                    { name: "Objections", value: 82, color: "#22c55e" },
-                    { name: "Value Articulation", value: 76, color: "#22c55e" },
-                    { name: "Next Steps", value: 80, color: "#22c55e" },
-                    { name: "Talk Ratio", value: 52, color: "#f59e0b" }
-                ],
-                nailed: 'Handled discount pressure expertly — instead of conceding 20%, offered <strong>15% + extended onboarding (₹3L value)</strong>. Sneha accepted the reframe: <strong>"That actually works better for us."</strong>',
-                nailedTs: "16:55 — discount reframe",
-                improve: 'When Sneha mentioned New Relic\'s pricing, you got slightly defensive. Next time lead with: <span style="color:#16a34a;font-weight:500">"What matters more to your team — the price per seat or the total cost of downtime?"</span>',
-                improveTs: "11:22 — defensive pricing response",
-                trend: 'Negotiation skills <strong>improving steadily</strong> — 4 of last 5 deals closed with less than 18% discount. <strong style="color:#d97706">Pricing defense</strong> still needs work under pressure.',
-                trendBars: [50,55,58,62,66,70,72,74]
             }
         }
     ];
@@ -2179,18 +1876,17 @@ animation: wv 0.9s ease-in-out infinite;
     extraPendingCall.avatarBg = "#dcfce7";
     extraPendingCall.avatarColor = "#166534";
     extraPendingCall.status = "pending";
-    extraPendingCall.contactInfo.contactName = "Rahul Verma";
-    extraPendingCall.contactInfo.company = "Urban Company";
-    extraPendingCall.contactInfo.title = "Director of Platform Engineering";
-    extraPendingCall.contactInfo.email = "rahul.verma@urbancompany.com";
-    extraPendingCall.contactInfo.phone = "+91 98110 55274";
-    extraPendingCall.contactInfo.linkedin = "linkedin.com/in/rahulverma-uc";
-    extraPendingCall.contactInfo.companySize = "12,000+ employees";
-    extraPendingCall.contactInfo.annualRevenue = "₹3,900 Cr ($470M)";
-    extraPendingCall.contactInfo.industry = "Consumer Services / Marketplace";
-    extraPendingCall.contactInfo.region = "Gurugram, Haryana";
-    extraPendingCall.draftEmail.to = "rahul.verma@urbancompany.com";
-    extraPendingCall.draftEmail.subject = "CloudPulse x Urban Company — Next Steps";
+    extraPendingCall.contactAndCompany.fullName = "Rahul Verma";
+    extraPendingCall.contactAndCompany.companyName = "Urban Company";
+    extraPendingCall.contactAndCompany.designation = "Director of Platform Engineering";
+    extraPendingCall.contactAndCompany.email = "rahul.verma@urbancompany.com";
+    extraPendingCall.contactAndCompany.phone = "+91 98110 55274";
+    extraPendingCall.contactAndCompany.linkedinUrl = "linkedin.com/in/rahulverma-uc";
+    extraPendingCall.contactAndCompany.companySize = "12,000+ employees";
+    extraPendingCall.contactAndCompany.industry = "Consumer Services / Marketplace";
+    extraPendingCall.contactAndCompany.hqLocation = "Gurugram, Haryana";
+    extraPendingCall.followUpEmail.to = "rahul.verma@urbancompany.com";
+    extraPendingCall.followUpEmail.subject = "CloudPulse x Urban Company — Next Steps";
     demoCalls.unshift(extraPendingCall);
 
     let demoActiveCall = 0;
@@ -2298,19 +1994,19 @@ animation: wv 0.9s ease-in-out infinite;
     }
 
     function renderCRMSectionDetail(id, call, canEdit) {
-        const ci=call.contactInfo, lc=call.leadCategorization, q=call.qualification,
-              od=call.opportunityDetails, ins=call.callInsights, pf=call.productFit,
-              int_=call.internal, em=call.draftEmail;
+        const cc=call.contactAndCompany, lc=call.leadCategorization, bm=call.bantMeddic,
+              od=call.opportunityDetails, ins=call.callInsights, pf=call.productTechFit,
+              int_=call.internalNotes, em=call.followUpEmail;
           const emailSent = !!demoEmailSentByCall[call.id] || !canEdit;
 
         const reviewMap = {
             contact: false,
-            lead:    canEdit&&(lc.leadType.editable||lc.leadScore.editable||lc.leadStatus.editable||lc.icpFit.editable),
-            qual:    canEdit&&(q.budgetConfirmed.editable||q.championIdentified.editable||q.painLevel.editable||q.urgencyLevel.editable),
-            opp:     canEdit&&(od.stage.editable||od.winProbability.editable||od.pipelineCategory.editable||od.forecastCategory.editable||od.riskLevel.editable),
+            lead:    canEdit&&lc.icpFit.editable,
+            qual:    canEdit&&(bm.championStrength.editable),
+            opp:     canEdit&&(od.stage.editable||od.closeDate.editable||od.winProbability.editable||od.pipelineCategory.editable||od.forecastCategory.editable),
             insights:false,
-            product: canEdit&&(pf.technicalComplexity.editable||pf.pocRequired.editable),
-            internal:canEdit&&(int_.repNotes.editable||int_.managerFlag.editable||int_.nextStepPriority.editable),
+            product: canEdit&&pf.productFitAssessment.editable,
+            internal:canEdit&&(int_.repDealAssessment.editable||int_.managerCoachingFlag.editable),
             email:   canEdit&&!emailSent
         };
         const isReview = reviewMap[id];
@@ -2318,81 +2014,81 @@ animation: wv 0.9s ease-in-out infinite;
             ? `<span style="font-size:0.6rem;font-weight:700;background:#fffbeb;color:#92400e;border:1px solid #fde68a;padding:3px 9px;border-radius:6px">Review needed</span>`
             : `<span style="font-size:0.6rem;font-weight:700;background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;padding:3px 9px;border-radius:6px">Auto-filled</span>`;
         const sectionNames = {
-            contact:'Contact & Company Info', lead:'Lead Categorization', qual:'BANT / MEDDIC',
-            opp:'Opportunity Details', insights:'Call Insights', product:'Product & Technical Fit',
-            internal:'Internal Notes', email:'Draft Follow-up Email'
+            contact:'Contact & Company', lead:'Lead Categorization', qual:'BANT / MEDDIC',
+            opp:'Opportunity Details', insights:'Call Insights', product:'Product & Tech Fit',
+            internal:'Internal Notes', email:'Follow-up Email'
         };
 
         let body = '';
         switch(id) {
             case 'contact':
                 body = `<div class="demo-fi-grid">${[
-                    fi('Company',ci.company), fi('Contact Name',ci.contactName),
-                    fi('Title / Role',ci.title), fi('Email',ci.email),
-                    fi('Phone',ci.phone), fi('LinkedIn',ci.linkedin),
-                    fi('Company Size',ci.companySize), fi('Annual Revenue',ci.annualRevenue),
-                    fi('Industry',ci.industry), fi('Region / HQ',ci.region)
+                    fi('Full name',cc.fullName), fi('Email',cc.email),
+                    fi('Phone',cc.phone), fi('WhatsApp',cc.whatsapp),
+                    fi('Designation',cc.designation), fi('LinkedIn URL',cc.linkedinUrl),
+                    fi('Company name',cc.companyName), fi('Industry',cc.industry),
+                    fi('Company size',cc.companySize), fi('HQ location',cc.hqLocation)
                 ].join('')}</div>`; break;
             case 'lead':
                 body = `<div class="demo-fi-grid">${[
-                    fi('Lead Source',lc.leadSource),
-                    fiSel('Lead Type',lc.leadType,canEdit),
-                    fiInput('Lead Score',lc.leadScore,canEdit),
-                    fiSel('Lead Status',lc.leadStatus,canEdit),
-                    fiSel('ICP Fit',lc.icpFit,canEdit)
+                    fiSel('Lead source',lc.leadSource,false),
+                    fiSel('ICP fit',lc.icpFit,canEdit),
+                    fiSel('Segment',lc.segment,false),
+                    fiSel('Territory / region',lc.territoryRegion,false),
+                    fi('Inbound intent signal',lc.inboundIntentSignal)
                 ].join('')}</div>`; break;
             case 'qual':
                 body = `<div class="demo-fi-grid">${[
-                    fiSel('Budget Confirmed',q.budgetConfirmed,canEdit),
-                    fi('Budget Range',q.budgetRange),
-                    fi('Decision Maker',q.authorityDecisionMaker),
-                    fi('Economic Buyer',q.economicBuyer),
-                    fiInput('Champion Identified',q.championIdentified,canEdit),
-                    fiSel('Pain Level',q.painLevel,canEdit),
-                    fi('Current Solution',q.currentSolution),
-                    fi('Decision Timeline',q.decisionTimeline),
-                    fiSel('Urgency Level',q.urgencyLevel,canEdit),
-                    fi('Decision Process',q.decisionProcess,true),
-                    fi('Decision Criteria',q.decisionCriteria,true),
-                    fi('Metrics / KPIs Impacted',q.metricsKPIs,true),
-                    fiBullets('Pain Points Identified',q.painPoints)
+                    fiSel('Budget status',bm.budgetStatus,false),
+                    fi('Budget evidence',bm.budgetEvidence),
+                    fiSel('Authority identified',bm.authorityIdentified,false),
+                    fi('Decision maker',bm.decisionMaker),
+                    fiSel('Need / pain identified',bm.needPainIdentified,false),
+                    fi('Pain evidence',bm.painEvidence),
+                    fiSel('Timeline status',bm.timelineStatus,false),
+                    fi('Timeline evidence',bm.timelineEvidence),
+                    fiSel('Champion strength',bm.championStrength,canEdit),
+                    fiSel('Competition awareness',bm.competitionAwareness,false),
+                    fi('Decision process',bm.decisionProcess),
+                    fi('Identified risks',bm.identifiedRisks),
+                    fi('Overall MEDDIC score',bm.overallMeddic.value)
                 ].join('')}</div>`; break;
             case 'opp':
                 body = `<div class="demo-fi-grid">${[
                     fiSel('Stage',od.stage,canEdit),
-                    fi('Deal Size',od.dealSize),
-                    fi('Close Date',od.closeDate),
-                    fiInput('Win Probability',od.winProbability,canEdit),
-                    fiSel('Pipeline Category',od.pipelineCategory,canEdit),
-                    fiSel('Forecast Category',od.forecastCategory,canEdit),
-                    fiSel('Risk Level',od.riskLevel,canEdit),
-                    fi('Deal Velocity',od.dealVelocity),
-                    fi('Competitors in Deal',od.competitorsInDeal,true)
+                    fi('Deal size',od.dealSize),
+                    fiInput('Close date',od.closeDate,canEdit),
+                    fiInput('Win probability',od.winProbability,canEdit),
+                    fiSel('Pipeline category',od.pipelineCategory,canEdit),
+                    fiSel('Forecast category',od.forecastCategory,canEdit),
+                    fiSel('Risk level',od.riskLevel,false),
+                    fi('Deal velocity',od.dealVelocity),
+                    fi('Competitors in deal',od.competitorsInDeal)
                 ].join('')}</div>`; break;
             case 'insights':
                 body = `<div class="demo-fi-grid">${[
-                    fiBullets('Key Takeaways',ins.keyTakeaways),
-                    fiBullets('Objections Raised',ins.objectionsRaised),
-                    fiTags('Features Discussed',ins.featuresDiscussed),
-                    fiBullets('Buying Signals',ins.buyingSignals),
-                    fiBullets('Red Flags',ins.redFlags)
+                    fiTA('Meeting summary',{value:ins.meetingSummary},false,5),
+                    fiTags('Key topics discussed',ins.keyTopicsDiscussed),
+                    fiBullets('Questions raised by prospect',ins.questionsRaised),
+                    fiBullets('Objections / concerns',ins.objectionsConcerns),
+                    fi('Sentiment / engagement',ins.sentimentEngagement)
                 ].join('')}</div>`; break;
             case 'product':
                 body = `<div class="demo-fi-grid">${[
-                    fi('Products of Interest',pf.productsOfInterest,true),
-                    fi('Primary Use Case',pf.primaryUseCase,true),
-                    fi('Integration Requirements',pf.integrationRequirements,true),
-                    fiSel('Technical Complexity',pf.technicalComplexity,canEdit),
-                    fi('Implementation Timeline',pf.implementationTimeline),
-                    fiSel('POC Required',pf.pocRequired,canEdit)
+                    fiTags('Current tools',pf.currentTools),
+                    fiSel('Primary use case',pf.primaryUseCase,false),
+                    fi('Technical requirements mentioned',pf.technicalRequirementsMentioned),
+                    fiSel('Product fit assessment',pf.productFitAssessment,canEdit),
+                    fiSel('SE / technical support needed',pf.seNeeded,false),
+                    fiSel('Integration complexity',pf.integrationComplexity,false)
                 ].join('')}</div>`; break;
             case 'internal':
                 body = `<div class="demo-fi-grid">${[
-                    fi('Follow-up Date',int_.followUpDate),
-                    fiSel('Next Step Priority',int_.nextStepPriority,canEdit),
-                    fiSel('Manager Flag',int_.managerFlag,canEdit),
-                    fiTA('Rep Notes',int_.repNotes,canEdit,4),
-                    fiBullets('Next Actions',int_.nextActions)
+                    fi('Next step',int_.nextStep),
+                    fiSel('Next step owner',int_.nextStepOwner,false),
+                    fi('Next step deadline',int_.nextStepDeadline),
+                    fiTA('Rep\'s deal assessment',int_.repDealAssessment,canEdit,4),
+                    fiSel('Manager coaching flag',int_.managerCoachingFlag,canEdit)
                 ].join('')}</div>`; break;
             case 'email':
                 const emailEditable = canEdit && !emailSent;
@@ -2725,18 +2421,18 @@ animation: wv 0.9s ease-in-out infinite;
 
     // ── New renderCRMTab (split-view: category grid left + detail panel right) ──
     function renderCRMTab(call, canEdit) {
-        const lc=call.leadCategorization, q=call.qualification, od=call.opportunityDetails,
-              pf=call.productFit, int_=call.internal;
+        const lc=call.leadCategorization, bm=call.bantMeddic, od=call.opportunityDetails,
+              pf=call.productTechFit, int_=call.internalNotes;
         const emailSent = !!demoEmailSentByCall[call.id] || !canEdit;
 
         const reviewMap = {
             contact: false,
-            lead:    canEdit&&(lc.leadType.editable||lc.leadScore.editable||lc.leadStatus.editable||lc.icpFit.editable),
-            qual:    canEdit&&(q.budgetConfirmed.editable||q.championIdentified.editable||q.painLevel.editable||q.urgencyLevel.editable),
-            opp:     canEdit&&(od.stage.editable||od.winProbability.editable||od.pipelineCategory.editable||od.forecastCategory.editable||od.riskLevel.editable),
+            lead:    canEdit&&lc.icpFit.editable,
+            qual:    canEdit&&(bm.championStrength.editable),
+            opp:     canEdit&&(od.stage.editable||od.closeDate.editable||od.winProbability.editable||od.pipelineCategory.editable||od.forecastCategory.editable),
             insights:false,
-            product: canEdit&&(pf.technicalComplexity.editable||pf.pocRequired.editable),
-            internal:canEdit&&(int_.repNotes.editable||int_.managerFlag.editable||int_.nextStepPriority.editable),
+            product: canEdit&&pf.productFitAssessment.editable,
+            internal:canEdit&&(int_.repDealAssessment.editable||int_.managerCoachingFlag.editable),
             email:   canEdit&&!emailSent
         };
         const reviewCount = Object.values(reviewMap).filter(Boolean).length;
