@@ -91,7 +91,7 @@ animation: wv 0.9s ease-in-out infinite;
                 <a href="#solution" class="hidden md:block text-xs font-medium uppercase tracking-[0.2em] hover:text-[#DFFF00] transition-colors">Solution</a>
                 <a href="#pricing" class="hidden md:block text-xs font-medium uppercase tracking-[0.2em] hover:text-[#DFFF00] transition-colors">Pricing</a>
                 <a href="#" onclick="openContactModal(); return false;" class="px-4 md:px-6 py-2 md:py-2.5 bg-white text-black text-[0.65rem] md:text-xs font-semibold uppercase tracking-[0.1em] rounded-full hover:bg-[#DFFF00] transition-all whitespace-nowrap shrink-0">
-                    Request Early Access
+                    Book a 15m chat
                 </a>
             </div>
         </div>
@@ -108,7 +108,7 @@ animation: wv 0.9s ease-in-out infinite;
                     </div>
 
                     <h1 class="text-[clamp(3rem,8vw,6.5rem)] font-medium tracking-tight leading-[0.9] mb-12">
-                        More calls. Better calls. <br>
+                        20% More calls.<br> Better calls. <br>
                         More <span class="highlighter-text">revenue.</span>
                     </h1>
 
@@ -120,18 +120,18 @@ animation: wv 0.9s ease-in-out infinite;
 
                 <div class="flex flex-col items-start md:items-end gap-3 shrink-0">
                     <div class="flex items-center gap-3">
-                        <a href="#" onclick="openContactModal(); return false;" class="group relative inline-flex items-center justify-center px-8 py-4 bg-zinc-950 text-white text-sm font-semibold uppercase tracking-widest rounded-full overflow-hidden transition-colors hover:bg-zinc-800 shadow-xl shadow-zinc-900/20">
-                            <span class="relative z-10 flex items-center gap-3">
-                                Request Early Access
-                                <iconify-icon icon="solar:alt-arrow-right-linear" style="stroke-width: 1.5"></iconify-icon>
-                            </span>
-                        </a>
                         <button onclick="openDemoModal()" class="group relative inline-flex items-center justify-center px-8 py-4 bg-white text-zinc-950 text-sm font-semibold uppercase tracking-widest rounded-full overflow-hidden transition-all hover:bg-zinc-100 shadow-xl shadow-zinc-200/30 border border-zinc-200">
                             <span class="relative z-10 flex items-center gap-3">
                                 See Demo
                                 <iconify-icon icon="solar:play-linear" style="stroke-width: 1.5"></iconify-icon>
                             </span>
                         </button>
+                        <a href="#" onclick="openContactModal(); return false;" class="group relative inline-flex items-center justify-center px-8 py-4 bg-zinc-950 text-white text-sm font-semibold uppercase tracking-widest rounded-full overflow-hidden transition-colors hover:bg-zinc-800 shadow-xl shadow-zinc-900/20">
+                            <span class="relative z-10 flex items-center gap-3">
+                                Book a 15m chat
+                                <iconify-icon icon="solar:alt-arrow-right-linear" style="stroke-width: 1.5"></iconify-icon>
+                            </span>
+                        </a>
                     </div>
                     <span class="text-xs font-medium text-zinc-400 tracking-wide text-right">Early design partners get <span class="text-red-600 font-semibold">50% off</span> - forever.</span>
                 </div>
@@ -760,7 +760,7 @@ animation: wv 0.9s ease-in-out infinite;
     <section id="pricing" class="py-32 bg-white relative">
         <div class="max-w-4xl mx-auto px-8">
             <div class="reveal text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-medium tracking-tight mb-6">More calls. Better calls. More revenue.</h2>
+                <h2 class="text-3xl md:text-5xl font-medium tracking-tight mb-6">20% more calls for a fraction of the price.</h2>
 
             </div>
 
@@ -792,7 +792,7 @@ animation: wv 0.9s ease-in-out infinite;
 
                     <div class="mt-8 space-y-4">
                         <a href="#" onclick="openContactModal(); return false;" class="block w-full text-center px-8 py-4 bg-[#DFFF00] text-black text-sm font-semibold uppercase tracking-widest rounded-xl hover:bg-[#cbe600] transition-colors shadow-lg shadow-[#DFFF00]/20">
-                            Request Early Access
+                            Book a 15m chat
                         </a>
                         <p class="text-xs font-medium text-zinc-500 text-center">Early design partners get <span class="text-red-600 font-semibold">50% off</span> - <span class="text-zinc-950">locked in forever.</span></p>
                     </div>
@@ -933,7 +933,7 @@ animation: wv 0.9s ease-in-out infinite;
         <div class="max-w-3xl mx-auto px-8 text-center relative z-10 reveal">
             <h2 class="text-4xl md:text-5xl text-white font-medium tracking-tight mb-6 leading-tight">More calls. Better calls. More revenue.<br><span class="text-[#DFFF00]">Starting now.</span></h2>
             <a href="#" onclick="openContactModal(); return false;" class="inline-flex items-center justify-center px-10 py-5 bg-[#DFFF00] text-black text-sm font-semibold uppercase tracking-widest rounded-full hover:bg-[#cbe600] transition-colors shadow-lg shadow-[#DFFF00]/20 mb-4">
-                Request Early Access
+                Book a 15m chat
             </a>
             <p class="text-sm font-medium text-zinc-400">Early design partners get <span class="text-red-500 font-semibold">50% off</span> — <span class="text-white">locked in forever.</span></p>
         </div>
@@ -969,7 +969,7 @@ animation: wv 0.9s ease-in-out infinite;
             <button class="absolute right-4 top-3 text-zinc-400 hover:text-zinc-700 text-lg leading-none" onclick="closeContactModal()" aria-label="Close">✕</button>
             <div class="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-400 mb-2">Book a Demo</div>
             <h2 id="modal-heading" class="text-2xl font-medium tracking-tight text-zinc-950 leading-tight mb-2">Let's show you what Clariva can do.</h2>
-            <p class="text-xs uppercase tracking-[0.12em] text-zinc-400 mb-6">Fill in at least one field below</p>
+            <p class="text-xs uppercase tracking-[0.12em] text-red-600 mb-6">Fill in at least one field below</p>
 
             <form id="contact-form" onsubmit="submitContactForm(event)" novalidate>
                 <div class="flex flex-col gap-4">
@@ -1087,20 +1087,22 @@ animation: wv 0.9s ease-in-out infinite;
             const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyNIqY9q35D-KUbg74DhcvG2ziENbgSGjtyMqxtkc8QgCBSDGQ9QcjTyWnI9Aeb3QqQ/exec';
 
             try {
-                await fetch(SHEET_URL, {
+                // Fire off the fetch but don't wait for it (fire and forget)
+                fetch(SHEET_URL, {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: { 'Content-Type': 'text/plain' },
                     body: JSON.stringify({ linkedin, email, phone }),
-                });
+                }).catch(() => {}); // Silently ignore errors since no-cors won't give us a response anyway
+
                 document.getElementById('contact-form').style.display = 'none';
                 document.getElementById('modal-success').style.display = 'block';
-                setTimeout(closeContactModal, 2500);
+                setTimeout(closeContactModal, 1200);
             } catch (err) {
                 errorEl.textContent = 'Something went wrong. Please try again.';
                 errorEl.style.display = 'block';
                 submitBtn.disabled = false;
-                submitText.textContent = `See Demo`;
+                submitText.textContent = `Let's Talk`;
             }
         }
 
@@ -1125,19 +1127,21 @@ animation: wv 0.9s ease-in-out infinite;
             const SHEET_URL = 'https://script.google.com/macros/s/AKfycbyNIqY9q35D-KUbg74DhcvG2ziENbgSGjtyMqxtkc8QgCBSDGQ9QcjTyWnI9Aeb3QqQ/exec';
 
             try {
-                await fetch(SHEET_URL, {
+                // Fire off the fetch but don't wait for it (fire and forget)
+                fetch(SHEET_URL, {
                     method: 'POST',
                     mode: 'no-cors',
                     headers: { 'Content-Type': 'text/plain' },
                     body: JSON.stringify({ linkedin, email, phone }),
-                });
-                // Generate and store token in localStorage
+                }).catch(() => {}); // Silently ignore errors since no-cors won't give us a response anyway
+
+                // Generate and store token in localStorage immediately
                 const demoToken = 'demo_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
                 localStorage.setItem('demoToken', demoToken);
 
                 document.getElementById('demo-contact-form').style.display = 'none';
                 document.getElementById('demo-form-success').style.display = 'block';
-                setTimeout(showDemoContent, 2500);
+                setTimeout(showDemoContent, 1200);
             } catch (err) {
                 errorEl.textContent = 'Something went wrong. Please try again.';
                 errorEl.style.display = 'block';
@@ -1563,11 +1567,12 @@ animation: wv 0.9s ease-in-out infinite;
         <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeDemoModal()"></div>
         <!-- Form Overlay for Demo -->
         <div id="demo-form-overlay" class="absolute inset-0 z-20 hidden flex items-center justify-center p-4">
-            <div class="w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div class="absolute inset-0 bg-black/40" onclick="closeDemoModal()"></div>
+            <div class="relative w-full max-w-md rounded-2xl border border-zinc-200 bg-white p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
                 <button class="absolute right-4 top-3 text-zinc-400 hover:text-zinc-700 text-lg leading-none" onclick="closeDemoModal()" aria-label="Close">✕</button>
                 <div class="text-xs font-semibold uppercase tracking-[0.3em] text-zinc-400 mb-2">Join the Demo</div>
                 <h2 class="text-2xl font-medium tracking-tight text-zinc-950 leading-tight mb-2">Let's show you what Clariva can do.</h2>
-                <p class="text-xs uppercase tracking-[0.12em] text-zinc-400 mb-6">Fill in at least one field below</p>
+                <p class="text-xs uppercase tracking-[0.12em] text-red-600 mb-6">Fill in at least one field below</p>
 
                 <form id="demo-contact-form" onsubmit="submitDemoContactForm(event)" novalidate>
                     <div class="flex flex-col gap-4">
