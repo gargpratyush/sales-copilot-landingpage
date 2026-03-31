@@ -975,19 +975,22 @@ animation: wv 0.9s ease-in-out infinite;
                 <div class="flex flex-col gap-4">
                     <div>
                         <label for="field-linkedin" class="block text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500 mb-1.5">LinkedIn URL</label>
-                        <input id="field-linkedin" type="url" name="linkedin" placeholder="https://linkedin.com/in/yourname" class="w-full bg-white border border-zinc-200 rounded-lg px-4 py-3 text-sm text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 transition-all" />
+                        <input id="field-linkedin" type="url" name="linkedin" placeholder="https://linkedin.com/in/yourname" class="w-full bg-white border border-zinc-200 rounded-lg px-4 py-3 text-sm text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 transition-all" onblur="modalValidateBlur('linkedin')" oninput="modalClearFieldError('linkedin')" />
+                        <span id="modal-err-linkedin" class="hidden text-xs text-red-500 mt-1 block"></span>
                     </div>
                     <div>
                         <label for="field-email" class="block text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500 mb-1.5">Email</label>
-                        <input id="field-email" type="email" name="email" placeholder="you@company.com" class="w-full bg-white border border-zinc-200 rounded-lg px-4 py-3 text-sm text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 transition-all" />
+                        <input id="field-email" type="email" name="email" placeholder="you@company.com" class="w-full bg-white border border-zinc-200 rounded-lg px-4 py-3 text-sm text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 transition-all" onblur="modalValidateBlur('email')" oninput="modalClearFieldError('email')" />
+                        <span id="modal-err-email" class="hidden text-xs text-red-500 mt-1 block"></span>
                     </div>
                     <div>
                         <label for="field-phone" class="block text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500 mb-1.5">Phone Number</label>
-                        <input id="field-phone" type="tel" name="phone" placeholder="+1 (555) 000-0000" class="w-full bg-white border border-zinc-200 rounded-lg px-4 py-3 text-sm text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 transition-all" />
+                        <input id="field-phone" type="tel" name="phone" placeholder="+1 (555) 000-0000" class="w-full bg-white border border-zinc-200 rounded-lg px-4 py-3 text-sm text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 transition-all" onblur="modalValidateBlur('phone')" oninput="modalClearFieldError('phone')" />
+                        <span id="modal-err-phone" class="hidden text-xs text-red-500 mt-1 block"></span>
                     </div>
                 </div>
 
-                <p id="modal-error" class="hidden text-sm text-red-600 mt-3"></p>
+                <p id="modal-error" class="hidden text-sm text-red-600 mt-3 font-medium"></p>
 
                 <button type="submit" id="modal-submit" class="w-full inline-flex justify-center items-center gap-2 bg-zinc-950 hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-3.5 rounded-full text-sm font-semibold uppercase tracking-widest transition-all mt-6">
                     <span id="modal-submit-text">See Demo</span>
@@ -1048,8 +1051,9 @@ animation: wv 0.9s ease-in-out infinite;
             document.getElementById('contact-form').style.display = '';
             document.getElementById('modal-success').style.display = 'none';
             const errorEl = document.getElementById('modal-error');
-            errorEl.style.display = 'none';
+            errorEl.classList.add('hidden');
             errorEl.textContent = '';
+            ['linkedin', 'email', 'phone'].forEach(f => modalFieldError(f, null));
             document.getElementById('modal-submit').disabled = false;
             document.getElementById('modal-submit-text').textContent = `See Demo`;
             document.getElementById('contact-form').reset();
@@ -1066,6 +1070,31 @@ animation: wv 0.9s ease-in-out infinite;
             if (e.key === 'Escape') closeContactModal();
         });
 
+        function modalFieldError(field, msg) {
+            const input = document.getElementById('field-' + field);
+            const span  = document.getElementById('modal-err-' + field);
+            if (msg) {
+                input.classList.add('!border-red-400', '!ring-1', '!ring-red-200');
+                span.textContent = msg;
+                span.classList.remove('hidden');
+            } else {
+                input.classList.remove('!border-red-400', '!ring-1', '!ring-red-200');
+                span.textContent = '';
+                span.classList.add('hidden');
+            }
+        }
+
+        function modalClearFieldError(field) {
+            if (!document.getElementById('modal-err-' + field).classList.contains('hidden')) {
+                modalFieldError(field, null);
+            }
+        }
+
+        function modalValidateBlur(field) {
+            const value = document.getElementById('field-' + field).value.trim();
+            modalFieldError(field, demoValidateField(field, value));
+        }
+
         async function submitContactForm(e) {
             e.preventDefault();
             const linkedin = document.getElementById('field-linkedin').value.trim();
@@ -1075,10 +1104,20 @@ animation: wv 0.9s ease-in-out infinite;
             const submitBtn = document.getElementById('modal-submit');
             const submitText = document.getElementById('modal-submit-text');
 
-            errorEl.style.display = 'none';
+            errorEl.classList.add('hidden');
+
+            // Per-field format validation (reuses shared demoValidateField)
+            const errs = {
+                linkedin: demoValidateField('linkedin', linkedin),
+                email:    demoValidateField('email', email),
+                phone:    demoValidateField('phone', phone),
+            };
+            ['linkedin', 'email', 'phone'].forEach(f => modalFieldError(f, errs[f]));
+            if (errs.linkedin || errs.email || errs.phone) return;
+
             if (!linkedin && !email && !phone) {
                 errorEl.textContent = 'Please fill in at least one field to continue.';
-                errorEl.style.display = 'block';
+                errorEl.classList.remove('hidden');
                 return;
             }
 
@@ -1100,10 +1139,52 @@ animation: wv 0.9s ease-in-out infinite;
                 setTimeout(closeContactModal, 1200);
             } catch (err) {
                 errorEl.textContent = 'Something went wrong. Please try again.';
-                errorEl.style.display = 'block';
+                errorEl.classList.remove('hidden');
                 submitBtn.disabled = false;
                 submitText.textContent = `Let's Talk`;
             }
+        }
+
+        function demoFieldError(field, msg) {
+            const input = document.getElementById('demo-field-' + field);
+            const span  = document.getElementById('demo-err-' + field);
+            if (msg) {
+                input.classList.add('!border-red-400', '!ring-1', '!ring-red-200');
+                span.textContent = msg;
+                span.classList.remove('hidden');
+            } else {
+                input.classList.remove('!border-red-400', '!ring-1', '!ring-red-200');
+                span.textContent = '';
+                span.classList.add('hidden');
+            }
+        }
+
+        function demoClearFieldError(field) {
+            if (!document.getElementById('demo-err-' + field).classList.contains('hidden')) {
+                demoFieldError(field, null);
+            }
+        }
+
+        function demoValidateField(field, value) {
+            if (!value) return null; // empty = no format error (handled by "at least one" check)
+            if (field === 'linkedin') {
+                return /linkedin\.com\/(in|company)\/[a-zA-Z0-9_\-%.]+/i.test(value)
+                    ? null : 'Enter a valid LinkedIn URL (e.g. linkedin.com/in/yourname)';
+            }
+            if (field === 'email') {
+                return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)
+                    ? null : 'Enter a valid email address';
+            }
+            if (field === 'phone') {
+                return /^[\+]?[\d][\d\s\-\(\)]{5,}$/.test(value)
+                    ? null : 'Enter a valid phone number';
+            }
+            return null;
+        }
+
+        function demoValidateBlur(field) {
+            const value = document.getElementById('demo-field-' + field).value.trim();
+            demoFieldError(field, demoValidateField(field, value));
         }
 
         async function submitDemoContactForm(e) {
@@ -1115,10 +1196,21 @@ animation: wv 0.9s ease-in-out infinite;
             const submitBtn = document.getElementById('demo-form-submit');
             const submitText = document.getElementById('demo-form-submit-text');
 
-            errorEl.style.display = 'none';
+            errorEl.classList.add('hidden');
+
+            // Per-field format validation
+            const errs = {
+                linkedin: demoValidateField('linkedin', linkedin),
+                email:    demoValidateField('email', email),
+                phone:    demoValidateField('phone', phone),
+            };
+            ['linkedin', 'email', 'phone'].forEach(f => demoFieldError(f, errs[f]));
+            if (errs.linkedin || errs.email || errs.phone) return;
+
+            // At least one field required
             if (!linkedin && !email && !phone) {
                 errorEl.textContent = 'Please fill in at least one field to continue.';
-                errorEl.style.display = 'block';
+                errorEl.classList.remove('hidden');
                 return;
             }
 
@@ -1144,7 +1236,7 @@ animation: wv 0.9s ease-in-out infinite;
                 setTimeout(showGMeetScreen, 1200);
             } catch (err) {
                 errorEl.textContent = 'Something went wrong. Please try again.';
-                errorEl.style.display = 'block';
+                errorEl.classList.remove('hidden');
                 submitBtn.disabled = false;
                 submitText.textContent = `See Demo`;
             }
@@ -1630,19 +1722,22 @@ animation: wv 0.9s ease-in-out infinite;
                     <div class="flex flex-col gap-4">
                         <div>
                             <label for="demo-field-linkedin" class="block text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500 mb-1.5">LinkedIn URL</label>
-                            <input id="demo-field-linkedin" type="url" name="linkedin" placeholder="https://linkedin.com/in/yourname" class="w-full bg-white border border-zinc-200 rounded-lg px-4 py-3 text-sm text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 transition-all" />
+                            <input id="demo-field-linkedin" type="url" name="linkedin" placeholder="https://linkedin.com/in/yourname" class="w-full bg-white border border-zinc-200 rounded-lg px-4 py-3 text-sm text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 transition-all" onblur="demoValidateBlur('linkedin')" oninput="demoClearFieldError('linkedin')" />
+                            <span id="demo-err-linkedin" class="hidden text-xs text-red-500 mt-1 block"></span>
                         </div>
                         <div>
                             <label for="demo-field-email" class="block text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500 mb-1.5">Email</label>
-                            <input id="demo-field-email" type="email" name="email" placeholder="you@company.com" class="w-full bg-white border border-zinc-200 rounded-lg px-4 py-3 text-sm text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 transition-all" />
+                            <input id="demo-field-email" type="email" name="email" placeholder="you@company.com" class="w-full bg-white border border-zinc-200 rounded-lg px-4 py-3 text-sm text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 transition-all" onblur="demoValidateBlur('email')" oninput="demoClearFieldError('email')" />
+                            <span id="demo-err-email" class="hidden text-xs text-red-500 mt-1 block"></span>
                         </div>
                         <div>
                             <label for="demo-field-phone" class="block text-xs font-semibold uppercase tracking-[0.12em] text-zinc-500 mb-1.5">Phone Number</label>
-                            <input id="demo-field-phone" type="tel" name="phone" placeholder="+1 (555) 000-0000" class="w-full bg-white border border-zinc-200 rounded-lg px-4 py-3 text-sm text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 transition-all" />
+                            <input id="demo-field-phone" type="tel" name="phone" placeholder="+1 (555) 000-0000" class="w-full bg-white border border-zinc-200 rounded-lg px-4 py-3 text-sm text-zinc-950 placeholder:text-zinc-400 focus:outline-none focus:border-zinc-400 focus:ring-1 focus:ring-zinc-200 transition-all" onblur="demoValidateBlur('phone')" oninput="demoClearFieldError('phone')" />
+                            <span id="demo-err-phone" class="hidden text-xs text-red-500 mt-1 block"></span>
                         </div>
                     </div>
 
-                    <p id="demo-form-error" class="hidden text-sm text-red-600 mt-3"></p>
+                    <p id="demo-form-error" class="hidden text-sm text-red-600 mt-3 font-medium"></p>
 
                     <button type="submit" id="demo-form-submit" class="w-full inline-flex justify-center items-center gap-2 bg-zinc-950 hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-3.5 rounded-full text-sm font-semibold uppercase tracking-widest transition-all mt-6">
                         <span id="demo-form-submit-text">See Demo</span>
@@ -2418,8 +2513,9 @@ animation: wv 0.9s ease-in-out infinite;
         document.getElementById('demo-contact-form').style.display = '';
         document.getElementById('demo-form-success').style.display = 'none';
         const errorEl = document.getElementById('demo-form-error');
-        errorEl.style.display = 'none';
+        errorEl.classList.add('hidden');
         errorEl.textContent = '';
+        ['linkedin', 'email', 'phone'].forEach(f => demoFieldError(f, null));
         document.getElementById('demo-form-submit').disabled = false;
         document.getElementById('demo-form-submit-text').textContent = `See Demo`;
         document.getElementById('demo-contact-form').reset();
